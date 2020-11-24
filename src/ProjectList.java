@@ -27,4 +27,35 @@ public class ProjectList
   public Project getProject(String projectName){
     return null;
   }
+
+  /**
+   * Gets how many Project objects are in the list.
+   * @return the number of Project objects in the list
+   */
+  public int size()
+  {
+    return projects.size();
+  }
+
+  public Project get(int index)
+  {
+    if(index<projects.size())
+    {
+      return projects.get(index);
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  /**
+   * Adds a Project to the list.
+   * @param project the project to add to the list
+   */
+  public void add(Project project)
+  {
+    projects.add(project);
+  }
+
 }

@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class AdapterGUI extends Application
 {
+  /**
+   * @param window The Stage object that will be displayed
+   */
   public void start(Stage window) throws IOException
   {
     window.setTitle("Projects Management System");

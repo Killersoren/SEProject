@@ -18,4 +18,13 @@ public class Project
   {
 
   }
+
+  /**
+   * Gets the project's name.
+   * @return the project's name
+   */
+  public String getName()
+  {
+    return name;
+  }
 }
