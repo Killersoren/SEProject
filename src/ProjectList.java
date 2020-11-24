@@ -37,6 +37,11 @@ public class ProjectList
     return projects.size();
   }
 
+  /**
+   * Gets a Project object from position index from the list.
+   * @param index the position in the list of the Project object
+   * @return the Project object at position index if one exists, else null
+   */
   public Project get(int index)
   {
     if(index<projects.size())

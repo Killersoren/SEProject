@@ -27,4 +27,13 @@ public class Project
   {
     return name;
   }
+
+  /**
+   * Gets the project's team.
+   * @return the project's team
+   */
+  public MemberList getTeam()
+  {
+    return team;
+  }
 }

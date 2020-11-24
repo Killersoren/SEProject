@@ -1,10 +1,14 @@
 public class Member
 {
-  private String name,status;
-  private int relatedRequirement,taskID, estimatedHours,totalHoursWorked;
-  private Member responsibleMember;
-  private  MemberList taskMembers;
-  private Deadline deadline;
+  private String name;
 
+  public Member(String name)
+  {
+    this.name = name;
+  }
 
+  public String getName()
+  {
+    return name;
+  }
 }
