@@ -140,6 +140,62 @@ public class Controller
 
   @FXML public void editEmployeeClick()
   {
+    if (!(selectedMember == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Edit member: "+selectedMember.getName());
+      window.setMinWidth(300);
+
+      // Member name input.
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label memberName = new Label("New name: ");
+      TextField inputMemberName = new TextField();
+      inputMemberName.setText(selectedMember.getName());
+      nameContainer.getChildren().addAll(memberName, inputMemberName);
+
+      Label errorMessage = new Label("");
+
+      Button closeButton = new Button("Save changes");
+
+      closeButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
+              .equals("")))
+          {
+            window.close();
+            Member member = new Member(inputMemberName.getText());
+            System.out.println(member.getName());
+            finalMemberList.getIndexFromName(selectedMember.getName());
+            finalMemberList.;
+            System.out.println("A");
+            adapterEmployee.saveMembers(finalMemberList);
+            System.out.println("B");
+            updateEmployeeArea();
+          }
+          else
+          {
+            errorMessage.setText("ERROR: invalid project name");
+            errorMessage.setTextFill(Color.RED);
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren().addAll(nameContainer, errorMessage, closeButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
 
