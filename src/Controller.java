@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class Controller
 {
-  @FXML private VBox projectArea;
+  @FXML private TableView<Member> employeeField;
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
@@ -35,6 +35,7 @@ public class Controller
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
+
     }
   }
 
@@ -43,6 +44,10 @@ public class Controller
     if (adapterEmployee != null)
     {
       MemberList members = adapterEmployee.getAllMembers();
+      for (int i = 0; i < members.size(); i++)
+      {
+        employeeField.getItems().add(members.get(i));
+      }
     }
   }
 
@@ -76,7 +81,8 @@ public class Controller
           window.close();
           Member member = new Member(inputMemberName.getText());
           System.out.println("inputMemberName.getText()");
-finalMemberList.
+          finalMemberList.addMember(member);
+          adapterEmployee.saveMembers(finalMemberList);
         }
         else
         {

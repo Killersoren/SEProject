@@ -43,7 +43,7 @@
                      <children>
                         <VBox prefHeight="567.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox prefHeight="539.0" prefWidth="600.0" />
+                              <VBox fx:id="EmployeeField" prefHeight="539.0" prefWidth="600.0" />
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
                                     <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployeeClick" text="Add Employee" />
