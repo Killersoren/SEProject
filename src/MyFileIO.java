@@ -23,8 +23,9 @@ public class MyFileIO
       {
          FileOutputStream fileOutStream = new FileOutputStream(fileName);
          writeToFile = new ObjectOutputStream(fileOutStream);
-
+         System.out.println("C");
          writeToFile.writeObject(obj);
+         System.out.println("D");
       }
       finally
       {

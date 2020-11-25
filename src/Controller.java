@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 public class Controller
 {
   @FXML private TableView<Member> employeeField;
+  @FXML private TableColumn<Member, String> employeeName;
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
@@ -21,8 +22,8 @@ public class Controller
 
   public void initialize()
   {
-    adapterProjects = new ProjectListAdapter("");
-    adapterEmployee = new EmployeeListAdapter("");
+    adapterProjects = new ProjectListAdapter("Projects.bin");
+    adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
     updateProjectArea();
     //      updateProjectDetailsArea();
@@ -41,13 +42,17 @@ public class Controller
 
   private void updateEmployeeArea()
   {
+    employeeField.getItems().clear();
     if (adapterEmployee != null)
     {
-      MemberList members = adapterEmployee.getAllMembers();
-      for (int i = 0; i < members.size(); i++)
+      finalMemberList = adapterEmployee.getAllMembers();
+      for (int i = 0; i < finalMemberList.size(); i++)
       {
-        employeeField.getItems().add(members.get(i));
+        System.out.println(finalMemberList.get(i));
+          employeeField.getItems().add(finalMemberList.get(i));
+        System.out.println(i);
       }
+
     }
   }
 
@@ -80,9 +85,12 @@ public class Controller
         {
           window.close();
           Member member = new Member(inputMemberName.getText());
-          System.out.println("inputMemberName.getText()");
+          System.out.println(member.getName());
           finalMemberList.addMember(member);
+          System.out.println("A");
           adapterEmployee.saveMembers(finalMemberList);
+          System.out.println("B");
+          updateEmployeeArea();
         }
         else
         {
