@@ -26,11 +26,10 @@ public class Controller
 
   private Member selectedMember;
 
-
-
   public void initialize()
   {
-    employeeName.setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
+    employeeName
+        .setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -41,20 +40,20 @@ public class Controller
 
   private void setSelectedMember()
   {
-    employeeField.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
-        //Check whether item is selected and set value of selected item to Label
-        if(employeeField.getSelectionModel().getSelectedItem() != null)
+    employeeField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
         {
-          TableView.TableViewSelectionModel selectionModel = employeeField.getSelectionModel();
-          ObservableList selectedCells = selectionModel.getSelectedCells();
-          TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-          Object val = tablePosition.getTableColumn().getCellData(newValue);
-          System.out.println(finalMemberList.get(finalMemberList.getIndexFromName((String)val)));
-        }
-      }
-    });
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (employeeField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = employeeField.getSelectionModel().getSelectedIndex();
+              selectedMember = employeeField.getItems().get(index);
+              System.out.println(selectedMember);
+            }
+          }
+        });
   }
 
   private void updateProjectArea()
@@ -77,7 +76,7 @@ public class Controller
       for (int i = 0; i < finalMemberList.size(); i++)
       {
         System.out.println(finalMemberList.get(i));
-          employeeField.getItems().add(finalMemberList.get(i));
+        employeeField.getItems().add(finalMemberList.get(i));
       }
 
     }
