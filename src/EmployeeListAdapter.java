@@ -2,11 +2,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * An adapter to the projects file, making it easy to retrieve and store information.
+ * An adapter to the students file, making it easy to retrieve and store information.
  * @author Krzysztof PAcierz
  * @version 1.0
  */
-public class ProjectListAdapter
+public class EmployeeListAdapter
 {
   private MyFileIO mfio;
   private String fileName;
@@ -27,7 +27,7 @@ public class ProjectListAdapter
    */
   public ProjectList getAllProjects()
   {
-   ProjectList projects = new ProjectList();
+    ProjectList projects = new ProjectList();
 
     try
     {

@@ -5,9 +5,15 @@ import javafx.scene.control.*;
 
 public class Controller
 {
+  private ProjectListAdapter adapter;
 
-  public void initialize()
-  {
 
-  }
+    public void initialize()
+    {
+      adapter = new ProjectListAdapter("students.bin");
+//      updateEmployeeArea();
+//      updateProjectArea();
+//      updateProjectDetailsArea();
+    }
+
 }
