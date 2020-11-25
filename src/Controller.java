@@ -1,13 +1,15 @@
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class Controller
 {
@@ -20,7 +22,7 @@ public class Controller
   {
     adapterProjects = new ProjectListAdapter("");
     adapterEmployee = new EmployeeListAdapter("");
-    //      updateEmployeeArea();
+    updateEmployeeArea();
     updateProjectArea();
     //      updateProjectDetailsArea();
   }
@@ -35,8 +37,64 @@ public class Controller
     }
   }
 
-  @FXML public void addProjectClick()
+  private void updateEmployeeArea()
   {
+    if (adapterEmployee != null)
+    {
+      MemberList members = adapterEmployee.getAllMembers();
+    }
+  }
 
+  @FXML public void addEmployeeClick()
+  {
+    Stage window = new Stage();
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Add new project");
+    window.setMinWidth(300);
+
+    // Member name input.
+    HBox nameContainer = new HBox(2);
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label memberName = new Label("Member name: ");
+    TextField inputMemberName = new TextField();
+    inputMemberName.setPromptText("Enter member name");
+    nameContainer.getChildren().addAll(memberName, inputMemberName);
+
+    Label errorMessage = new Label("");
+
+    Button closeButton = new Button("Add new member");
+
+    closeButton.setOnAction(new EventHandler<ActionEvent>()
+    {
+      @Override public void handle(ActionEvent e)
+      {
+        if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
+            .equals("")))
+        {
+          window.close();
+          Member member = new Member(inputMemberName.getText());
+          System.out.println("inputMemberName.getText()");
+
+        }
+        else
+        {
+          errorMessage.setText("ERROR: invalid project name");
+          errorMessage.setTextFill(Color.RED);
+        }
+      }
+    });
+
+    VBox layout = new VBox(10);
+
+    layout.getChildren().addAll(nameContainer, errorMessage, closeButton);
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
+
+  }
   }
 }
