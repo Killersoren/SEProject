@@ -96,6 +96,41 @@ public class Controller
     window.showAndWait();
 
   }
+
+  @FXML public void editEmployeeClick()
+  {
+
+  }
+
+  @FXML public void removeEmployeeClick()
+  {
+
+  }
+
+  @FXML public void addProjectClick()
+  {
+
+  }
+
+  @FXML public void editProjectClick()
+  {
+
+  }
+
+  @FXML public void removeProjectClick()
+  {
+
+  }
+
+  @FXML public void search()
+  {
+
+  }
+
+  @FXML public void searchClick()
+  {
+
+  }
 }
 
 
