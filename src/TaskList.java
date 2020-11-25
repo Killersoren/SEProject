@@ -9,11 +9,11 @@ public class TaskList
         tasks = new ArrayList<>();
     }
 
-    public void addRequirement(Task task){
+    public void addTask(Task task){
         tasks.add(task);
     }
 
-    public void removeRequirement(Task task){
+    public void removeTask(Task task){
         tasks.remove(task);
     }
 
