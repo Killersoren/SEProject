@@ -1,19 +1,93 @@
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class Controller
 {
-  private ProjectListAdapter adapter;
+  @FXML private VBox projectArea;
+
+  private ProjectListAdapter adapterProjects;
+  private EmployeeListAdapter adapterEmployee;
+
+  public void initialize()
+  {
+    adapterProjects = new ProjectListAdapter("");
+    adapterEmployee = new EmployeeListAdapter("");
+    //      updateEmployeeArea();
+        updateProjectArea();
+    //      updateProjectDetailsArea();
+  }
 
 
-    public void initialize()
+  private void updateProjectArea()
+  {
+    //The tabChanged method might be automatically called before the initialize method,
+    //as the GUI is loaded. I.e. adapter could be null, and cause a NullPointerException
+    if(adapterProjects!=null)
     {
-      adapter = new ProjectListAdapter("students.bin");
-//      updateEmployeeArea();
-//      updateProjectArea();
-//      updateProjectDetailsArea();
+      ProjectList projects = adapterProjects.getAllProjects();
     }
+  }
 
+  @FXML public void addProjectClick()
+  {
+    Stage window = new Stage();
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Add new project");
+    window.setMinWidth(300);
+
+    // Project name input.
+    HBox nameContainer = new HBox(2);
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label projectName = new Label("Project name: ");
+    TextField inputProjectName = new TextField();
+    inputProjectName.setPromptText("Enter project name");
+    nameContainer.getChildren().addAll(projectName, inputProjectName);
+
+    Label errorMessage = new Label("");
+
+    Button closeButton = new Button("Add new project");
+
+    closeButton.setOnAction(new EventHandler<ActionEvent>()
+    {
+      @Override public void handle(ActionEvent e)
+      {
+        if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
+            .equals("")))
+        {
+          window.close();
+          Project project = new Project(inputProjectName.getText(),);
+          addProjectToList(project);
+          Main.projects.add(project);
+          setCurrentProject(project);
+        }
+        else
+        {
+          errorMessage.setText("ERROR: invalid project name");
+          errorMessage.setTextFill(Color.RED);
+        }
+      }
+    });
+
+    VBox layout = new VBox(10);
+
+    layout.getChildren().addAll(nameContainer, errorMessage, closeButton);
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
+
+  }
 }

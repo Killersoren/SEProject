@@ -5,9 +5,9 @@ public class MemberList
 
   private ArrayList<Member> members;
 
-  public MemberList(ArrayList<Member> members)
+  public MemberList()
   {
-    this.members = members;
+    this.members = new ArrayList<>();
   }
 
   /**

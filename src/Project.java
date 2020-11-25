@@ -6,11 +6,11 @@ public class Project
   private ArrayList<Requirement> requirements;
   private MemberList team;
 
-  public Project(String name, ArrayList<Requirement> requirements,
+  public Project(String name,
       MemberList team)
   {
     this.name = name;
-    this.requirements = requirements;
+    this.requirements = new ArrayList<>();
     this.team = team;
   }
 
