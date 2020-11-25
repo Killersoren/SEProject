@@ -17,6 +17,7 @@ public class Controller
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
+  private MemberList finalMemberList;
 
   public void initialize()
   {
@@ -75,7 +76,7 @@ public class Controller
           window.close();
           Member member = new Member(inputMemberName.getText());
           System.out.println("inputMemberName.getText()");
-
+finalMemberList.
         }
         else
         {
