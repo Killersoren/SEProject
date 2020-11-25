@@ -26,13 +26,22 @@ public class MemberList
    */
   public Member get(int index)
   {
-    if(index< members.size())
-    {
-      return members.get(index);
-    }
-    else
-    {
-      return null;
-    }
+    return members.get(index);
   }
+
+  public void addMember(Member member){
+    members.add(member);
+  }
+
+  public int getIndexFromName(String name){
+    for(int i = 0 ; i < members.size() ; i++){
+
+      if(members.get(i).getName().equals(name)){
+        return i;
+      }
+
+    }
+    return -1;
+  }
+
 }
