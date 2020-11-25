@@ -9,4 +9,29 @@ public class TaskList
         tasks = new ArrayList<>();
     }
 
+    public void addRequirement(Task task){
+        tasks.add(task);
+    }
+
+    public void removeRequirement(Task task){
+        tasks.remove(task);
+    }
+
+    public Task getTask(int index){
+        return tasks.get(index);
+    }
+
+    public int getIndexFromName(String name){
+        for(int i = 0 ; i < tasks.size() ; i++){
+            if(tasks.get(i).getName().equals(name)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
 }
