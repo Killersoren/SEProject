@@ -6,7 +6,7 @@ public class ProjectList
 
   public ProjectList()
   {
-    this.projects = projects;
+    this.projects = new ArrayList<>();
   }
 
   public void addProject()
