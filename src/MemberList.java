@@ -33,6 +33,10 @@ public class MemberList
     members.add(member);
   }
 
+  public void removeMember(Member member){
+    members.remove(member);
+  }
+
   public int getIndexFromName(String name){
     for(int i = 0 ; i < members.size() ; i++){
 
@@ -42,6 +46,17 @@ public class MemberList
 
     }
     return -1;
+  }
+
+  public ArrayList<Member> getMembers() {
+    return members;
+  }
+
+  public boolean equals(Object obj){
+    if(getMembers().equals((ArrayList)obj)){
+      return true;
+    }
+    return false;
   }
 
 }

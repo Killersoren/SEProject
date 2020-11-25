@@ -9,6 +9,10 @@ public class RequirementList
         this.requirements = new ArrayList<>();
     }
 
+    public int size(){
+        return requirements.size();
+    }
+
     public void addRequirement(Requirement requirement){
         requirements.add(requirement);
     }
