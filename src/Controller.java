@@ -74,7 +74,6 @@ public class Controller
         System.out.println(finalMemberList.get(i));
         employeeField.getItems().add(finalMemberList.get(i));
       }
-
     }
   }
 
@@ -234,7 +233,7 @@ public class Controller
             adapterEmployee.saveMembers(finalMemberList);
             System.out.println("B");
             updateEmployeeArea();
-            selectedMember = employeeField.getItems().get(0);
+            selectedMember = null;
           }
         }
       });
