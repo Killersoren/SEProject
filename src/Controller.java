@@ -22,7 +22,7 @@ public class Controller
   {
     adapterProjects = new ProjectListAdapter("");
     adapterEmployee = new EmployeeListAdapter("");
-    //      updateEmployeeArea();
+    updateEmployeeArea();
     updateProjectArea();
     //      updateProjectDetailsArea();
   }
@@ -34,6 +34,14 @@ public class Controller
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
+    }
+  }
+
+  private void updateEmployeeArea()
+  {
+    if (adapterEmployee != null)
+    {
+      MemberList members = adapterEmployee.getAllMembers();
     }
   }
 
@@ -49,26 +57,25 @@ public class Controller
     HBox nameContainer = new HBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label memberName = new Label("Member name: ");
-    TextField inputmemberName = new TextField();
-    inputmemberName.setPromptText("Enter member name");
-    nameContainer.getChildren().addAll(memberName, inputmemberName);
+    TextField inputMemberName = new TextField();
+    inputMemberName.setPromptText("Enter member name");
+    nameContainer.getChildren().addAll(memberName, inputMemberName);
 
     Label errorMessage = new Label("");
 
-    Button closeButton = new Button("Add new project");
+    Button closeButton = new Button("Add new member");
 
     closeButton.setOnAction(new EventHandler<ActionEvent>()
     {
       @Override public void handle(ActionEvent e)
       {
-        if (!(inputmemberName.getText().isEmpty() || inputmemberName.getText()
+        if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
         {
           window.close();
-          Project project = new Project(inputmemberName.getText());
-          addProjectToList(project);
-          Main.projects.add(project);
-          setCurrentProject(project);
+          Member member = new Member(inputMemberName.getText());
+          System.out.println("inputMemberName.getText()");
+
         }
         else
         {
