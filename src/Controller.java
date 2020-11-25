@@ -1,3 +1,6 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -6,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -20,13 +24,38 @@ public class Controller
   private EmployeeListAdapter adapterEmployee;
   private MemberList finalMemberList;
 
+  private Member selectedMember;
+
+
+
   public void initialize()
   {
+    employeeName.setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
     updateProjectArea();
+    setSelectedMember();
     //      updateProjectDetailsArea();
+  }
+
+  private void setSelectedMember()
+  {
+    employeeField.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+        //Check whether item is selected and set value of selected item to Label
+        if(employeeField.getSelectionModel().getSelectedItem() != null)
+        {
+          TableView.TableViewSelectionModel selectionModel = employeeField.getSelectionModel();
+          ObservableList selectedCells = selectionModel.getSelectedCells();
+          TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+          System.out.println(tablePosition.getTableColumn());
+          Object val = tablePosition.getTableColumn().getCellData(newValue);
+          System.out.println("Selected Value" + val);
+        }
+      }
+    });
   }
 
   private void updateProjectArea()
@@ -50,7 +79,6 @@ public class Controller
       {
         System.out.println(finalMemberList.get(i));
           employeeField.getItems().add(finalMemberList.get(i));
-        System.out.println(i);
       }
 
     }
@@ -61,7 +89,7 @@ public class Controller
     Stage window = new Stage();
 
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new project");
+    window.setTitle("Add new member");
     window.setMinWidth(300);
 
     // Member name input.
