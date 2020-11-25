@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <MenuBar prefHeight="33.0" prefWidth="605.0">
         <menus>
@@ -35,9 +35,9 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TabPane prefHeight="371.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+      <TabPane fx:id="tabPane" prefHeight="371.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <tabs>
-          <Tab closable="false" text="Employee List">
+          <Tab fx:id="employeeListTab" closable="false" text="Employee List">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -46,9 +46,9 @@
                               <VBox prefHeight="539.0" prefWidth="600.0" />
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Add Employee" />
-                                    <Button mnemonicParsing="false" text="Edit Employee" />
-                                    <Button mnemonicParsing="false" text="Remove Employee" />
+                                    <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployeeClick" text="Add Employee" />
+                                    <Button fx:id="editEmployeeButton" mnemonicParsing="false" onAction="#editEmployeeClick" text="Edit Employee" />
+                                    <Button fx:id="removeEmployeeButton" mnemonicParsing="false" onAction="#removeEmployeeClick" text="Remove Employee" />
                                  </children>
                               </HBox>
                            </children></VBox>
@@ -56,7 +56,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab closable="false" text="Projects List">
+          <Tab fx:id="projectListTab" closable="false" text="Projects List">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -76,15 +76,15 @@
                                                 <RadioButton mnemonicParsing="false" text="Search by employee" toggleGroup="$SearchGroup" />
                                              </children>
                                           </VBox>
-                                          <TextField alignment="CENTER" prefHeight="25.0" prefWidth="400.0" />
-                                          <Button mnemonicParsing="false" text="Button" />
+                                          <TextField fx:id="searchField" alignment="CENTER" onAction="#search" prefHeight="25.0" prefWidth="400.0" />
+                                          <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchClick" text="Button" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <HBox prefHeight="548.0" prefWidth="600.0">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="298.0" />
+                                    <VBox fx:id="projectArea" prefHeight="200.0" prefWidth="298.0" />
                                     <VBox prefHeight="200.0" prefWidth="300.0">
                                        <children>
                                           <Label prefHeight="17.0" prefWidth="329.0" text="Project info" />
@@ -94,9 +94,9 @@
                               </HBox>
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Add Project" />
-                                    <Button mnemonicParsing="false" text="Edit Project" />
-                                    <Button mnemonicParsing="false" text="Remove Project" />
+                                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#addProjectClick" text="Add Project" />
+                                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#editProjectClick" text="Edit Project" />
+                                    <Button fx:id="removeProjectButton" mnemonicParsing="false" onAction="#removeProjectClick" text="Remove Project" />
                                  </children>
                               </HBox>
                            </children>
@@ -105,7 +105,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab closable="false" text="Details">
+            <Tab fx:id="projectDetailsTab" closable="false" text="Project details">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
