@@ -13,25 +13,25 @@ public class EmployeeListAdapter
 
   /**
    * 1-argument constructor setting the file name.
-   * @param fileName the name and path of the file where projects will be saved and retrieved
+   * @param fileName the name and path of the file where members will be saved and retrieved
    */
-  public ProjectListAdapter(String fileName)
+  public EmployeeListAdapter(String fileName)
   {
     mfio = new MyFileIO();
     this.fileName = fileName;
   }
 
   /**
-   * Uses the MyFileIO class to retrieve a ProjectList object with all Projects.
-   * @return a ProjectList object with all stored projects
+   * Uses the MyFileIO class to retrieve a MemberList object with all members.
+   * @return a MemberList object with all stored members
    */
-  public ProjectList getAllProjects()
+  public MemberList getAllMembers()
   {
-    ProjectList projects = new ProjectList();
+    MemberList members = new MemberList();
 
     try
     {
-      projects = (ProjectList) mfio.readObjectFromFile(fileName);
+      members = (MemberList) mfio.readObjectFromFile(fileName);
     }
     catch (FileNotFoundException e)
     {
@@ -45,55 +45,20 @@ public class EmployeeListAdapter
     {
       System.out.println("Class Not Found");
     }
-    return projects;
+    return members;
   }
 
-  /**
-   * Use the MyFileIO class to retrieve all projects with specified name.
-   * @param searchPhrase the name to retrieve projects with
-   * @return a ProjectList object with projects with specified name
-   */
-  public ProjectList getProjectByName(String searchPhrase)
-  {
-    ProjectList projects = new ProjectList();
 
-    try
-    {
-      ProjectList result = (ProjectList)mfio.readObjectFromFile(fileName);
-
-      for (int i = 0; i < result.size(); i++)
-      {
-        if (result.get(i).getName().contains(searchPhrase))
-        {
-          projects.add(result.get(i));
-        }
-      }
-    }
-    catch (FileNotFoundException e)
-    {
-      System.out.println("File not found");
-    }
-    catch (IOException e)
-    {
-      System.out.println("IO Error reading file");
-    }
-    catch (ClassNotFoundException e)
-    {
-      System.out.println("Class Not Found");
-    }
-
-    return projects;
-  }
 
   /**
-   * Use the MyFileIO class to save projects.
-   * @param projects the list of projects that will be saved
+   * Use the MyFileIO class to save members.
+   * @param members the list of members that will be saved
    */
-  public void saveProjects(ProjectList projects)
+  public void saveMembers(MemberList members)
   {
     try
     {
-      mfio.writeToFile(fileName, projects);
+      mfio.writeToFile(fileName, members);
     }
     catch (FileNotFoundException e)
     {
@@ -105,44 +70,5 @@ public class EmployeeListAdapter
     }
   }
 
-  /**
-   * Use the MyFileIO class to retrieve all projects with specified name of member.
-   * @param searchPhrase the name to retrieve projects with specified member
-   * @return a ProjectList object with projects with specified  member name
-   */
-  public ProjectList getProjectByEmployeeName(String searchPhrase)
-  {
-    ProjectList projects = new ProjectList();
 
-    try
-    {
-      ProjectList result = (ProjectList)mfio.readObjectFromFile(fileName);
-
-      for (int i = 0; i < result.size(); i++)
-      {
-        for (int j = 0; j <result.get(i).getTeam().size() ; j++)
-        {
-          if (result.get(i).getTeam().get(j).getName().contains(searchPhrase))
-          {
-            projects.add(result.get(i));
-          }
-        }
-
-      }
-    }
-    catch (FileNotFoundException e)
-    {
-      System.out.println("File not found");
-    }
-    catch (IOException e)
-    {
-      System.out.println("IO Error reading file");
-    }
-    catch (ClassNotFoundException e)
-    {
-      System.out.println("Class Not Found");
-    }
-
-    return projects;
-  }
 }
