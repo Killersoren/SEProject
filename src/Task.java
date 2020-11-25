@@ -6,7 +6,9 @@ public class Task
   private  MemberList taskMembers;
   private Deadline deadline;
 
-  public Task(String name, String status, int relatedRequirement, int taskID, int estimatedHours, int totalHoursWorked, Member responsibleMember, MemberList taskMembers, Deadline deadline)
+  public Task(String name, String status, int relatedRequirement, int taskID,
+      int estimatedHours, int totalHoursWorked, Member responsibleMember,
+      MemberList taskMembers, Deadline deadline)
   {
     this.name = name;
     this.status = status;
