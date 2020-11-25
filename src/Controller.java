@@ -1,8 +1,6 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -58,8 +56,6 @@ public class Controller
 
   private void updateProjectArea()
   {
-    //The tabChanged method might be automatically called before the initialize method,
-    //as the GUI is loaded. I.e. adapter could be null, and cause a NullPointerException
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
@@ -100,9 +96,9 @@ public class Controller
 
     Label errorMessage = new Label("");
 
-    Button closeButton = new Button("Add new member");
+    Button closeWithSaveButton = new Button("Add new member");
 
-    closeButton.setOnAction(new EventHandler<ActionEvent>()
+    closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
     {
       @Override public void handle(ActionEvent e)
       {
@@ -128,7 +124,8 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    layout.getChildren().addAll(nameContainer, errorMessage, closeButton);
+    layout.getChildren()
+        .addAll(nameContainer, errorMessage, closeWithSaveButton);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -145,7 +142,7 @@ public class Controller
       Stage window = new Stage();
 
       window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Edit member: "+selectedMember.getName());
+      window.setTitle("Edit member: " + selectedMember.getName());
       window.setMinWidth(300);
 
       // Member name input.
@@ -158,9 +155,9 @@ public class Controller
 
       Label errorMessage = new Label("");
 
-      Button closeButton = new Button("Save changes");
+      Button closeWithSaveButton = new Button("Save changes");
 
-      closeButton.setOnAction(new EventHandler<ActionEvent>()
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
         @Override public void handle(ActionEvent e)
         {
@@ -171,7 +168,9 @@ public class Controller
             Member member = new Member(inputMemberName.getText());
             System.out.println(member.getName());
             finalMemberList.getIndexFromName(selectedMember.getName());
-            finalMemberList.;
+            finalMemberList
+                .get(finalMemberList.getIndexFromName(selectedMember.getName()))
+                .setName(inputMemberName.getText());
             System.out.println("A");
             adapterEmployee.saveMembers(finalMemberList);
             System.out.println("B");
@@ -187,7 +186,8 @@ public class Controller
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(nameContainer, errorMessage, closeButton);
+      layout.getChildren()
+          .addAll(nameContainer, errorMessage, closeWithSaveButton);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
@@ -201,6 +201,67 @@ public class Controller
 
   @FXML public void removeEmployeeClick()
   {
+    if (!(selectedMember == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Edit member: " + selectedMember.getName());
+      window.setMinWidth(300);
+
+      // Member name input.
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label memberName = new Label(
+          "Do you really want to remove: " + selectedMember.getName());
+
+      nameContainer.getChildren().addAll(memberName);
+
+      Label errorMessage = new Label("");
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            finalMemberList.removeMember(selectedMember);
+            System.out.println("A");
+            adapterEmployee.saveMembers(finalMemberList);
+            System.out.println("B");
+            updateEmployeeArea();
+            selectedMember = employeeField.getItems().get(0);
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorMessage, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
 
