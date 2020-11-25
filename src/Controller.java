@@ -50,9 +50,8 @@ public class Controller
           TableView.TableViewSelectionModel selectionModel = employeeField.getSelectionModel();
           ObservableList selectedCells = selectionModel.getSelectedCells();
           TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-          System.out.println(tablePosition.getTableColumn());
           Object val = tablePosition.getTableColumn().getCellData(newValue);
-          System.out.println("Selected Value" + val);
+          System.out.println(finalMemberList.get(finalMemberList.getIndexFromName((String)val)));
         }
       }
     });
