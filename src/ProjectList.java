@@ -75,6 +75,20 @@ public class ProjectList implements Serializable
     return searchResultIndexesArr;
   }
 
+  public ArrayList<Project> getProjectsWhereMemberIsIn(Member member){
+
+    ArrayList<Project> projectsMemberIsIn = new ArrayList<>();
+
+    for(int i = 0 ; i < projects.size() ; i++){
+      for(int j = 0 ; j < projects.get(i).getTeam().size() ; i++){
+        if(projects.get(i).getTeam().get(i).equals(member)){
+          projectsMemberIsIn.add(projects.get(i));
+        }
+      }
+    }
+    return projectsMemberIsIn;
+  }
+
   /**
    * Adds a Project to the list.
    * @param project the project to add to the list
