@@ -34,6 +34,9 @@ public class Controller
   private ProjectList finalProjectList;
 
   private Member selectedMember;
+  private Project selectedProject;
+  private Requirement selectedRequirement;
+  private Task selectedTask;
 
   public void initialize()
   {
