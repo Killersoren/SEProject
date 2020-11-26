@@ -65,6 +65,24 @@ public class Controller
         });
   }
 
+  private void setSelectedProject()
+  {
+    projectField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (projectField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = projectField.getSelectionModel().getSelectedIndex();
+              selectedProject = projectField.getItems().get(index);
+              System.out.println(selectedProject);
+            }
+          }
+        });
+  }
+
   private void updateProjectArea()
   {
     projectField.getItems().clear();

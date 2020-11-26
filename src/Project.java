@@ -38,4 +38,8 @@ public class Project
   {
     return team;
   }
+
+  public String toString(){
+    return name;
+  }
 }
