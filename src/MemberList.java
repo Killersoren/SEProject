@@ -72,4 +72,14 @@ public class MemberList implements Serializable
     return false;
   }
 
+  public String toString()
+  {
+    String str = "";
+    for (int i = 0; i < members.size(); i++)
+    {
+      str += members.get(i).getName() + " , ";
+    }
+    str = str.substring(0, str.length() - 2);
+    return str;
+  }
 }
