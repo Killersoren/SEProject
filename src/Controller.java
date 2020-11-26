@@ -373,6 +373,67 @@ public class Controller
 
   @FXML public void removeProjectClick()
   {
+    if (!(selectedProject == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove project: " + selectedProject.getName());
+      window.setMinWidth(300);
+
+      // Member name input.
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label(
+          "Do you really want to remove: " + selectedProject.getName());
+
+      nameContainer.getChildren().addAll(projectName);
+
+      Label errorMessage = new Label("");
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            finalMemberList.removeMember(selectedMember);
+            System.out.println("A");
+            adapterEmployee.saveMembers(finalMemberList);
+            System.out.println("B");
+            updateEmployeeArea();
+            selectedMember = null;
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorMessage, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
 
@@ -388,7 +449,8 @@ public class Controller
       projectField.getItems().clear();
       if (adapterProjects != null)
       {
-        ProjectList projects = adapterProjects.getProjectByName(searchField.getText());
+        ProjectList projects = adapterProjects
+            .getProjectByName(searchField.getText());
         for (int i = 0; i < projects.size(); i++)
         {
           projectField.getItems().add(projects.get(i));
@@ -400,7 +462,8 @@ public class Controller
       projectField.getItems().clear();
       if (adapterProjects != null)
       {
-        ProjectList projects = adapterProjects.getProjectByEmployeeName(searchField.getText());
+        ProjectList projects = adapterProjects
+            .getProjectByEmployeeName(searchField.getText());
         for (int i = 0; i < projects.size(); i++)
         {
           projectField.getItems().add(projects.get(i));
