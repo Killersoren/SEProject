@@ -48,6 +48,10 @@ public class Controller
   {
     employeeName
         .setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
+    projectName
+        .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
+    projectTeam
+        .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
