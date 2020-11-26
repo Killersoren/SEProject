@@ -31,26 +31,33 @@ public class Controller
   // Project JavaFX objects
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
-  Label errorLabel = new Label("");
 
   // Member JavaFX objects
   TextField inputMemberName = new TextField();
 
+  // General JavaFX objects
+  Label errorLabel = new Label("");
   HashMap<String, Button> closeAndSaveButton = new HashMap<>();
 
+  // Adapters
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
   private MemberList finalMemberList;
 
-  // Project Objects
+  // Class list Objects
   private MemberList selectedMembers;
   private ProjectList finalProjectList;
 
+  // Selected objects
   private Member selectedMember;
   private Project selectedProject;
   private Requirement selectedRequirement;
   private Task selectedTask;
 
+  /**
+   * Runs one time before the GUI is shown
+   * @param args Command line arguments
+   */
   public void initialize()
   {
     employeeName
@@ -79,6 +86,10 @@ public class Controller
 
   }
 
+  /**
+   * Method used to select a member with the mouse in the TableView so the member later can be edited or removed.
+   * @param args Command line arguments
+   */
   private void setSelectedMember()
   {
     employeeField.getSelectionModel().selectedItemProperty()
@@ -97,6 +108,10 @@ public class Controller
         });
   }
 
+  /**
+   * Method used to select a project with the mouse in the TableView so the member later can be edited or removed.
+   * @param args Command line arguments
+   */
   private void setSelectedProject()
   {
     projectField.getSelectionModel().selectedItemProperty()
@@ -118,6 +133,10 @@ public class Controller
         });
   }
 
+  /**
+   * Updates the ProjectList objects the TreeView<Project> on the GUI
+   * @param args Command line arguments
+   */
   private void updateProjectArea()
   {
     projectField.getItems().clear();
@@ -127,11 +146,14 @@ public class Controller
       for (int i = 0; i < finalProjectList.size(); i++)
       {
         projectField.getItems().add(finalProjectList.get(i));
-        System.out.println(finalProjectList.get(i).getTeam().size());
       }
     }
   }
 
+  /**
+   * Updates the MemberList objects the TreeView<Member> on the GUI
+   * @param args Command line arguments
+   */
   private void updateEmployeeArea()
   {
     employeeField.getItems().clear();
@@ -145,6 +167,10 @@ public class Controller
     }
   }
 
+  /**
+   * FXML method to the button which add a new employee
+   * @param args Command line arguments
+   */
   @FXML public void addEmployeeClick()
   {
 
@@ -178,6 +204,10 @@ public class Controller
 
   }
 
+  /**
+   * FXML method to the button which edits a selected employee
+   * @param args Command line arguments
+   */
   @FXML public void editEmployeeClick()
   {
     if (!(selectedMember == null))
@@ -216,9 +246,7 @@ public class Controller
             finalMemberList
                 .get(finalMemberList.getIndexFromName(selectedMember.getName()))
                 .setName(inputMemberName.getText());
-            System.out.println("A");
             adapterEmployee.saveMembers(finalMemberList);
-            System.out.println("B");
             updateEmployeeArea();
             updateProjectArea();
           }
@@ -245,6 +273,10 @@ public class Controller
 
   }
 
+  /**
+   * FXML method to the button which removes a selected employee
+   * @param args Command line arguments
+   */
   @FXML public void removeEmployeeClick()
   {
     if (!(selectedMember == null))
@@ -276,9 +308,7 @@ public class Controller
           {
             window.close();
             finalMemberList.removeMember(selectedMember);
-            System.out.println("A");
             adapterEmployee.saveMembers(finalMemberList);
-            System.out.println("B");
             updateEmployeeArea();
             selectedMember = null;
           }
@@ -311,6 +341,10 @@ public class Controller
 
   }
 
+  /**
+   * FXML method to the button which adds a new project
+   * @param args Command line arguments
+   */
   @FXML public void addProjectClick()
   {
     Stage window = new Stage();
@@ -364,9 +398,12 @@ public class Controller
 
   }
 
+  /**
+   * FXML method to the button which edits a selected project
+   * @param args Command line arguments
+   */
   @FXML public void editProjectClick()
   {
-    System.out.println("BBB");
     if (!(selectedProject == null))
     {
       Stage window = new Stage();
@@ -375,8 +412,6 @@ public class Controller
       window.initModality(Modality.APPLICATION_MODAL);
       window.setTitle("Edit project");
       window.setMinWidth(300);
-
-      System.out.println("Yes");
 
       // Project name input.
       VBox nameContainer = new VBox();
@@ -431,6 +466,10 @@ public class Controller
     }
   }
 
+  /**
+   * FXML method to the button which removes a selected project
+   * @param args Command line arguments
+   */
   @FXML public void removeProjectClick()
   {
     if (!(selectedProject == null))
@@ -495,6 +534,11 @@ public class Controller
 
   }
 
+  /**
+   * FXML method to the search TextField.
+   *  Description missing yet
+   * @param args Command line arguments
+   */
   @FXML public void search()
   {
     if (searchField.getText().equals("") || searchField.getText() == null)
@@ -533,6 +577,11 @@ public class Controller
     }
   }
 
+  /**
+   * Class to handle events from popup windows.
+   * Popup windows includes the buttons which adds/edits employees, projects, requirements and tasks.
+   * @param
+   */
   private class PopupListener implements EventHandler<ActionEvent>
   {
 
@@ -552,9 +601,7 @@ public class Controller
           window.close();
           Member member = new Member(inputMemberName.getText());
           finalMemberList.addMember(member);
-          System.out.println("A");
           adapterEmployee.saveMembers(finalMemberList);
-          System.out.println("B");
           updateEmployeeArea();
           updateProjectArea();
         }
@@ -575,9 +622,7 @@ public class Controller
           finalMemberList
                   .get(finalMemberList.getIndexFromName(selectedMember.getName()))
                   .setName(inputMemberName.getText());
-          System.out.println("A");
           adapterEmployee.saveMembers(finalMemberList);
-          System.out.println("B");
           updateEmployeeArea();
           updateProjectArea();
         }
@@ -618,7 +663,6 @@ public class Controller
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added project " + project);
-          System.out.println(project.getTeam().size());
           updateProjectArea();
         }
       }
@@ -659,7 +703,11 @@ public class Controller
       }
     }
   }
-
+  /**
+   * Class to handle events from buttons on the same Stage/window.
+   * Yet not used
+   * @param
+   */
   private class Listener implements EventHandler<ActionEvent>
   {
 

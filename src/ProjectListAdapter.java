@@ -143,15 +143,15 @@ public class ProjectListAdapter
     }
     catch (FileNotFoundException e)
     {
-      System.out.println("File not found");
+      System.out.println("File not found: " + fileName);
     }
     catch (IOException e)
     {
-      System.out.println("IO Error reading file");
+      System.out.println("IO Error reading file: " + fileName);
     }
     catch (ClassNotFoundException e)
     {
-      System.out.println("Class Not Found");
+      System.out.println("Class Not Found " + e.getClass().toString());
     }
 
     return projects;
