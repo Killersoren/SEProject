@@ -23,7 +23,7 @@ public class Controller
 
   @FXML private TableView<Project> projectField;
   @FXML private TableColumn<Project, String> projectName;
-  @FXML private TableColumn<Project, MemberList> projectTeam;
+  @FXML private TableColumn<Project, String> projectTeam;
 
   // Project JavaFX objects
   TextField inputProjectName = new TextField();
@@ -51,12 +51,13 @@ public class Controller
     projectName
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
-        .setCellValueFactory(new PropertyValueFactory<Project, MemberList>("value"));
+        .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
     updateProjectArea();
     setSelectedMember();
+    setSelectedProject();
     //      updateProjectDetailsArea();
   }
 
@@ -105,6 +106,7 @@ public class Controller
       for (int i = 0; i < finalProjectList.size(); i++)
       {
         projectField.getItems().add(finalProjectList.get(i));
+        System.out.println(finalProjectList.get(i).getTeam().size());
       }
     }
   }
@@ -251,7 +253,7 @@ public class Controller
       Stage window = new Stage();
 
       window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Edit member: " + selectedMember.getName());
+      window.setTitle("Remove member: " + selectedMember.getName());
       window.setMinWidth(300);
 
       // Member name input.
@@ -371,6 +373,67 @@ public class Controller
 
   @FXML public void removeProjectClick()
   {
+    if (!(selectedProject == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove Project: " + selectedProject.getName());
+      window.setMinWidth(300);
+
+      // Member name input.
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label memberName = new Label(
+          "Do you really want to remove: " + selectedProject.getName());
+
+      nameContainer.getChildren().addAll(memberName);
+
+      Label errorMessage = new Label("");
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            finalProjectList.removeProject(selectedProject);
+            System.out.println("A");
+            adapterProjects.saveProjects(finalProjectList);
+            System.out.println("B");
+            updateProjectArea();
+            selectedProject = null;
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorMessage, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
 

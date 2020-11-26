@@ -14,7 +14,10 @@ public class ProjectList implements Serializable
   {}
 
   public void removeProject(Project selectedProject)
-  {}
+  {
+    projects.remove(selectedProject);
+  }
+
 
   public int getNumbersOfProjects()
   {
@@ -81,7 +84,7 @@ public class ProjectList implements Serializable
 
     for(int i = 0 ; i < projects.size() ; i++){
       for(int j = 0 ; j < projects.get(i).getTeam().size() ; i++){
-        if(projects.get(i).getTeam().get(i).equals(member)){
+        if(projects.get(i).getTeam().get(j).equals(member)){
           projectsMemberIsIn.add(projects.get(i));
         }
       }

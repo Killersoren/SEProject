@@ -92,7 +92,7 @@
                                           <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchClick" text="Search" />
                                        </children>
                                     </HBox>
-                                    <TableView fx:id="projectField" prefHeight="278.0" prefWidth="600.0">
+                                    <TableView fx:id="projectField" prefHeight="549.0" prefWidth="600.0">
                                       <columns>
                                         <TableColumn fx:id="projectName" prefWidth="300.0" text="Project name" />
                                         <TableColumn fx:id="projectTeam" prefWidth="299.0" text="Team" />
@@ -100,12 +100,7 @@
                                     </TableView>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="300.0">
-                                 <children>
-                                    <Label prefHeight="350.0" prefWidth="600.0" text="Project info" />
-                                    <HBox prefHeight="548.0" prefWidth="600.0" />
-                                 </children>
-                              </VBox>
+                              <VBox prefHeight="0.0" prefWidth="600.0" />
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
                                     <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#addProjectClick" text="Add Project" />
