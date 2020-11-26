@@ -380,12 +380,13 @@ public class Controller
     System.out.println("BBB");
     if (!(selectedProject == null))
     {
-      System.out.println("CCC");
       Stage window = new Stage();
 
       window.initModality(Modality.APPLICATION_MODAL);
       window.setTitle("Edit project");
       window.setMinWidth(300);
+
+      System.out.println("Yes");
 
       // Project name input.
       VBox nameContainer = new VBox();
@@ -425,8 +426,10 @@ public class Controller
 
       VBox layout = new VBox(10);
 
-      layout.getChildren()
-          .addAll(nameContainer, memberListContainer, closeWithSaveButtonProject,
+      layout.getChildren().addAll(
+              nameContainer,
+              memberListContainer,
+              editProjectcloseAndSaveButton,
               errorLabel);
 
       layout.setAlignment(Pos.CENTER);
@@ -594,6 +597,40 @@ public class Controller
       }
       else if (actionEvent.getSource() == editProjectcloseAndSaveButton)
       {
+
+        // Make team of the new selected members
+        selectedMembers = new MemberList();
+        for (int i = 0; i < memberCheckBoxes.length; i++)
+        {
+          if (memberCheckBoxes[i].isSelected())
+          {
+            selectedMembers.addMember(finalMemberList.get(i));
+            System.out.println(
+                    "Member " + finalMemberList.get(i) + " has been added to "
+                            + inputProjectName.getText());
+          }
+        }
+
+        //Check for errors
+
+        if (inputProjectName.getText().isEmpty() || inputProjectName.getText()
+                .equals(""))
+        {
+          errorMessage += "ERROR: Fix name\n";
+          errorLabel.setText(errorMessage);
+        }
+        else if (selectedMembers.size() == 0)
+        {
+          errorMessage += "ERROR: Fix members\n";
+          errorLabel.setText(errorMessage);
+        }
+
+        window.close();
+
+        selectedProject.setName(inputProjectName.getText());
+        selectedProject.setTeam(selectedMembers);
+        adapterProjects.saveProjects(finalProjectList);
+        updateProjectArea();
 
       }
     }

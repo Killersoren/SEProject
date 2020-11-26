@@ -14,6 +14,14 @@ public class Project implements Serializable
     this.team = team;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setTeam(MemberList team) {
+    this.team = team;
+  }
+
   /**
    * Gets the project's name.
    * @return the project's name
