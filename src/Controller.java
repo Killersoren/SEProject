@@ -430,11 +430,17 @@ public class Controller
             .equals("")))
         {
           window.close();
+          for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+            if(memberCheckBoxes[i].isSelected()){
+              selectedMembers.addMember(finalMemberList.get(i));
+            }
+          }
           Project project = new Project(inputProjectName.getText(),
               selectedMembers);
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added project " + project);
+          System.out.println(project.getTeam().size());
           updateProjectArea();
         }
         else
