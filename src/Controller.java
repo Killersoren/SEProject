@@ -32,6 +32,7 @@ public class Controller
   Label errorLabel = new Label("");
   String errorMessage = "";
   Button closeWithSaveButtonProject = new Button("Add new project");
+  Button editProjectcloseAndSaveButton = new Button("Save and change");
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
@@ -387,8 +388,7 @@ public class Controller
 
 
 
-    Button closeWithSaveButtonSaveProject = new Button("Save and close");
-    closeWithSaveButtonSaveProject.setOnAction(new PopupListener(window));
+    editProjectcloseAndSaveButton.setOnAction(new PopupListener(window));
   }
 
   @FXML public void removeProjectClick()
@@ -535,7 +535,7 @@ public class Controller
             updateProjectArea();
           }
         }
-      } else if(actionEvent.getSource() == editProjectClick()){
+      } else if(actionEvent.getSource() == editProjectcloseAndSaveButton){
 
       }
     }
