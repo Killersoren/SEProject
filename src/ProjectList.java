@@ -54,6 +54,7 @@ public class ProjectList
     }
   }
 
+  // Should be bullshit but...
   public int[] getIndexesFromInput(String name){
 
     ArrayList<Integer> searchResultIndexesArrList = new ArrayList<>();

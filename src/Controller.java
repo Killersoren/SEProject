@@ -18,9 +18,19 @@ public class Controller
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
 
+  // Project JavaFX objects
+  TextField inputProjectName = new TextField();
+  CheckBox[] memberCheckBoxes;
+  Label nameErrorMessage = new Label("");
+  Button closeWithSaveButtonProject = new Button("Add new project");
+
+
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
   private MemberList finalMemberList;
+
+  // Project Objects
+  private MemberList selectedMembers;
   private ProjectList finalProjectList;
 
   private Member selectedMember;
@@ -271,60 +281,38 @@ public class Controller
     window.setTitle("Add new project");
     window.setMinWidth(300);
 
-    // Member name input.
+    // Project name input.
     HBox nameContainer = new HBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label projectName = new Label("Project name: ");
-    TextField inputProjectName = new TextField();
+    inputProjectName = new TextField();
     inputProjectName.setPromptText("Enter project name");
     nameContainer.getChildren().addAll(projectName, inputProjectName);
 
-    Label errorMessage = new Label("");
+    nameErrorMessage = new Label("");
 
+
+
+    HBox memberContainer = new HBox(2);
+
+    Label membersName = new Label("Members: ");
     GridPane memberNameContainer = new GridPane();
     memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
 
-    Label membersName = new Label("Members: ");
-
-    CheckBox[] memberCheckBoxes = new CheckBox[finalMemberList.size()];
-    MemberList selectedMembers = new MemberList();
+    memberCheckBoxes = new CheckBox[finalMemberList.size()];
+    selectedMembers = new MemberList();
 
     for(int i = 0 ; i < memberCheckBoxes.length ; i++){
-      CheckBox memberCheckBox = new CheckBox(finalMemberList.get(i).getName());
-      memberCheckBox.setOnAction();
-      memberNameContainer.getChildren().add(memberCheckBox);
+      memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+      memberNameContainer.add(memberCheckBoxes[i], i%2, i/2);
     }
 
-
-    Button closeWithSaveButton = new Button("Add new project");
-
-    closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override public void handle(ActionEvent e)
-      {
-        if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
-                .equals("")))
-        {
-          window.close();
-          Project project = new Project(inputProjectName.getText());
-          finalProjectList.add(project);
-          System.out.println("A");
-          adapterProjects.saveProjects(finalProjectList);
-          System.out.println("B");
-          updateEmployeeArea();
-        }
-        else
-        {
-          errorMessage.setText("ERROR: invalid project name");
-          errorMessage.setTextFill(Color.RED);
-        }
-      }
-    });
+    closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren()
-            .addAll(nameContainer, errorMessage, closeWithSaveButton);
+            .addAll(nameContainer, nameErrorMessage, membersName, memberContainer, closeWithSaveButtonProject);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -354,13 +342,42 @@ public class Controller
 
   }
 
+  private class PopupListener implements EventHandler<ActionEvent>{
+
+    private Stage window;
+
+    public PopupListener(Stage window){
+      this.window = window;
+    }
+
+    @Override
+    public void handle(ActionEvent actionEvent) {
+      if(actionEvent.getSource() == closeWithSaveButtonProject ){
+        if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
+                .equals("")))
+        {
+          window.close();
+          Project project = new Project(inputProjectName.getText(), selectedMembers);
+          finalProjectList = new ProjectList();
+          finalProjectList.add(project);
+          adapterProjects.saveProjects(finalProjectList);
+          System.out.println("Added project " + project);
+          updateProjectArea();
+        }
+        else
+        {
+          nameErrorMessage.setText("ERROR: invalid project name");
+          nameErrorMessage.setTextFill(Color.RED);
+        }
+      }
+    }
+  }
+
   private class Listener implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent actionEvent) {
-      if(actionEvent.getSource() == ){
 
-      }
     }
   }
 
