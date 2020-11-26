@@ -379,6 +379,16 @@ public class Controller
   @FXML public void editProjectClick()
   {
 
+    Stage window = new Stage();
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Edit project");
+    window.setMinWidth(300);
+
+
+
+    Button closeWithSaveButtonSaveProject = new Button("Save and close");
+    closeWithSaveButtonSaveProject.setOnAction(new PopupListener(window));
   }
 
   @FXML public void removeProjectClick()
@@ -525,6 +535,8 @@ public class Controller
             updateProjectArea();
           }
         }
+      } else if(actionEvent.getSource() == editProjectClick()){
+
       }
     }
   }
