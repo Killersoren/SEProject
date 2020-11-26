@@ -386,7 +386,36 @@ public class Controller
     window.setTitle("Edit project");
     window.setMinWidth(300);
 
+    // Project name input.
+    VBox nameContainer = new VBox();
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label projectName = new Label("Project name: ");
+    inputProjectName = new TextField();
+    inputProjectName.setText(selectedProject.getName());
+    nameContainer.getChildren().addAll(projectName, inputProjectName);
 
+    // Project member list input.
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
+    memberCheckBoxes = new CheckBox[finalMemberList.size()];
+
+    for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+      memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+      memberSelectContainer.add(memberCheckBoxes[i], i%2, i/2);
+
+      for (int j = 0; j < selectedProject.getTeam().size(); j++)
+      {
+        if (memberCheckBoxes[i].getText().equals(selectedProject.getTeam().get(j).getName()))
+        {
+          memberCheckBoxes[i].setSelected(true);
+        }
+      }
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+    }
+    // Add member label Node and member selection Node
+    memberListContainer.getChildren().addAll(membersLabel, memberSelectContainer);
 
     editProjectcloseAndSaveButton.setOnAction(new PopupListener(window));
   }
