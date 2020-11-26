@@ -56,7 +56,7 @@ public class Controller
 
   /**
    * Runs one time before the GUI is shown
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   public void initialize()
   {
@@ -88,7 +88,7 @@ public class Controller
 
   /**
    * Method used to select a member with the mouse in the TableView so the member later can be edited or removed.
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   private void setSelectedMember()
   {
@@ -110,7 +110,7 @@ public class Controller
 
   /**
    * Method used to select a project with the mouse in the TableView so the member later can be edited or removed.
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   private void setSelectedProject()
   {
@@ -135,7 +135,7 @@ public class Controller
 
   /**
    * Updates the ProjectList objects the TreeView<Project> on the GUI
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   private void updateProjectArea()
   {
@@ -152,7 +152,7 @@ public class Controller
 
   /**
    * Updates the MemberList objects the TreeView<Member> on the GUI
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   private void updateEmployeeArea()
   {
@@ -169,7 +169,7 @@ public class Controller
 
   /**
    * FXML method to the button which add a new employee
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void addEmployeeClick()
   {
@@ -206,7 +206,7 @@ public class Controller
 
   /**
    * FXML method to the button which edits a selected employee
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void editEmployeeClick()
   {
@@ -275,7 +275,7 @@ public class Controller
 
   /**
    * FXML method to the button which removes a selected employee
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void removeEmployeeClick()
   {
@@ -343,7 +343,7 @@ public class Controller
 
   /**
    * FXML method to the button which adds a new project
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void addProjectClick()
   {
@@ -400,7 +400,7 @@ public class Controller
 
   /**
    * FXML method to the button which edits a selected project
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void editProjectClick()
   {
@@ -468,7 +468,7 @@ public class Controller
 
   /**
    * FXML method to the button which removes a selected project
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void removeProjectClick()
   {
@@ -537,7 +537,7 @@ public class Controller
   /**
    * FXML method to the search TextField.
    *  Description missing yet
-   * @param args Command line arguments
+   * @param //args Command line arguments
    */
   @FXML public void search()
   {
@@ -703,20 +703,6 @@ public class Controller
       }
     }
   }
-  /**
-   * Class to handle events from buttons on the same Stage/window.
-   * Yet not used
-   * @param
-   */
-  private class Listener implements EventHandler<ActionEvent>
-  {
-
-    @Override public void handle(ActionEvent actionEvent)
-    {
-
-    }
-  }
-
 }
 
 
