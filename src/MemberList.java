@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public class MemberList implements Serializable
 {
-
   private ArrayList<Member> members;
 
   public MemberList()
@@ -54,8 +53,10 @@ public class MemberList implements Serializable
   }
 
   public boolean equals(Object obj){
-    if(getMembers().equals((ArrayList)obj)){
-      return true;
+    if(obj instanceof MemberList){
+      if(this.getMembers().equals(((MemberList) obj).getMembers())){
+        return true;
+      }
     }
     return false;
   }
