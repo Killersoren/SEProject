@@ -244,9 +244,7 @@ public class Controller
       window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
-
     }
-
   }
 
   @FXML public void removeEmployeeClick()
@@ -371,7 +369,65 @@ public class Controller
 
   @FXML public void editProjectClick()
   {
+    if (!(selectedProject == null))
+    {
+      Stage window = new Stage();
 
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Add new project");
+      window.setMinWidth(300);
+
+      // Project name input.
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label("Project name: ");
+      inputProjectName = new TextField();
+      inputProjectName.setText(selectedProject.getName());
+      nameContainer.getChildren().addAll(projectName, inputProjectName);
+
+      nameErrorMessage = new Label("");
+
+      HBox memberContainer = new HBox(2);
+      selectedMembers = selectedProject.getTeam();
+
+      Label membersName = new Label("Members: ");
+
+      // Member selection Node
+      GridPane memberNameContainer = new GridPane();
+      memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
+
+      memberCheckBoxes = new CheckBox[finalMemberList.size()];
+
+      for (int i = 0; i < memberCheckBoxes.length; i++)
+      {
+        memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+        for (int j = 0; j < selectedProject.getTeam().size(); j++)
+        {
+          if (memberCheckBoxes[i].getText().equals(selectedProject.getTeam().get(j).getName()))
+          {
+            memberCheckBoxes[i].isSelected() = true;
+          }
+        }
+        memberNameContainer.add(memberCheckBoxes[i], i % 2, i / 2);
+      }
+
+      // Add member label Node and member selection Node
+      memberContainer.getChildren().addAll(membersName, memberNameContainer);
+
+      closeWithSaveButtonProject.setOnAction(new PopupListener(window));
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, nameErrorMessage, memberContainer,
+              closeWithSaveButtonProject);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+    }
   }
 
   @FXML public void removeProjectClick()
