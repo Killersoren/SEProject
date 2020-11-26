@@ -294,28 +294,37 @@ public class Controller
 
     nameErrorMessage = new Label("");
 
-
-
     HBox memberContainer = new HBox(2);
+    selectedMembers = new MemberList();
 
     Label membersName = new Label("Members: ");
-    GridPane memberNameContainer = new GridPane();
+
+    /*GridPane memberNameContainer = new GridPane();
     memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
 
     memberCheckBoxes = new CheckBox[finalMemberList.size()];
-    selectedMembers = new MemberList();
 
     for(int i = 0 ; i < memberCheckBoxes.length ; i++){
       memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
       memberNameContainer.add(memberCheckBoxes[i], i%2, i/2);
     }
 
+    memberContainer.getChildren().addAll(membersName, memberNameContainer);
+     */
+
+    ComboBox comboBox = new ComboBox();
+    for(int i = 0 ; i < finalMemberList.size() ; i++){
+      comboBox.getItems().add(finalMemberList.get(i).getName());
+    }
+
+    memberContainer.getChildren().addAll(membersName, comboBox);
+
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren()
-            .addAll(nameContainer, nameErrorMessage, membersName, memberContainer, closeWithSaveButtonProject);
+            .addAll(nameContainer, nameErrorMessage, memberContainer, closeWithSaveButtonProject);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
