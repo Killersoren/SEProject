@@ -29,7 +29,8 @@ public class Controller
   // Project JavaFX objects
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
-  Label nameErrorMessage = new Label("");
+  Label errorLabel = new Label("");
+  String errorMessage = "";
   Button closeWithSaveButtonProject = new Button("Add new project");
 
   private ProjectListAdapter adapterProjects;
@@ -60,6 +61,10 @@ public class Controller
     setSelectedMember();
     setSelectedProject();
     //      updateProjectDetailsArea();
+    errorLabel.setTextFill(Color.RED);
+    errorLabel.setWrapText(true);
+    errorLabel.setPadding(new Insets(0,0,50,0));
+    errorLabel.setText(errorMessage);
   }
 
   private void setSelectedMember()
@@ -129,6 +134,7 @@ public class Controller
 
   @FXML public void addEmployeeClick()
   {
+    errorLabel.setText("");
     Stage window = new Stage();
 
     window.initModality(Modality.APPLICATION_MODAL);
@@ -165,7 +171,7 @@ public class Controller
         }
         else
         {
-          errorMessage.setText("ERROR: invalid project name");
+          errorMessage.setText("ERROR: invalid member name");
           errorMessage.setTextFill(Color.RED);
         }
       }
@@ -324,42 +330,43 @@ public class Controller
     window.setMinWidth(300);
 
     // Project name input.
-    HBox nameContainer = new HBox(2);
+    VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label projectName = new Label("Project name: ");
     inputProjectName = new TextField();
     inputProjectName.setPromptText("Enter project name");
     nameContainer.getChildren().addAll(projectName, inputProjectName);
 
-    nameErrorMessage = new Label("");
-
-    HBox memberContainer = new HBox(2);
-    selectedMembers = new MemberList();
-
-    Label membersName = new Label("Members: ");
-
-    // Member selection Node
-    GridPane memberNameContainer = new GridPane();
-    memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
-
+    // Project member list input.
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
     memberCheckBoxes = new CheckBox[finalMemberList.size()];
 
     for(int i = 0 ; i < memberCheckBoxes.length ; i++){
       memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
-      memberNameContainer.add(memberCheckBoxes[i], i%2, i/2);
+      memberSelectContainer.add(memberCheckBoxes[i], i%2, i/2);
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
 
     // Add member label Node and member selection Node
-    memberContainer.getChildren().addAll(membersName, memberNameContainer);
+    memberListContainer.getChildren().addAll(membersLabel, memberSelectContainer);
 
 
+    // Config save and close botton
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
+
+
 
     VBox layout = new VBox(10);
 
-    layout.getChildren()
-        .addAll(nameContainer, nameErrorMessage, memberContainer,
-            closeWithSaveButtonProject);
+    layout.getChildren().addAll(
+            nameContainer,
+            memberListContainer,
+            closeWithSaveButtonProject,
+            errorLabel);
+
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -490,27 +497,31 @@ public class Controller
     {
       if (actionEvent.getSource() == closeWithSaveButtonProject)
       {
-        if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
-            .equals("")))
-        {
-          window.close();
-          for(int i = 0 ; i < memberCheckBoxes.length ; i++){
-            if(memberCheckBoxes[i].isSelected()){
-              selectedMembers.addMember(finalMemberList.get(i));
-            }
+        selectedMembers = new MemberList();
+        for (int i = 0; i < memberCheckBoxes.length; i++) {
+          if (memberCheckBoxes[i].isSelected()) {
+            selectedMembers.addMember(finalMemberList.get(i));
+            System.out.println("Member " + finalMemberList.get(i) + " has been added to " + inputProjectName.getText());
           }
-          Project project = new Project(inputProjectName.getText(),
-              selectedMembers);
-          finalProjectList.add(project);
-          adapterProjects.saveProjects(finalProjectList);
-          System.out.println("Added project " + project);
-          System.out.println(project.getTeam().size());
-          updateProjectArea();
         }
-        else
-        {
-          nameErrorMessage.setText("ERROR: invalid project name");
-          nameErrorMessage.setTextFill(Color.RED);
+
+        if (inputProjectName.getText().isEmpty() || inputProjectName.getText().equals("")) {
+          errorMessage += "ERROR: Fix name\n";
+          errorLabel.setText(errorMessage);
+        if(selectedMembers.size() == 0) {
+          errorMessage += "ERROR: Fix members\n";
+          errorLabel.setText(errorMessage);
+        } else {
+          window.close();
+
+            Project project = new Project(inputProjectName.getText(),
+                    selectedMembers);
+            finalProjectList.add(project);
+            adapterProjects.saveProjects(finalProjectList);
+            System.out.println("Added project " + project);
+            System.out.println(project.getTeam().size());
+            updateProjectArea();
+          }
         }
       }
     }
