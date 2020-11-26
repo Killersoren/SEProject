@@ -24,6 +24,9 @@ public class Controller
   private ProjectList finalProjectList;
 
   private Member selectedMember;
+  private Project selectedProject;
+  private Requirement selectedRequirement;
+  private Task selectedTask;
 
   public void initialize()
   {
@@ -271,7 +274,7 @@ public class Controller
     window.setTitle("Add new project");
     window.setMinWidth(300);
 
-    // Member name input.
+    // Project name input.
     HBox nameContainer = new HBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label projectName = new Label("Project name: ");
