@@ -415,6 +415,8 @@ public class Controller
             adapterProjects.saveProjects(finalProjectList);
             updateProjectArea();
             selectedProject = null;
+            projectDetailsTab.setText("Project details");
+            projectDetailsTab.setDisable(true);
           }
         }
       });
