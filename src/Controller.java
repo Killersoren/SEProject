@@ -23,7 +23,7 @@ public class Controller
 
   @FXML private TableView<Project> projectField;
   @FXML private TableColumn<Project, String> projectName;
-  @FXML private TableColumn<Project, String> projectTeam;
+  @FXML private TableColumn<Project, MemberList> projectTeam;
 
   // Project JavaFX objects
   TextField inputProjectName = new TextField();
@@ -51,7 +51,7 @@ public class Controller
     projectName
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
-        .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
+        .setCellValueFactory(new PropertyValueFactory<Project, MemberList>("value"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -101,10 +101,10 @@ public class Controller
     projectField.getItems().clear();
     if (adapterProjects != null)
     {
-      ProjectList projects = adapterProjects.getAllProjects();
-      for (int i = 0; i < projects.size(); i++)
+      finalProjectList = adapterProjects.getAllProjects();
+      for (int i = 0; i < finalProjectList.size(); i++)
       {
-        projectField.getItems().add(projects.get(i));
+        projectField.getItems().add(finalProjectList.get(i));
       }
     }
   }
@@ -380,7 +380,10 @@ public class Controller
 
   @FXML public void search()
   {
-
+    if (searchField.getText().equals("") || searchField.getText() == null)
+    {
+      updateProjectArea();
+    }
   }
 
   @FXML public void searchClick()
@@ -433,7 +436,6 @@ public class Controller
           window.close();
           Project project = new Project(inputProjectName.getText(),
               selectedMembers);
-          finalProjectList = new ProjectList();
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added project " + project);

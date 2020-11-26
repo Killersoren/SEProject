@@ -30,6 +30,16 @@ public class Project implements Serializable
   public void setRequirements(ArrayList<Requirement> requirements) {
     this.requirements = requirements;
   }
+  public String getValue()
+  {
+    String str = "";
+    for (int i = 0; i < team.size(); i++)
+    {
+      str+= team.get(i).getName()+" ,";
+    }
+    return str;
+  }
+
 
   /**
    * Gets the project's team.
