@@ -520,19 +520,21 @@ public class Controller
         if (inputProjectName.getText().isEmpty() || inputProjectName.getText().equals("")) {
           errorMessage += "ERROR: Fix name\n";
           errorLabel.setText(errorMessage);
-        }else if(selectedMembers.size() == 0) {
+        if(selectedMembers.size() == 0) {
           errorMessage += "ERROR: Fix members\n";
           errorLabel.setText(errorMessage);
         } else {
           window.close();
 
-            Project project = new Project(inputProjectName.getText(), selectedMembers);
+            Project project = new Project(inputProjectName.getText(),
+                    selectedMembers);
             finalProjectList.add(project);
             adapterProjects.saveProjects(finalProjectList);
             System.out.println("Added project " + project);
             System.out.println(project.getTeam().size());
             updateProjectArea();
           }
+        }
       } else if(actionEvent.getSource() == editProjectcloseAndSaveButton){
 
       }
