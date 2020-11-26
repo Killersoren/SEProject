@@ -156,6 +156,7 @@ public class Controller
           adapterEmployee.saveMembers(finalMemberList);
           System.out.println("B");
           updateEmployeeArea();
+          updateProjectArea();
         }
         else
         {
@@ -218,6 +219,7 @@ public class Controller
             adapterEmployee.saveMembers(finalMemberList);
             System.out.println("B");
             updateEmployeeArea();
+            updateProjectArea();
           }
           else
           {
@@ -345,14 +347,6 @@ public class Controller
     // Add member label Node and member selection Node
     memberContainer.getChildren().addAll(membersName, memberNameContainer);
 
-    /*
-    ComboBox<CheckBox> memberComboBox = new ComboBox<CheckBox>();
-
-    for(int i = 0 ; i < finalMemberList.size() ; i++){
-
-    }
-
-     */
 
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
