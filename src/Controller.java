@@ -326,6 +326,7 @@ public class Controller
   @FXML public void addProjectClick()
   {
     Stage window = new Stage();
+    errorLabel.setText("");
 
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle("Add new project");
@@ -381,6 +382,7 @@ public class Controller
     if (!(selectedProject == null))
     {
       Stage window = new Stage();
+      errorLabel.setText("");
 
       window.initModality(Modality.APPLICATION_MODAL);
       window.setTitle("Edit project");
@@ -572,15 +574,13 @@ public class Controller
         }
 
         if (inputProjectName.getText().isEmpty() || inputProjectName.getText()
-            .equals(""))
+                .equals(""))
         {
-          errorMessage += "ERROR: Fix name\n";
-          errorLabel.setText(errorMessage);
+          errorLabel.setText("ERROR: Fix name");
         }
         else if (selectedMembers.size() == 0)
         {
-          errorMessage += "ERROR: Fix members\n";
-          errorLabel.setText(errorMessage);
+          errorLabel.setText("ERROR: Fix members");
         }
         else
         {
@@ -616,22 +616,20 @@ public class Controller
         if (inputProjectName.getText().isEmpty() || inputProjectName.getText()
                 .equals(""))
         {
-          errorMessage += "ERROR: Fix name\n";
-          errorLabel.setText(errorMessage);
+          errorLabel.setText("ERROR: Fix name");
         }
         else if (selectedMembers.size() == 0)
         {
-          errorMessage += "ERROR: Fix members\n";
-          errorLabel.setText(errorMessage);
+          errorLabel.setText("ERROR: Fix members");
+        } else {
+
+          window.close();
+
+          selectedProject.setName(inputProjectName.getText());
+          selectedProject.setTeam(selectedMembers);
+          adapterProjects.saveProjects(finalProjectList);
+          updateProjectArea();
         }
-
-        window.close();
-
-        selectedProject.setName(inputProjectName.getText());
-        selectedProject.setTeam(selectedMembers);
-        adapterProjects.saveProjects(finalProjectList);
-        updateProjectArea();
-
       }
     }
   }
