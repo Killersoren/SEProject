@@ -93,6 +93,7 @@ public class Controller
               int index = projectField.getSelectionModel().getSelectedIndex();
               selectedProject = projectField.getItems().get(index);
               projectDetailsTab.setText(selectedProject.getName()+" project details");
+              projectDetailsTab.setDisable(false);
               System.out.println(selectedProject);
             }
           }

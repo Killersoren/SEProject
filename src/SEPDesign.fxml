@@ -114,7 +114,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="projectDetailsTab" closable="false" text="Project details">
+            <Tab fx:id="projectDetailsTab" closable="false" disable="true" text="Project details">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -146,7 +146,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Requirement Details">
+            <Tab disable="true" text="Requirement Details">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
