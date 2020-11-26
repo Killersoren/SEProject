@@ -15,8 +15,15 @@ import javafx.stage.Stage;
 
 public class Controller
 {
+  @FXML private RadioButton searchByName, searchByEmployee;
+  @FXML private TextField searchField;
+
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
+
+  @FXML private TableView<Project> projectField;
+  @FXML private TableColumn<Project, String> projectName;
+  @FXML private TableColumn<Project, String> projectTeam;
 
   // Project JavaFX objects
   TextField inputProjectName = new TextField();
@@ -63,6 +70,24 @@ public class Controller
               int index = employeeField.getSelectionModel().getSelectedIndex();
               selectedMember = employeeField.getItems().get(index);
               System.out.println(selectedMember);
+            }
+          }
+        });
+  }
+
+  private void setSelectedProject()
+  {
+    projectField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (projectField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = projectField.getSelectionModel().getSelectedIndex();
+              selectedProject = projectField.getItems().get(index);
+              System.out.println(selectedProject);
             }
           }
         });
@@ -351,8 +376,32 @@ public class Controller
 
   @FXML public void searchClick()
   {
-
+    if (searchByName.isSelected())
+    {
+      projectField.getItems().clear();
+      if (adapterProjects != null)
+      {
+        ProjectList projects = adapterProjects.getProjectByName(searchField.getText());
+        for (int i = 0; i < projects.size(); i++)
+        {
+          projectField.getItems().add(projects.get(i));
+        }
+      }
+    }
+    else
+    {
+      projectField.getItems().clear();
+      if (adapterProjects != null)
+      {
+        ProjectList projects = adapterProjects.getProjectByEmployeeName(searchField.getText());
+        for (int i = 0; i < projects.size(); i++)
+        {
+          projectField.getItems().add(projects.get(i));
+        }
+      }
+    }
   }
+
 
   private class PopupListener implements EventHandler<ActionEvent>{
 
