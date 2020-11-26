@@ -331,7 +331,8 @@ public class Controller
 
     Label membersName = new Label("Members: ");
 
-    /*GridPane memberNameContainer = new GridPane();
+    // Member selection Node
+    GridPane memberNameContainer = new GridPane();
     memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
 
     memberCheckBoxes = new CheckBox[finalMemberList.size()];
@@ -341,16 +342,17 @@ public class Controller
       memberNameContainer.add(memberCheckBoxes[i], i%2, i/2);
     }
 
+    // Add member label Node and member selection Node
     memberContainer.getChildren().addAll(membersName, memberNameContainer);
-     */
 
+    /*
     ComboBox<CheckBox> memberComboBox = new ComboBox<CheckBox>();
 
     for(int i = 0 ; i < finalMemberList.size() ; i++){
 
     }
 
-    memberContainer.getChildren().addAll(membersName, memberComboBox);
+     */
 
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
