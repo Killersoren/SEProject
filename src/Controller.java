@@ -337,12 +337,7 @@ public class Controller
     memberContainer.getChildren().addAll(membersName, memberNameContainer);
      */
 
-    ComboBox comboBox = new ComboBox();
-    for(int i = 0 ; i < finalMemberList.size() ; i++){
-      comboBox.getItems().add(finalMemberList.get(i).getName());
-    }
-
-    memberContainer.getChildren().addAll(membersName, comboBox);
+    memberContainer.getChildren().addAll(membersName);
 
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
