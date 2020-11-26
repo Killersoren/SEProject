@@ -64,7 +64,7 @@ public class Controller
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
-    errorLabel.setPadding(new Insets(0,0,50,0));
+    errorLabel.setPadding(new Insets(0, 0, 50, 0));
     errorLabel.setText(errorMessage);
   }
 
@@ -98,7 +98,8 @@ public class Controller
             {
               int index = projectField.getSelectionModel().getSelectedIndex();
               selectedProject = projectField.getItems().get(index);
-              projectDetailsTab.setText(selectedProject.getName()+" project details");
+              projectDetailsTab
+                  .setText(selectedProject.getName() + " project details");
               projectDetailsTab.setDisable(false);
               System.out.println(selectedProject);
             }
@@ -317,9 +318,7 @@ public class Controller
       window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
-
     }
-
   }
 
   @FXML public void addProjectClick()
@@ -345,27 +344,24 @@ public class Controller
     GridPane memberSelectContainer = new GridPane();
     memberCheckBoxes = new CheckBox[finalMemberList.size()];
 
-    for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
       memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
-      memberSelectContainer.add(memberCheckBoxes[i], i%2, i/2);
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
 
     // Add member label Node and member selection Node
-    memberListContainer.getChildren().addAll(membersLabel, memberSelectContainer);
-
+    memberListContainer.getChildren()
+        .addAll(membersLabel, memberSelectContainer);
 
     // Config save and close botton
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
-
-
     VBox layout = new VBox(10);
 
-    layout.getChildren().addAll(
-            nameContainer,
-            memberListContainer,
-            closeWithSaveButtonProject,
+    layout.getChildren()
+        .addAll(nameContainer, memberListContainer, closeWithSaveButtonProject,
             errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -401,13 +397,15 @@ public class Controller
     GridPane memberSelectContainer = new GridPane();
     memberCheckBoxes = new CheckBox[finalMemberList.size()];
 
-    for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
       memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
-      memberSelectContainer.add(memberCheckBoxes[i], i%2, i/2);
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
 
       for (int j = 0; j < selectedProject.getTeam().size(); j++)
       {
-        if (memberCheckBoxes[i].getText().equals(selectedProject.getTeam().get(j).getName()))
+        if (memberCheckBoxes[i].getText()
+            .equals(selectedProject.getTeam().get(j).getName()))
         {
           memberCheckBoxes[i].setSelected(true);
         }
@@ -415,7 +413,8 @@ public class Controller
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
     // Add member label Node and member selection Node
-    memberListContainer.getChildren().addAll(membersLabel, memberSelectContainer);
+    memberListContainer.getChildren()
+        .addAll(membersLabel, memberSelectContainer);
 
     editProjectcloseAndSaveButton.setOnAction(new PopupListener(window));
   }
@@ -539,24 +538,33 @@ public class Controller
       if (actionEvent.getSource() == closeWithSaveButtonProject)
       {
         selectedMembers = new MemberList();
-        for (int i = 0; i < memberCheckBoxes.length; i++) {
-          if (memberCheckBoxes[i].isSelected()) {
+        for (int i = 0; i < memberCheckBoxes.length; i++)
+        {
+          if (memberCheckBoxes[i].isSelected())
+          {
             selectedMembers.addMember(finalMemberList.get(i));
-            System.out.println("Member " + finalMemberList.get(i) + " has been added to " + inputProjectName.getText());
+            System.out.println(
+                "Member " + finalMemberList.get(i) + " has been added to "
+                    + inputProjectName.getText());
           }
         }
 
-        if (inputProjectName.getText().isEmpty() || inputProjectName.getText().equals("")) {
+        if (inputProjectName.getText().isEmpty() || inputProjectName.getText()
+            .equals(""))
+        {
           errorMessage += "ERROR: Fix name\n";
           errorLabel.setText(errorMessage);
-        if(selectedMembers.size() == 0) {
-          errorMessage += "ERROR: Fix members\n";
-          errorLabel.setText(errorMessage);
-        } else {
-          window.close();
+          if (selectedMembers.size() == 0)
+          {
+            errorMessage += "ERROR: Fix members\n";
+            errorLabel.setText(errorMessage);
+          }
+          else
+          {
+            window.close();
 
             Project project = new Project(inputProjectName.getText(),
-                    selectedMembers);
+                selectedMembers);
             finalProjectList.add(project);
             adapterProjects.saveProjects(finalProjectList);
             System.out.println("Added project " + project);
@@ -564,7 +572,9 @@ public class Controller
             updateProjectArea();
           }
         }
-      } else if(actionEvent.getSource() == editProjectcloseAndSaveButton){
+      }
+      else if (actionEvent.getSource() == editProjectcloseAndSaveButton)
+      {
 
       }
     }
