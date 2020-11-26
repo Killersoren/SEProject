@@ -92,18 +92,20 @@
                                           <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchClick" text="Button" />
                                        </children>
                                     </HBox>
+                                    <TableView fx:id="projectTab" prefHeight="278.0" prefWidth="600.0">
+                                      <columns>
+                                        <TableColumn prefWidth="300.0" text="C1" />
+                                        <TableColumn prefWidth="299.0" text="C2" />
+                                      </columns>
+                                    </TableView>
                                  </children>
                               </VBox>
-                              <HBox prefHeight="548.0" prefWidth="600.0">
+                              <VBox prefHeight="200.0" prefWidth="300.0">
                                  <children>
-                                    <VBox fx:id="projectArea" prefHeight="200.0" prefWidth="298.0" />
-                                    <VBox prefHeight="200.0" prefWidth="300.0">
-                                       <children>
-                                          <Label prefHeight="17.0" prefWidth="329.0" text="Project info" />
-                                       </children>
-                                    </VBox>
+                                    <Label prefHeight="350.0" prefWidth="600.0" text="Project info" />
+                                    <HBox prefHeight="548.0" prefWidth="600.0" />
                                  </children>
-                              </HBox>
+                              </VBox>
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
                                     <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#addProjectClick" text="Add Project" />
