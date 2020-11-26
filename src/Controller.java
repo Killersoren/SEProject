@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+
 public class Controller
 {
   @FXML private RadioButton searchByName, searchByEmployee;
@@ -30,9 +32,11 @@ public class Controller
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
   Label errorLabel = new Label("");
-  String errorMessage = "";
-  Button closeWithSaveButtonProject = new Button("Add new project");
-  Button editProjectcloseAndSaveButton = new Button("Save and change");
+
+  // Member JavaFX objects
+  TextField inputMemberName = new TextField();
+
+  HashMap<String, Button> closeAndSaveButton = new HashMap<>();
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
@@ -65,7 +69,14 @@ public class Controller
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
     errorLabel.setPadding(new Insets(0, 0, 50, 0));
-    errorLabel.setText(errorMessage);
+
+    closeAndSaveButton.put("addEmployee", new Button("Add new member"));
+    closeAndSaveButton.put("editEmployee", new Button("Save and close"));
+
+    closeAndSaveButton.put("addProject", new Button("Add new project"));
+    closeAndSaveButton.put("editProject", new Button("Save and close"));
+
+
   }
 
   private void setSelectedMember()
@@ -136,6 +147,7 @@ public class Controller
 
   @FXML public void addEmployeeClick()
   {
+
     errorLabel.setText("");
     Stage window = new Stage();
 
@@ -147,42 +159,16 @@ public class Controller
     HBox nameContainer = new HBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label memberName = new Label("Member name: ");
-    TextField inputMemberName = new TextField();
     inputMemberName.setPromptText("Enter member name");
     nameContainer.getChildren().addAll(memberName, inputMemberName);
 
-    Label errorMessage = new Label("");
 
-    Button closeWithSaveButton = new Button("Add new member");
-
-    closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override public void handle(ActionEvent e)
-      {
-        if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
-            .equals("")))
-        {
-          window.close();
-          Member member = new Member(inputMemberName.getText());
-          finalMemberList.addMember(member);
-          System.out.println("A");
-          adapterEmployee.saveMembers(finalMemberList);
-          System.out.println("B");
-          updateEmployeeArea();
-          updateProjectArea();
-        }
-        else
-        {
-          errorMessage.setText("ERROR: invalid member name");
-          errorMessage.setTextFill(Color.RED);
-        }
-      }
-    });
+    closeAndSaveButton.get("addEmployee").setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren()
-        .addAll(nameContainer, errorMessage, closeWithSaveButton);
+        .addAll(nameContainer, errorLabel, closeAndSaveButton.get("addEmployee"));
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -213,6 +199,8 @@ public class Controller
       Label errorMessage = new Label("");
 
       Button closeWithSaveButton = new Button("Save changes");
+
+      closeAndSaveButton.get("editEmployee").setOnAction(new PopupListener(window));
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -359,12 +347,12 @@ public class Controller
         .addAll(membersLabel, memberSelectContainer);
 
     // Config save and close botton
-    closeWithSaveButtonProject.setOnAction(new PopupListener(window));
+    closeAndSaveButton.get("addProject").setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren()
-        .addAll(nameContainer, memberListContainer, closeWithSaveButtonProject,
+        .addAll(nameContainer, memberListContainer, closeAndSaveButton.get("addProject"),
             errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -424,14 +412,14 @@ public class Controller
       memberListContainer.getChildren()
           .addAll(membersLabel, memberSelectContainer);
 
-      editProjectcloseAndSaveButton.setOnAction(new PopupListener(window));
+      closeAndSaveButton.get("editProject").setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
       layout.getChildren().addAll(
               nameContainer,
               memberListContainer,
-              editProjectcloseAndSaveButton,
+              closeAndSaveButton.get("editProject"),
               errorLabel);
 
       layout.setAlignment(Pos.CENTER);
@@ -460,8 +448,6 @@ public class Controller
           "Do you really want to remove: " + selectedProject.getName());
 
       nameContainer.getChildren().addAll(projectName);
-
-      Label errorMessage = new Label("");
 
       Button closeWithSaveButton = new Button("Yes, please");
 
@@ -496,7 +482,7 @@ public class Controller
       VBox layout = new VBox(10);
 
       layout.getChildren()
-          .addAll(nameContainer, errorMessage, closeWithSaveButton,
+          .addAll(nameContainer, errorLabel, closeWithSaveButton,
               closeWithOutSaveButton);
       layout.setAlignment(Pos.CENTER);
 
@@ -559,8 +545,49 @@ public class Controller
 
     @Override public void handle(ActionEvent actionEvent)
     {
-      if (actionEvent.getSource() == closeWithSaveButtonProject)
-      {
+      if (actionEvent.getSource() == closeAndSaveButton.get("addEmployee")){
+        if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
+                .equals("")))
+        {
+          window.close();
+          Member member = new Member(inputMemberName.getText());
+          finalMemberList.addMember(member);
+          System.out.println("A");
+          adapterEmployee.saveMembers(finalMemberList);
+          System.out.println("B");
+          updateEmployeeArea();
+          updateProjectArea();
+        }
+        else
+        {
+          errorLabel.setText("ERROR: invalid member name");
+          errorLabel.setTextFill(Color.RED);
+        }
+      }
+      else if (actionEvent.getSource() == closeAndSaveButton.get("editEmployee")){
+        if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
+                .equals("")))
+        {
+          window.close();
+          Member member = new Member(inputMemberName.getText());
+          System.out.println(member.getName());
+          finalMemberList.getIndexFromName(selectedMember.getName());
+          finalMemberList
+                  .get(finalMemberList.getIndexFromName(selectedMember.getName()))
+                  .setName(inputMemberName.getText());
+          System.out.println("A");
+          adapterEmployee.saveMembers(finalMemberList);
+          System.out.println("B");
+          updateEmployeeArea();
+          updateProjectArea();
+        }
+        else
+        {
+          errorLabel.setText("ERROR: invalid project name");
+          errorLabel.setTextFill(Color.RED);
+        }
+      }
+      else if (actionEvent.getSource() == closeAndSaveButton.get("addProject")){
         selectedMembers = new MemberList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
@@ -568,8 +595,8 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                "Member " + finalMemberList.get(i) + " has been added to "
-                    + inputProjectName.getText());
+                    "Member " + finalMemberList.get(i) + " has been added to "
+                            + inputProjectName.getText());
           }
         }
 
@@ -587,7 +614,7 @@ public class Controller
           window.close();
 
           Project project = new Project(inputProjectName.getText(),
-              selectedMembers);
+                  selectedMembers);
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added project " + project);
@@ -595,8 +622,7 @@ public class Controller
           updateProjectArea();
         }
       }
-      else if (actionEvent.getSource() == editProjectcloseAndSaveButton)
-      {
+      else if (actionEvent.getSource() == closeAndSaveButton.get("editProject")) {
 
         // Make team of the new selected members
         selectedMembers = new MemberList();
