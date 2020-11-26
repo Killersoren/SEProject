@@ -15,8 +15,15 @@ import javafx.stage.Stage;
 
 public class Controller
 {
+  @FXML private RadioButton searchByName, searchByEmployee;
+  @FXML private TextField searchField;
+
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
+
+  @FXML private TableView<Project> projectField;
+  @FXML private TableColumn<Project, String> projectName;
+  @FXML private TableColumn<Project, String> projectTeam;
 
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
@@ -60,10 +67,14 @@ public class Controller
 
   private void updateProjectArea()
   {
+    projectField.getItems().clear();
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
-
+      for (int i = 0; i < projects.size(); i++)
+      {
+        projectField.getItems().add(projects.get(i));
+      }
     }
   }
 
@@ -292,12 +303,12 @@ public class Controller
     CheckBox[] memberCheckBoxes = new CheckBox[finalMemberList.size()];
     MemberList selectedMembers = new MemberList();
 
-    for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
       CheckBox memberCheckBox = new CheckBox(finalMemberList.get(i).getName());
       memberCheckBox.setOnAction();
       memberNameContainer.getChildren().add(memberCheckBox);
     }
-
 
     Button closeWithSaveButton = new Button("Add new project");
 
@@ -306,7 +317,7 @@ public class Controller
       @Override public void handle(ActionEvent e)
       {
         if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
-                .equals("")))
+            .equals("")))
         {
           window.close();
           Project project = new Project(inputProjectName.getText());
@@ -327,7 +338,7 @@ public class Controller
     VBox layout = new VBox(10);
 
     layout.getChildren()
-            .addAll(nameContainer, errorMessage, closeWithSaveButton);
+        .addAll(nameContainer, errorMessage, closeWithSaveButton);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -354,14 +365,39 @@ public class Controller
 
   @FXML public void searchClick()
   {
-
+    if (searchByName.isSelected())
+    {
+      projectField.getItems().clear();
+      if (adapterProjects != null)
+      {
+        ProjectList projects = adapterProjects.getProjectByName(searchField.getText());
+        for (int i = 0; i < projects.size(); i++)
+        {
+          projectField.getItems().add(projects.get(i));
+        }
+      }
+    }
+    else
+    {
+      projectField.getItems().clear();
+      if (adapterProjects != null)
+      {
+        ProjectList projects = adapterProjects.getProjectByEmployeeName(searchField.getText());
+        for (int i = 0; i < projects.size(); i++)
+        {
+          projectField.getItems().add(projects.get(i));
+        }
+      }
+    }
   }
 
-  private class Listener implements EventHandler<ActionEvent>{
+  private class Listener implements EventHandler<ActionEvent>
+  {
 
-    @Override
-    public void handle(ActionEvent actionEvent) {
-      if(actionEvent.getSource() == ){
+    @Override public void handle(ActionEvent actionEvent)
+    {
+      if (actionEvent.getSource() ==)
+      {
 
       }
     }
