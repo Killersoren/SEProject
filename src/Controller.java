@@ -17,6 +17,7 @@ public class Controller
 {
   @FXML private RadioButton searchByName, searchByEmployee;
   @FXML private TextField searchField;
+  @FXML private Tab projectDetailsTab;
 
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
@@ -91,6 +92,7 @@ public class Controller
             {
               int index = projectField.getSelectionModel().getSelectedIndex();
               selectedProject = projectField.getItems().get(index);
+              projectDetailsTab.setText(selectedProject.getName()+" project details");
               System.out.println(selectedProject);
             }
           }
@@ -381,13 +383,13 @@ public class Controller
       window.setTitle("Remove Project: " + selectedProject.getName());
       window.setMinWidth(300);
 
-      // Member name input.
+      // Project name input.
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
-      Label memberName = new Label(
+      Label projectName = new Label(
           "Do you really want to remove: " + selectedProject.getName());
 
-      nameContainer.getChildren().addAll(memberName);
+      nameContainer.getChildren().addAll(projectName);
 
       Label errorMessage = new Label("");
 
@@ -402,9 +404,7 @@ public class Controller
           {
             window.close();
             finalProjectList.removeProject(selectedProject);
-            System.out.println("A");
             adapterProjects.saveProjects(finalProjectList);
-            System.out.println("B");
             updateProjectArea();
             selectedProject = null;
           }
