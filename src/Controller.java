@@ -31,7 +31,6 @@ public class Controller
   Label nameErrorMessage = new Label("");
   Button closeWithSaveButtonProject = new Button("Add new project");
 
-
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
   private MemberList finalMemberList;
@@ -49,6 +48,10 @@ public class Controller
   {
     employeeName
         .setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
+    projectName
+        .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
+    projectTeam
+        .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -95,10 +98,14 @@ public class Controller
 
   private void updateProjectArea()
   {
+    projectField.getItems().clear();
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
-
+      for (int i = 0; i < projects.size(); i++)
+      {
+        projectField.getItems().add(projects.get(i));
+      }
     }
   }
 
@@ -337,14 +344,21 @@ public class Controller
     memberContainer.getChildren().addAll(membersName, memberNameContainer);
      */
 
-    memberContainer.getChildren().addAll(membersName);
+    ComboBox comboBox = new ComboBox();
+    for (int i = 0; i < finalMemberList.size(); i++)
+    {
+      comboBox.getItems().add(finalMemberList.get(i).getName());
+    }
+
+    memberContainer.getChildren().addAll(membersName, comboBox);
 
     closeWithSaveButtonProject.setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren()
-            .addAll(nameContainer, nameErrorMessage, memberContainer, closeWithSaveButtonProject);
+        .addAll(nameContainer, nameErrorMessage, memberContainer,
+            closeWithSaveButtonProject);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -376,19 +390,21 @@ public class Controller
       projectField.getItems().clear();
       if (adapterProjects != null)
       {
-        ProjectList projects = adapterProjects.getProjectByName(searchField.getText());
+        ProjectList projects = adapterProjects
+            .getProjectByName(searchField.getText());
         for (int i = 0; i < projects.size(); i++)
         {
           projectField.getItems().add(projects.get(i));
         }
       }
     }
-    else
+    if (searchByEmployee.isSelected())
     {
       projectField.getItems().clear();
       if (adapterProjects != null)
       {
-        ProjectList projects = adapterProjects.getProjectByEmployeeName(searchField.getText());
+        ProjectList projects = adapterProjects
+            .getProjectByEmployeeName(searchField.getText());
         for (int i = 0; i < projects.size(); i++)
         {
           projectField.getItems().add(projects.get(i));
@@ -397,23 +413,26 @@ public class Controller
     }
   }
 
-
-  private class PopupListener implements EventHandler<ActionEvent>{
+  private class PopupListener implements EventHandler<ActionEvent>
+  {
 
     private Stage window;
 
-    public PopupListener(Stage window){
+    public PopupListener(Stage window)
+    {
       this.window = window;
     }
 
-    @Override
-    public void handle(ActionEvent actionEvent) {
-      if(actionEvent.getSource() == closeWithSaveButtonProject ){
+    @Override public void handle(ActionEvent actionEvent)
+    {
+      if (actionEvent.getSource() == closeWithSaveButtonProject)
+      {
         if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
-                .equals("")))
+            .equals("")))
         {
           window.close();
-          Project project = new Project(inputProjectName.getText(), selectedMembers);
+          Project project = new Project(inputProjectName.getText(),
+              selectedMembers);
           finalProjectList = new ProjectList();
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
@@ -429,10 +448,11 @@ public class Controller
     }
   }
 
-  private class Listener implements EventHandler<ActionEvent>{
+  private class Listener implements EventHandler<ActionEvent>
+  {
 
-    @Override
-    public void handle(ActionEvent actionEvent) {
+    @Override public void handle(ActionEvent actionEvent)
+    {
 
     }
   }
