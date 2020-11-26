@@ -18,6 +18,8 @@ public class Member implements Serializable
     this.name = name;
   }
 
-
-  
+  @Override
+  public String toString() {
+    return name;
+  }
 }

@@ -35,15 +35,15 @@ public class EmployeeListAdapter
     }
     catch (FileNotFoundException e)
     {
-      System.out.println("File not found");
+      System.out.println("File: " + fileName + " not found");
     }
     catch (IOException e)
     {
-      System.out.println("IO Error reading file");
+      System.out.println("IO Error reading file: " + fileName);
     }
     catch (ClassNotFoundException e)
     {
-      System.out.println("Class Not Found");
+      System.out.println("Class Not Found: " + e.getClass().toString());
     }
     return members;
   }

@@ -21,6 +21,7 @@ public class Controller
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
   private MemberList finalMemberList;
+  private ProjectList finalProjectList;
 
   private Member selectedMember;
 
@@ -71,7 +72,6 @@ public class Controller
       finalMemberList = adapterEmployee.getAllMembers();
       for (int i = 0; i < finalMemberList.size(); i++)
       {
-        System.out.println(finalMemberList.get(i));
         employeeField.getItems().add(finalMemberList.get(i));
       }
     }
@@ -106,7 +106,6 @@ public class Controller
         {
           window.close();
           Member member = new Member(inputMemberName.getText());
-          System.out.println(member.getName());
           finalMemberList.addMember(member);
           System.out.println("A");
           adapterEmployee.saveMembers(finalMemberList);
@@ -266,6 +265,72 @@ public class Controller
 
   @FXML public void addProjectClick()
   {
+    Stage window = new Stage();
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Add new project");
+    window.setMinWidth(300);
+
+    // Member name input.
+    HBox nameContainer = new HBox(2);
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label projectName = new Label("Project name: ");
+    TextField inputProjectName = new TextField();
+    inputProjectName.setPromptText("Enter project name");
+    nameContainer.getChildren().addAll(projectName, inputProjectName);
+
+    Label errorMessage = new Label("");
+
+    GridPane memberNameContainer = new GridPane();
+    memberNameContainer.setPadding(new Insets(10, 10, 0, 10));
+
+    Label membersName = new Label("Members: ");
+
+    CheckBox[] memberCheckBoxes = new CheckBox[finalMemberList.size()];
+    MemberList selectedMembers = new MemberList();
+
+    for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+      CheckBox memberCheckBox = new CheckBox(finalMemberList.get(i).getName());
+      memberCheckBox.setOnAction();
+      memberNameContainer.getChildren().add(memberCheckBox);
+    }
+
+
+    Button closeWithSaveButton = new Button("Add new project");
+
+    closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+    {
+      @Override public void handle(ActionEvent e)
+      {
+        if (!(inputProjectName.getText().isEmpty() || inputProjectName.getText()
+                .equals("")))
+        {
+          window.close();
+          Project project = new Project(inputProjectName.getText());
+          finalProjectList.add(project);
+          System.out.println("A");
+          adapterProjects.saveProjects(finalProjectList);
+          System.out.println("B");
+          updateEmployeeArea();
+        }
+        else
+        {
+          errorMessage.setText("ERROR: invalid project name");
+          errorMessage.setTextFill(Color.RED);
+        }
+      }
+    });
+
+    VBox layout = new VBox(10);
+
+    layout.getChildren()
+            .addAll(nameContainer, errorMessage, closeWithSaveButton);
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
 
   }
 
@@ -288,6 +353,15 @@ public class Controller
   {
 
   }
+
+  private class Listener implements EventHandler<ActionEvent>{
+
+    @Override
+    public void handle(ActionEvent actionEvent) {
+      if(actionEvent.getSource() == )
+    }
+  }
+
 }
 
 
