@@ -95,10 +95,14 @@ public class Controller
 
   private void updateProjectArea()
   {
+      projectField.getItems().clear();
     if (adapterProjects != null)
     {
       ProjectList projects = adapterProjects.getAllProjects();
-
+      for (int i = 0; i < projects.size(); i++)
+      {
+        projectField.getItems().add(projects.get(i));
+      }
     }
   }
 
