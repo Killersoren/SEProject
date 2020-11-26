@@ -426,11 +426,8 @@ public class Controller
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(
-              nameContainer,
-              memberListContainer,
-              editProjectcloseAndSaveButton,
-              errorLabel);
+      layout.getChildren().addAll(nameContainer, memberListContainer,
+          editProjectcloseAndSaveButton, errorLabel);
 
       layout.setAlignment(Pos.CENTER);
 
@@ -606,15 +603,15 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                    "Member " + finalMemberList.get(i) + " has been added to "
-                            + inputProjectName.getText());
+                "Member " + finalMemberList.get(i) + " has been added to "
+                    + inputProjectName.getText());
           }
         }
 
         //Check for errors
 
         if (inputProjectName.getText().isEmpty() || inputProjectName.getText()
-                .equals(""))
+            .equals(""))
         {
           errorMessage += "ERROR: Fix name\n";
           errorLabel.setText(errorMessage);
@@ -624,14 +621,15 @@ public class Controller
           errorMessage += "ERROR: Fix members\n";
           errorLabel.setText(errorMessage);
         }
+        else
+        {
+          window.close();
 
-        window.close();
-
-        selectedProject.setName(inputProjectName.getText());
-        selectedProject.setTeam(selectedMembers);
-        adapterProjects.saveProjects(finalProjectList);
-        updateProjectArea();
-
+          selectedProject.setName(inputProjectName.getText());
+          selectedProject.setTeam(selectedMembers);
+          adapterProjects.saveProjects(finalProjectList);
+          updateProjectArea();
+        }
       }
     }
   }
