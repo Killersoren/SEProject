@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Requirement
+public class Requirement implements Serializable
 {
   private String name,userstory,status;
   private int estimatedHours,totalHoursWorked,requirementID;
@@ -19,6 +20,10 @@ public class Requirement
     this.requirementID = requirementID;
     this.deadline = deadline;
     this.tasks = tasks;
+  }
+
+  public String getName(){
+    return name;
   }
 
 
