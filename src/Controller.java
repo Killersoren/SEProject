@@ -1,6 +1,7 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class Controller
@@ -34,6 +36,9 @@ public class Controller
 
   // Member JavaFX objects
   TextField inputMemberName = new TextField();
+
+  // Requirement JavaFX objects
+  TextField inputUserStory = new TextField();
 
   // General JavaFX objects
   Label errorLabel = new Label("");
@@ -531,6 +536,112 @@ public class Controller
       window.showAndWait();
 
     }
+
+  }
+
+  /**
+   * FXML method to the button which adds a new requirement
+   * @param //args Command line arguments
+   */
+  @FXML public void addRequirementClick()
+  {
+    Stage window = new Stage();
+    errorLabel.setText("");
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Add new requirement");
+    window.setMinWidth(300);
+
+    // Requirement name input.
+    VBox nameContainer = new VBox();
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label projectName = new Label("Requirement name: ");
+    inputProjectName = new TextField();
+    inputProjectName.setPromptText("Enter project name");
+
+    nameContainer.getChildren().addAll(projectName, inputProjectName);
+
+    // Requirement user story input.
+    VBox userStoryContainer = new VBox();
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label userStory = new Label("User story: ");
+    inputUserStory = new TextField();
+    inputUserStory.setPromptText("Enter user story");
+
+    userStoryContainer.getChildren().addAll(userStory, inputUserStory);
+
+
+    final DatePicker datePicker = new DatePicker();
+    datePicker.setOnAction(new EventHandler() {
+      public void handle(Event t) {
+        LocalDate date = datePicker.getValue();
+        System.err.println("Selected date: " + date);
+      }
+    });
+
+    // Requirement deadline input.
+    VBox deadlineContainer = new VBox();
+    Label taskDeadline = new Label("Deadline:");
+    DatePicker inputRequirementDeadline = new DatePicker();
+    inputRequirementDeadline.setShowWeekNumbers(false);
+    inputRequirementDeadline.setDayCellFactory(picker -> new DateCell() {
+      public void updateItem(LocalDate date, boolean empty) {
+        super.updateItem(date, empty);
+        LocalDate today = LocalDate.now();
+        setDisable(empty || date.compareTo(today) < 0 );
+      }
+    });
+    inputRequirementDeadline.setOnAction(new EventHandler() {
+      public void handle(Event t) {
+        LocalDate date = inputRequirementDeadline.getValue();
+        System.err.println("Selected date: " + date);
+      }
+    });
+    inputRequirementDeadline.setPromptText("Set deadline..");
+
+    deadlineContainer.getChildren().addAll(taskDeadline, inputRequirementDeadline);
+
+    // Project member list input.
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
+    memberCheckBoxes = new CheckBox[finalMemberList.size()];
+
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
+      memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+    }
+
+    // Add member label Node and member selection Node
+    memberListContainer.getChildren()
+        .addAll(membersLabel, memberSelectContainer);
+
+
+    VBox layout = new VBox(10);
+
+    layout.getChildren()
+        .addAll(nameContainer, userStoryContainer,memberListContainer,deadlineContainer, closeAndSaveButton.get("addProject"),
+            errorLabel);
+
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
+
+  }
+
+  @FXML public void editRequirementClick()
+  {
+
+  }
+
+  @FXML public void removeRequirementClick()
+  {
 
   }
 

@@ -135,9 +135,9 @@
                               </VBox>
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Add Requirement" />
-                                    <Button mnemonicParsing="false" text="Edit Requirement" />
-                                    <Button mnemonicParsing="false" text="Remove Requirement" />
+                                    <Button fx:id="addRequirementButton" mnemonicParsing="false" onAction="#addRequirementClick" text="Add Requirement" />
+                                    <Button fx:id="editRequirementButton" mnemonicParsing="false" onAction="#editRequirementClick" text="Edit Requirement" />
+                                    <Button fx:id="removeRequirementButton" mnemonicParsing="false" onAction="#removeRequirementClick" text="Remove Requirement" />
                                  </children>
                               </HBox>
                            </children>
