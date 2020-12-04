@@ -10,8 +10,7 @@ public class Requirement implements Serializable
 
   public Requirement(String name, String userstory, String status,
       int estimatedHours, int totalHoursWorked,
-      Deadline deadline, ArrayList<Task> tasks)
-  {
+      Deadline deadline, ArrayList<Task> tasks) {
     this.name = name;
     this.userstory = userstory;
     this.status = status;
