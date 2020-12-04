@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
@@ -129,7 +130,45 @@
                               </TableView>
                               <VBox prefHeight="248.0" prefWidth="600.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="355.0" text="Requirement info" />
+                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement info">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font></Label>
+                                    <Label fx:id="requirementNameLabel" prefHeight="25.0" prefWidth="608.0" text="Requirement Name: ">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="requirementStatusLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement status: ">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement deadline">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="requirementTeamLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement team:">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement estimated hours: ">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement total hours worked: ">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="requirementUserStoryLabel" prefHeight="17.0" prefWidth="600.0" text="Requirement user story: " wrapText="true">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </VBox>
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
@@ -151,10 +190,11 @@
                      <children>
                         <VBox prefHeight="540.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView fx:id="taskFIeld" prefHeight="308.0" prefWidth="600.0">
+                              <TableView fx:id="taskField" prefHeight="308.0" prefWidth="600.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="C1" />
-                                  <TableColumn prefWidth="75.0" text="C2" />
+                                  <TableColumn fx:id="taskName" prefWidth="200.0" text="Name" />
+                                  <TableColumn fx:id="taskStatus" prefWidth="200.0" text="Status" />
+                                    <TableColumn fx:id="taskDeadline" prefWidth="200.0" text="Deadline" />
                                 </columns>
                               </TableView>
                               <VBox prefHeight="228.0" prefWidth="600.0">

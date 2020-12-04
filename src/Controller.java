@@ -39,6 +39,12 @@ public class Controller
   @FXML private TableColumn<Requirement, String> requirementStatus;
   @FXML private TableColumn<Requirement, String> requirementDeadline;
 
+  @FXML private Label requirementNameLabel;
+  @FXML private Label requirementStatusLabel;
+  @FXML private Label requirementTeamLabel;
+  @FXML private Label requirementDeadlineLabel;
+  @FXML private Label requirementUserStoryLabel;
+
   @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
   @FXML private TableColumn<Task, String> taskStatus;
@@ -64,8 +70,8 @@ public class Controller
   TextField inputEstimatedHours = new TextField();
   ComboBox<Member> responsibleMember=new ComboBox<>();
   TextField inputTotalHoursWorked = new TextField();
-  ComboBox<String> inputStatusforTask = new ComboBox<>();
-  DatePicker inputRequirementDeadlineforTask = new DatePicker();
+  ComboBox<String> inputStatusForTask = new ComboBox<>();
+  DatePicker inputRequirementDeadlineForTask = new DatePicker();
 
 
   // General JavaFX objects \\
@@ -200,6 +206,9 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
+              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 18));
+              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 20));
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 24));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
@@ -207,6 +216,9 @@ public class Controller
                   selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
               System.out.println(selectedRequirement.getName());
+              requirementNameLabel.setText(requirementNameLabel.getText()+selectedRequirement.getName());
+              requirementStatusLabel.setText(requirementStatusLabel.getText()+selectedRequirement.getStatus());
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText()+selectedRequirement.getUserstory());
             }
           }
         });
@@ -474,7 +486,7 @@ public class Controller
     memberListContainer.getChildren()
         .addAll(membersLabel, memberSelectContainer);
 
-    // Config save and close botton
+    // Config save and close button
     closeAndSaveButton.get("addProject").setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
