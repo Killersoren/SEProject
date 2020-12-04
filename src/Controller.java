@@ -1098,7 +1098,7 @@ public class Controller
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputStatus.getValue(), inputRequirementDeadline.getValue(), );
+              inputStatus.getValue(), inputRequirementDeadline.getValue(), selectedMembers);
           System.out.println("B "+inputRequirementName.getText());
           System.out.println("A "+requirement.getName());
           selectedProject.add(requirement);
