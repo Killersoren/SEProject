@@ -5,20 +5,21 @@ public class Requirement implements Serializable
 {
   private String name,userstory,status;
   private int estimatedHours,totalHoursWorked;
-  private Deadline deadline;
   private ArrayList<Task> tasks;
 
-  public Requirement(String name, String userstory, String status,
-      int estimatedHours, int totalHoursWorked,
-      Deadline deadline, ArrayList<Task> tasks)
+  public String getStatus()
   {
+    return status;
+  }
+
+  public Requirement(String name, String userstory, String status
+      ) {
     this.name = name;
     this.userstory = userstory;
     this.status = status;
-    this.estimatedHours = estimatedHours;
-    this.totalHoursWorked = totalHoursWorked;
-    this.deadline = deadline;
-    this.tasks = tasks;
+    this.estimatedHours = 0;
+    this.totalHoursWorked = 0;
+    this.tasks = new ArrayList<>();
   }
 
   public String getName(){
