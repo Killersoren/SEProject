@@ -900,9 +900,6 @@ public class Controller
       {
 
 
-        LocalDate selectedDate = inputRequirementDeadline.getValue();
-        LocalDate currentDate = LocalDate.now();
-
 
       }
     }
