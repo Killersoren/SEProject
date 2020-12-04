@@ -70,7 +70,6 @@ public class Controller
 
   private ArrayList<String> statusOptions = new ArrayList<>();
 
-
   /**
    * Runs one time before the GUI is shown
    *
@@ -610,7 +609,6 @@ public class Controller
     }
     statusContainer.getChildren().addAll(status, inputStatus);
 
-
     // Requirement deadline input.
     VBox deadlineContainer = new VBox();
     deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -651,11 +649,11 @@ public class Controller
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label membersLabel = new Label("Select members: ");
     GridPane memberSelectContainer = new GridPane();
-    memberCheckBoxes = new CheckBox[finalMemberList.size()];
+    memberCheckBoxes = new CheckBox[selectedProject.getTeam().size()];
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
@@ -667,11 +665,9 @@ public class Controller
     VBox layout = new VBox(10);
 
     layout.getChildren()
-        .addAll(nameContainer, userStoryContainer,statusContainer, memberListContainer,
-            deadlineContainer, closeAndSaveButton.get("addRequirement"),
-            errorLabel);
-
-
+        .addAll(nameContainer, userStoryContainer, statusContainer,
+            memberListContainer, deadlineContainer,
+            closeAndSaveButton.get("addRequirement"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -867,7 +863,10 @@ public class Controller
           adapterProjects.saveProjects(finalProjectList);
           updateProjectArea();
         }
-      } else if(actionEvent.getSource() == closeAndSaveButton.get("addRequirement")){
+      }
+      else if (actionEvent.getSource() == closeAndSaveButton
+          .get("addRequirement"))
+      {
 
         System.out.println("Days until deadline: " + inputRequirementDeadline);
       }
