@@ -8,13 +8,14 @@ public class Requirement implements Serializable
   private int estimatedHours,totalHoursWorked;
   private ArrayList<Task> tasks;
   private LocalDate deadline;
+  private MemberList team;
 
   public String getStatus()
   {
     return status;
   }
 
-  public Requirement(String name, String userstory, String status, LocalDate deadline) {
+  public Requirement(String name, String userstory, String status, LocalDate deadline, MemberList team) {
     this.deadline = deadline;
     this.name = name;
     this.userstory = userstory;
@@ -22,6 +23,12 @@ public class Requirement implements Serializable
     this.estimatedHours = 0;
     this.totalHoursWorked = 0;
     this.tasks = new ArrayList<>();
+    this.team = team;
+  }
+
+  public MemberList getTeam()
+  {
+    return team;
   }
 
   public LocalDate getDeadline()

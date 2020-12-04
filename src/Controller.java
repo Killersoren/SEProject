@@ -794,9 +794,6 @@ public class Controller
           selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
-      if(memberCheckBoxes[i].getText().equals(selectedRequirement)){
-
-      }
     }
 
     // Add member label Node and member selection Node
@@ -1040,7 +1037,7 @@ public class Controller
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputStatus.getValue(), inputRequirementDeadline.getValue());
+              inputStatus.getValue(), inputRequirementDeadline.getValue(), );
           System.out.println("B "+inputRequirementName.getText());
           System.out.println("A "+requirement.getName());
           selectedProject.add(requirement);
