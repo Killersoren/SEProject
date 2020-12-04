@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -573,6 +574,7 @@ public class Controller
    */
   @FXML public void addRequirementClick()
   {
+
     Stage window = new Stage();
     errorLabel.setText("");
 
@@ -665,6 +667,8 @@ public class Controller
         .addAll(membersLabel, memberSelectContainer);
 
     VBox layout = new VBox(10);
+
+    closeAndSaveButton.get("addRequirement").setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(nameContainer, userStoryContainer,statusContainer, memberListContainer,
@@ -869,7 +873,12 @@ public class Controller
         }
       } else if(actionEvent.getSource() == closeAndSaveButton.get("addRequirement")){
 
-        System.out.println("Days until deadline: " + inputRequirementDeadline);
+
+        LocalDate selectedDate = inputRequirementDeadline.getValue();
+
+        Duration duration = Duration.between(LocalDate.now(), selectedDate);
+
+        System.out.println("Days until deadline: " + duration.toDays());
       }
     }
   }
