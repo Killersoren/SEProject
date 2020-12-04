@@ -9,7 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -37,17 +39,17 @@ public class Controller
   @FXML private TableColumn<Requirement, String> requirementStatus;
   @FXML private TableColumn<Requirement, String> requirementDeadline;
 
-  // Project JavaFX objects
+  // Project JavaFX objects \\
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
 
-  // Member JavaFX objects
+  // Member JavaFX objects \\
   TextField inputMemberName = new TextField();
 
   // Requirement JavaFX objects
   TextField inputUserStory = new TextField();
 
-  // General JavaFX objects
+  // General JavaFX objects \\
   Label errorLabel = new Label("");
   HashMap<String, Button> closeAndSaveButton = new HashMap<>();
 
