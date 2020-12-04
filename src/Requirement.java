@@ -26,6 +26,11 @@ public class Requirement implements Serializable
     this.team = team;
   }
 
+  public void remove(Task task)
+  {
+    tasks.remove(task);
+  }
+
   public MemberList getTeam()
   {
     return team;

@@ -49,4 +49,8 @@ public class RequirementList implements Serializable
         return false;
     }
 
+    public void remove(Requirement requirement)
+    {
+        requirements.remove(requirement);
+    }
 }

@@ -39,7 +39,13 @@ public class Controller
   @FXML private TableColumn<Requirement, String> requirementStatus;
   @FXML private TableColumn<Requirement, String> requirementDeadline;
 
-  @FXML private TableView<Task> taskfield;
+  @FXML private Label requirementNameLabel;
+  @FXML private Label requirementStatusLabel;
+  @FXML private Label requirementTeamLabel;
+  @FXML private Label requirementDeadlineLabel;
+  @FXML private Label requirementUserStoryLabel;
+
+  @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
   @FXML private TableColumn<Task, String> taskStatus;
   @FXML private TableColumn<Task, String> taskDeadline;
@@ -62,10 +68,11 @@ public class Controller
   TextField inputTaskName = new TextField();
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
-  ComboBox<Member> responsibleMember = new ComboBox<>();
+  ComboBox<Member> responsibleMember=new ComboBox<>();
   TextField inputTotalHoursWorked = new TextField();
-  ComboBox<String> inputStatusforTask = new ComboBox<>();
-  DatePicker inputRequirementDeadlineforTask = new DatePicker();
+  ComboBox<String> inputStatusForTask = new ComboBox<>();
+  DatePicker inputRequirementDeadlineForTask = new DatePicker();
+
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
@@ -86,7 +93,7 @@ public class Controller
   private Requirement selectedRequirement;
   private Task selectedTask;
 
-  private ArrayList<String> statusOptions = new ArrayList<>();
+  private final ArrayList<String> statusOptions = new ArrayList<>();
 
   /**
    * Runs one time before the GUI is shown
@@ -117,6 +124,7 @@ public class Controller
     setSelectedMember();
     setSelectedProject();
     setSelectedRequirement();
+    setSelectedTask();
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
@@ -198,16 +206,63 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
+              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 18));
+              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 20));
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 24));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
               requirementDetailsTab.setText(
                   selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              System.out.println(selectedRequirement);
+              System.out.println(selectedRequirement.getName());
+              requirementNameLabel.setText(requirementNameLabel.getText()+selectedRequirement.getName());
+              requirementStatusLabel.setText(requirementStatusLabel.getText()+selectedRequirement.getStatus());
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText()+selectedRequirement.getUserstory());
             }
           }
         });
+  }
+
+  /**
+   * Method used to select a task with the mouse in the TableView so the requirement later can be edited or removed.
+   *
+   * @param //args Command line arguments
+   */
+  private void setSelectedTask()
+  {
+    taskField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (taskField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = taskField.getSelectionModel()
+                  .getSelectedIndex();
+              selectedTask = taskField.getItems().get(index);
+              System.out.println(selectedTask.getName());
+            }
+          }
+        });
+  }
+  /**
+   * Updates the MemberList objects the TreeView<Member> on the GUI
+   *
+   * @param //args Command line arguments
+   */
+  private void updateEmployeeArea()
+  {
+    employeeField.getItems().clear();
+    if (adapterEmployee != null)
+    {
+      finalMemberList = adapterEmployee.getAllMembers();
+      for (int i = 0; i < finalMemberList.size(); i++)
+      {
+        employeeField.getItems().add(finalMemberList.get(i));
+      }
+    }
   }
 
   /**
@@ -242,23 +297,7 @@ public class Controller
     }
   }
 
-  /**
-   * Updates the MemberList objects the TreeView<Member> on the GUI
-   *
-   * @param //args Command line arguments
-   */
-  private void updateEmployeeArea()
-  {
-    employeeField.getItems().clear();
-    if (adapterEmployee != null)
-    {
-      finalMemberList = adapterEmployee.getAllMembers();
-      for (int i = 0; i < finalMemberList.size(); i++)
-      {
-        employeeField.getItems().add(finalMemberList.get(i));
-      }
-    }
-  }
+
 
   /**
    * FXML method to the button which add a new employee
@@ -447,7 +486,7 @@ public class Controller
     memberListContainer.getChildren()
         .addAll(membersLabel, memberSelectContainer);
 
-    // Config save and close botton
+    // Config save and close button
     closeAndSaveButton.get("addProject").setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
@@ -605,7 +644,6 @@ public class Controller
    *
    * @param //args Command line arguments
    */
-
   @FXML public void addRequirementClick()
   {
 
@@ -836,8 +874,68 @@ public class Controller
 
   @FXML public void removeRequirementClick()
   {
+    if (!(selectedRequirement == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove Requirement: " + selectedRequirement.getName());
+      window.setMinWidth(300);
+
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label(
+          "Do you really want to remove: " + selectedRequirement.getName());
+
+      nameContainer.getChildren().addAll(projectName);
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            String temp =selectedProject.getName();
+            finalProjectList.getProject(temp).remove(selectedRequirement);
+            adapterProjects.saveProjects(finalProjectList);
+            updateRequirementArea();
+            selectedRequirement = null;
+            requirementDetailsTab.setText("Requirement details");
+            requirementDetailsTab.setDisable(true);
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorLabel, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
+
 
   /**
    * FXML method to the button which adds a new task
@@ -847,7 +945,7 @@ public class Controller
 
   @FXML public void addTaskClick()
   {
-    Stage window = new Stage();
+    Stage window=new Stage();
     errorLabel.setText("");
 
     window.initModality(Modality.APPLICATION_MODAL);
@@ -876,45 +974,66 @@ public class Controller
     }
     statusContainer.getChildren().addAll(status, inputStatus);
 
-    //Task inputTaskId
-    VBox taskIdContainer = new VBox();
-    taskIdContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskID = new Label("Insert the ID ");
-    inputTaskID = new TextField();
-    inputTaskID.setPromptText("Enter task ID");
-    taskIdContainer.getChildren().addAll(taskID, inputTaskID);
 
-    //Task member list input
+  }
 
-    VBox memberListContainer = new VBox();
-    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
-    Label membersLabel = new Label("Select members: ");
-    GridPane memberSelectContainer = new GridPane();
-    memberCheckBoxes = new CheckBox[selectedProject.getTeam().size()];
-
-    for (int i = 0; i < memberCheckBoxes.length; i++)
+  @FXML public void removeTask()
+  {
+    if (!(selectedTask == null))
     {
-      memberCheckBoxes[i] = new CheckBox(
-          selectedProject.getTeam().get(i).getName());
-      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
-      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove Task: " + selectedTask.getName());
+      window.setMinWidth(300);
+
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label(
+          "Do you really want to remove: " + selectedTask.getName());
+
+      nameContainer.getChildren().addAll(projectName);
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            selectedTask = null;
+            requirementDetailsTab.setText("Requirement details");
+            requirementDetailsTab.setDisable(true);
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorLabel, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
     }
-
-
-
-    VBox layout = new VBox(10);
-
-    closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
-
-    layout.getChildren().addAll(nameContainer, statusContainer,memberListContainer,taskIdContainer,statusContainer
-
-   , closeAndSaveButton.get("addRequirement"), errorLabel);
-
-    layout.setAlignment(Pos.CENTER);
-    Scene scene = new Scene(layout);
-    window.setResizable(false);
-    window.setScene(scene);
-    window.showAndWait();
 
   }
 
@@ -1001,8 +1120,6 @@ public class Controller
       else if (actionEvent.getSource() == closeAndSaveButton
           .get("editEmployee"))
       {
-        System.out.println("margaryna");
-
         if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
         {
@@ -1112,8 +1229,8 @@ public class Controller
           }
         }
 
-        if (inputRequirementName.getText().isEmpty() || inputRequirementName
-            .getText().equals(""))
+        if (inputRequirementName.getText().isEmpty() || inputRequirementName.getText()
+            .equals(""))
         {
           errorLabel.setText("ERROR: Fix name");
         }
@@ -1132,20 +1249,16 @@ public class Controller
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputStatus.getValue(), inputRequirementDeadline.getValue(),
-              selectedMembers);
-          System.out.println("B " + inputRequirementName.getText());
-          System.out.println("A " + requirement.getName());
+              inputStatus.getValue(), inputRequirementDeadline.getValue(), selectedMembers);
+          System.out.println("B "+inputRequirementName.getText());
+          System.out.println("A "+requirement.getName());
           selectedProject.add(requirement);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added requirement " + requirement);
           updateRequirementArea();
         }
 
-      }
-      else if (actionEvent.getSource() == closeAndSaveButton
-          .get("editRequirement"))
-      {
+      } else if(actionEvent.getSource() == closeAndSaveButton.get("editRequirement")){
 
       }
     }
