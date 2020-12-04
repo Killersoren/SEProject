@@ -14,7 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller
@@ -64,6 +66,9 @@ public class Controller
   private Requirement selectedRequirement;
   private Task selectedTask;
 
+  private ArrayList<String> statusOptions = new ArrayList<>();
+
+
   /**
    * Runs one time before the GUI is shown
    *
@@ -71,6 +76,11 @@ public class Controller
    */
   public void initialize()
   {
+    statusOptions.add("Approved");
+    statusOptions.add("Ended");
+    statusOptions.add("Not Started");
+    statusOptions.add("Rejected");
+    statusOptions.add("Started");
     employeeName
         .setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
     projectName
@@ -570,7 +580,7 @@ public class Controller
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label projectName = new Label("Requirement name: ");
     TextField inputRequirementName = new TextField();
-    inputRequirementName.setPromptText("Enter project name");
+    inputRequirementName.setPromptText("Enter requirement name");
 
     nameContainer.getChildren().addAll(projectName, inputProjectName);
 
@@ -583,6 +593,25 @@ public class Controller
 
     userStoryContainer.getChildren().addAll(userStory, inputUserStory);
 
+    // Requirement status input.
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    ComboBox inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    statusContainer.getChildren().addAll(status, inputStatus);
+
+
+    // Requirement deadline input.
+    VBox deadlineContainer = new VBox();
+    deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskDeadline = new Label("Deadline:");
+    DatePicker inputRequirementDeadline = new DatePicker();
+    inputRequirementDeadline.setShowWeekNumbers(false);
     final DatePicker datePicker = new DatePicker();
     datePicker.setOnAction(new EventHandler()
     {
@@ -592,13 +621,6 @@ public class Controller
         System.err.println("Selected date: " + date);
       }
     });
-
-    // Requirement deadline input.
-    VBox deadlineContainer = new VBox();
-    deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskDeadline = new Label("Deadline:");
-    DatePicker inputRequirementDeadline = new DatePicker();
-    inputRequirementDeadline.setShowWeekNumbers(false);
     inputRequirementDeadline.setDayCellFactory(picker -> new DateCell()
     {
       public void updateItem(LocalDate date, boolean empty)
@@ -620,7 +642,7 @@ public class Controller
     deadlineContainer.getChildren()
         .addAll(taskDeadline, inputRequirementDeadline);
 
-    // Project member list input.
+    // Requirement member list input.
     VBox memberListContainer = new VBox();
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label membersLabel = new Label("Select members: ");
@@ -641,7 +663,7 @@ public class Controller
     VBox layout = new VBox(10);
 
     layout.getChildren()
-        .addAll(nameContainer, userStoryContainer, memberListContainer,
+        .addAll(nameContainer, userStoryContainer,statusContainer, memberListContainer,
             deadlineContainer, closeAndSaveButton.get("addProject"),
             errorLabel);
 
