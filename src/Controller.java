@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Controller
@@ -40,7 +39,7 @@ public class Controller
   @FXML private TableColumn<Requirement, String> requirementStatus;
   @FXML private TableColumn<Requirement, String> requirementDeadline;
 
-  @FXML private TableView<Task> taskfield;
+  @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
   @FXML private TableColumn<Task, String> taskStatus;
   @FXML private TableColumn<Task, String> taskDeadline;
@@ -88,7 +87,7 @@ public class Controller
   private Requirement selectedRequirement;
   private Task selectedTask;
 
-  private ArrayList<String> statusOptions = new ArrayList<>();
+  private final ArrayList<String> statusOptions = new ArrayList<>();
 
   /**
    * Runs one time before the GUI is shown
@@ -119,6 +118,7 @@ public class Controller
     setSelectedMember();
     setSelectedProject();
     setSelectedRequirement();
+    setSelectedTask();
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
@@ -213,6 +213,47 @@ public class Controller
   }
 
   /**
+   * Method used to select a task with the mouse in the TableView so the requirement later can be edited or removed.
+   *
+   * @param //args Command line arguments
+   */
+  private void setSelectedTask()
+  {
+    taskField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (taskField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = taskField.getSelectionModel()
+                  .getSelectedIndex();
+              selectedTask = taskField.getItems().get(index);
+              System.out.println(selectedTask.getName());
+            }
+          }
+        });
+  }
+  /**
+   * Updates the MemberList objects the TreeView<Member> on the GUI
+   *
+   * @param //args Command line arguments
+   */
+  private void updateEmployeeArea()
+  {
+    employeeField.getItems().clear();
+    if (adapterEmployee != null)
+    {
+      finalMemberList = adapterEmployee.getAllMembers();
+      for (int i = 0; i < finalMemberList.size(); i++)
+      {
+        employeeField.getItems().add(finalMemberList.get(i));
+      }
+    }
+  }
+
+  /**
    * Updates the ProjectList objects the TreeView<Project> on the GUI
    *
    * @param //args Command line arguments
@@ -244,23 +285,7 @@ public class Controller
     }
   }
 
-  /**
-   * Updates the MemberList objects the TreeView<Member> on the GUI
-   *
-   * @param //args Command line arguments
-   */
-  private void updateEmployeeArea()
-  {
-    employeeField.getItems().clear();
-    if (adapterEmployee != null)
-    {
-      finalMemberList = adapterEmployee.getAllMembers();
-      for (int i = 0; i < finalMemberList.size(); i++)
-      {
-        employeeField.getItems().add(finalMemberList.get(i));
-      }
-    }
-  }
+
 
   /**
    * FXML method to the button which add a new employee
@@ -940,6 +965,65 @@ public class Controller
 
   }
 
+  @FXML public void removeTask()
+  {
+    if (!(selectedTask == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove Task: " + selectedTask.getName());
+      window.setMinWidth(300);
+
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label(
+          "Do you really want to remove: " + selectedTask.getName());
+
+      nameContainer.getChildren().addAll(projectName);
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+            selectedTask = null;
+            requirementDetailsTab.setText("Requirement details");
+            requirementDetailsTab.setDisable(true);
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorLabel, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
+
+  }
 
   /**
    * FXML method to the search TextField.
