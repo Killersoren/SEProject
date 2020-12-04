@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +47,7 @@ public class Controller
 
   // Requirement JavaFX objects
   TextField inputUserStory = new TextField();
+  DatePicker inputRequirementDeadline = new DatePicker();
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
@@ -105,6 +105,9 @@ public class Controller
 
     closeAndSaveButton.put("addProject", new Button("Add new project"));
     closeAndSaveButton.put("editProject", new Button("Save and close"));
+
+    closeAndSaveButton.put("addRequirement", new Button("Add new requirement"));
+    closeAndSaveButton.put("editRequirement", new Button("Save and close"));
 
   }
 
@@ -612,7 +615,6 @@ public class Controller
     VBox deadlineContainer = new VBox();
     deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskDeadline = new Label("Deadline:");
-    DatePicker inputRequirementDeadline = new DatePicker();
     inputRequirementDeadline.setShowWeekNumbers(false);
     final DatePicker datePicker = new DatePicker();
     datePicker.setOnAction(new EventHandler()
@@ -666,8 +668,10 @@ public class Controller
 
     layout.getChildren()
         .addAll(nameContainer, userStoryContainer,statusContainer, memberListContainer,
-            deadlineContainer, closeAndSaveButton.get("addProject"),
+            deadlineContainer, closeAndSaveButton.get("addRequirement"),
             errorLabel);
+
+
 
     layout.setAlignment(Pos.CENTER);
 
@@ -863,6 +867,9 @@ public class Controller
           adapterProjects.saveProjects(finalProjectList);
           updateProjectArea();
         }
+      } else if(actionEvent.getSource() == closeAndSaveButton.get("addRequirement")){
+
+        System.out.println("Days until deadline: " + inputRequirementDeadline);
       }
     }
   }
