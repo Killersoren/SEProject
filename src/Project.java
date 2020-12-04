@@ -18,6 +18,12 @@ public class Project implements Serializable
   {
     return requirements;
   }
+
+  public void remove(Requirement requirement)
+  {
+    requirements.remove(requirement);
+  }
+
   public void add(Requirement requirement)
   {
     requirements.add(requirement);

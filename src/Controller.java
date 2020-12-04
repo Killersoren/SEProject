@@ -861,7 +861,14 @@ public class Controller
         @Override public void handle(ActionEvent e)
         {
           {
-
+            window.close();
+            String temp =selectedProject.getName();
+            finalProjectList.getProject(temp).remove(selectedRequirement);
+            adapterProjects.saveProjects(finalProjectList);
+            updateRequirementArea();
+            selectedRequirement = null;
+            requirementDetailsTab.setText("Requirement details");
+            requirementDetailsTab.setDisable(true);
           }
         }
       });
