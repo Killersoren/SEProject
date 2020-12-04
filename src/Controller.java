@@ -705,7 +705,120 @@ public class Controller
 
   @FXML public void editRequirementClick()
   {
+    Stage window = new Stage();
+    errorLabel.setText("");
 
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Edit requirement");
+    window.setMinWidth(300);
+
+    // Requirement name input.
+    VBox nameContainer = new VBox();
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label requirementName = new Label("Requirement name: ");
+    inputRequirementName = new TextField();
+    inputRequirementName.setPromptText("Enter requirement name");
+    inputRequirementName.setText(selectedRequirement.getName());
+
+    nameContainer.getChildren().addAll(requirementName, inputRequirementName);
+
+    // Requirement user story input.
+    VBox userStoryContainer = new VBox();
+    userStoryContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label userStory = new Label("User story: ");
+    inputUserStory = new TextField();
+    inputUserStory.setPromptText("Enter user story");
+    inputUserStory.setText(selectedRequirement.getUserstory());
+
+    userStoryContainer.getChildren().addAll(userStory, inputUserStory);
+
+    // Requirement status input.
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    inputStatus.setValue(selectedRequirement.getStatus());
+    statusContainer.getChildren().addAll(status, inputStatus);
+
+    // Requirement deadline input.
+    VBox deadlineContainer = new VBox();
+    deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskDeadline = new Label("Deadline:");
+    inputRequirementDeadline.setShowWeekNumbers(false);
+    final DatePicker datePicker = new DatePicker();
+    datePicker.setOnAction(new EventHandler()
+    {
+      public void handle(Event t)
+      {
+        LocalDate date = datePicker.getValue();
+        System.err.println("Selected date: " + date);
+      }
+    });
+    inputRequirementDeadline.setDayCellFactory(picker -> new DateCell()
+    {
+      public void updateItem(LocalDate date, boolean empty)
+      {
+        super.updateItem(date, empty);
+        setDisable(empty || date.compareTo(LocalDate.now()) < 1);
+      }
+    });
+    inputRequirementDeadline.setOnAction(new EventHandler()
+    {
+      public void handle(Event t)
+      {
+        System.err
+            .println("Selected date: " + inputRequirementDeadline.getValue());
+      }
+    });
+    inputRequirementDeadline.setPromptText("Set deadline..");
+    inputRequirementDeadline.setValue(selectedRequirement.getDeadline());
+
+    deadlineContainer.getChildren()
+        .addAll(taskDeadline, inputRequirementDeadline);
+
+    // Requirement member list input.
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
+    memberCheckBoxes = new CheckBox[selectedProject.getTeam().size()];
+
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+      if(memberCheckBoxes[i].getText().equals(selectedRequirement)){
+
+      }
+    }
+
+    // Add member label Node and member selection Node
+    memberListContainer.getChildren()
+        .addAll(membersLabel, memberSelectContainer);
+
+    VBox layout = new VBox(10);
+
+    closeAndSaveButton.get("addRequirement")
+        .setOnAction(new PopupListener(window));
+
+    layout.getChildren()
+        .addAll(nameContainer, userStoryContainer, statusContainer,
+            memberListContainer, deadlineContainer,
+            closeAndSaveButton.get("addRequirement"), errorLabel);
+
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
   }
 
   @FXML public void removeRequirementClick()
@@ -927,7 +1040,7 @@ public class Controller
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputStatus.getValue());
+              inputStatus.getValue(), inputRequirementDeadline.getValue());
           System.out.println("B "+inputRequirementName.getText());
           System.out.println("A "+requirement.getName());
           selectedProject.add(requirement);
@@ -935,6 +1048,8 @@ public class Controller
           System.out.println("Added requirement " + requirement);
           updateRequirementArea();
         }
+
+      } else if(actionEvent.getSource() == closeAndSaveButton.get("editRequirement")){
 
       }
     }
