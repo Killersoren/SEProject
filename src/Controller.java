@@ -895,8 +895,7 @@ public class Controller
           updateProjectArea();
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButton
-          .get("addRequirement"))
+      else if (actionEvent.getSource() == closeAndSaveButton.get("addRequirement"))
       {
 
       }
