@@ -25,5 +25,29 @@ public class Requirement implements Serializable
     return name;
   }
 
+  public String getUserstory()
+  {
+    return userstory;
+  }
+
+  public int getEstimatedHours()
+  {
+    return estimatedHours;
+  }
+
+  public int getTotalHoursWorked()
+  {
+    return totalHoursWorked;
+  }
+
+  public String getStatus()
+  {
+    return status;
+  }
+
+  public LocalDate getDeadline()
+  {
+    return deadline;
+  }
 
 }
