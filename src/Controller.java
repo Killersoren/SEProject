@@ -47,7 +47,9 @@ public class Controller
   TextField inputMemberName = new TextField();
 
   // Requirement JavaFX objects
+  TextField inputRequirementName = new TextField();
   TextField inputUserStory = new TextField();
+  ComboBox<String> inputStatus = new ComboBox<>();
   DatePicker inputRequirementDeadline = new DatePicker();
 
   // General JavaFX objects \\
@@ -89,6 +91,10 @@ public class Controller
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
+    requirementName.setCellValueFactory(
+        new PropertyValueFactory<Requirement, String>("Name"));
+    requirementStatus.setCellValueFactory(
+        new PropertyValueFactory<Requirement, String>("Status"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -156,6 +162,7 @@ public class Controller
                   .setText(selectedProject.getName() + " project details");
               projectDetailsTab.setDisable(false);
               System.out.println(selectedProject);
+              updateRequirementArea();
             }
           }
         });
@@ -176,11 +183,12 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              int index = requirementField.getSelectionModel().getSelectedIndex();
+              int index = requirementField.getSelectionModel()
+                  .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab
-                  .setText(selectedRequirement.getName() + " requirement details");
-             requirementDetailsTab.setDisable(false);
+              requirementDetailsTab.setText(
+                  selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setDisable(false);
               System.out.println(selectedRequirement);
             }
           }
@@ -201,6 +209,20 @@ public class Controller
       for (int i = 0; i < finalProjectList.size(); i++)
       {
         projectField.getItems().add(finalProjectList.get(i));
+      }
+    }
+  }
+
+  private void updateRequirementArea()
+  {
+    requirementField.getItems().clear();
+    if (adapterProjects != null)
+    {
+      for (int i = 0; i < selectedProject.getRequirements().size(); i++)
+      {
+        System.out.println(i);
+        requirementField.getItems()
+            .add(selectedProject.getRequirements().get(i));
       }
     }
   }
@@ -280,47 +302,17 @@ public class Controller
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
       Label memberName = new Label("New name: ");
-      TextField inputMemberName = new TextField();
+      inputMemberName = new TextField();
       inputMemberName.setText(selectedMember.getName());
       nameContainer.getChildren().addAll(memberName, inputMemberName);
-
-      Label errorMessage = new Label("");
-
-      Button closeWithSaveButton = new Button("Save changes");
 
       closeAndSaveButton.get("editEmployee")
           .setOnAction(new PopupListener(window));
 
-      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
-      {
-        @Override public void handle(ActionEvent e)
-        {
-          if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
-              .equals("")))
-          {
-            window.close();
-            Member member = new Member(inputMemberName.getText());
-            System.out.println(member.getName());
-            finalMemberList.getIndexFromName(selectedMember.getName());
-            finalMemberList
-                .get(finalMemberList.getIndexFromName(selectedMember.getName()))
-                .setName(inputMemberName.getText());
-            adapterEmployee.saveMembers(finalMemberList);
-            updateEmployeeArea();
-            updateProjectArea();
-          }
-          else
-          {
-            errorMessage.setText("ERROR: invalid project name");
-            errorMessage.setTextFill(Color.RED);
-          }
-        }
-      });
-
       VBox layout = new VBox(10);
 
-      layout.getChildren()
-          .addAll(nameContainer, errorMessage, closeWithSaveButton);
+      layout.getChildren().addAll(nameContainer, errorLabel,
+          closeAndSaveButton.get("editEmployee"));
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
@@ -611,11 +603,11 @@ public class Controller
     // Requirement name input.
     VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label projectName = new Label("Requirement name: ");
-    TextField inputRequirementName = new TextField();
+    Label requirementName = new Label("Requirement name: ");
+    inputRequirementName = new TextField();
     inputRequirementName.setPromptText("Enter requirement name");
 
-    nameContainer.getChildren().addAll(projectName, inputProjectName);
+    nameContainer.getChildren().addAll(requirementName, inputRequirementName);
 
     // Requirement user story input.
     VBox userStoryContainer = new VBox();
@@ -631,7 +623,7 @@ public class Controller
     statusContainer.setPadding(new Insets(10, 10, 0, 10));
     Label status = new Label("Status: ");
 
-    ComboBox inputStatus = new ComboBox();
+    inputStatus = new ComboBox();
     for (int i = 0; i < statusOptions.size(); i++)
     {
       inputStatus.getItems().add(statusOptions.get(i));
@@ -682,7 +674,8 @@ public class Controller
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
@@ -693,7 +686,8 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("addRequirement").setOnAction(new PopupListener(window));
+    closeAndSaveButton.get("addRequirement")
+        .setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(nameContainer, userStoryContainer, statusContainer,
@@ -802,6 +796,8 @@ public class Controller
       else if (actionEvent.getSource() == closeAndSaveButton
           .get("editEmployee"))
       {
+        System.out.println("margaryna");
+
         if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
         {
@@ -895,11 +891,50 @@ public class Controller
           updateProjectArea();
         }
       }
+
       else if (actionEvent.getSource() == closeAndSaveButton
           .get("addRequirement"))
       {
+        selectedMembers = new MemberList();
+        for (int i = 0; i < memberCheckBoxes.length; i++)
+        {
+          if (memberCheckBoxes[i].isSelected())
+          {
+            selectedMembers.addMember(finalMemberList.get(i));
+            System.out.println(
+                "Member " + finalMemberList.get(i) + " has been added to "
+                    + inputRequirementName.getText());
+          }
+        }
 
+        if (inputRequirementName.getText().isEmpty() || inputRequirementName.getText()
+            .equals(""))
+        {
+          errorLabel.setText("ERROR: Fix name");
+        }
+        else if (inputUserStory.getText().isEmpty() || inputUserStory.getText()
+            .equals(""))
+        {
+          errorLabel.setText("ERROR: Fix user story");
+        }
+        else if (selectedMembers.size() == 0)
+        {
+          errorLabel.setText("ERROR: Fix members");
+        }
+        else
+        {
+          window.close();
 
+          Requirement requirement = new Requirement(
+              inputRequirementName.getText(), inputUserStory.getText(),
+              inputStatus.getValue());
+          System.out.println("B "+inputRequirementName.getText());
+          System.out.println("A "+requirement.getName());
+          selectedProject.add(requirement);
+          adapterProjects.saveProjects(finalProjectList);
+          System.out.println("Added requirement " + requirement);
+          updateRequirementArea();
+        }
 
       }
     }
