@@ -62,11 +62,10 @@ public class Controller
   TextField inputTaskName = new TextField();
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
-  ComboBox<Member> responsibleMember=new ComboBox<>();
+  ComboBox<Member> responsibleMember = new ComboBox<>();
   TextField inputTotalHoursWorked = new TextField();
   ComboBox<String> inputStatusforTask = new ComboBox<>();
   DatePicker inputRequirementDeadlineforTask = new DatePicker();
-
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
@@ -607,8 +606,6 @@ public class Controller
    * @param //args Command line arguments
    */
 
-
-
   @FXML public void addRequirementClick()
   {
 
@@ -842,7 +839,6 @@ public class Controller
 
   }
 
-
   /**
    * FXML method to the button which adds a new task
    *
@@ -851,7 +847,7 @@ public class Controller
 
   @FXML public void addTaskClick()
   {
-    Stage window=new Stage();
+    Stage window = new Stage();
     errorLabel.setText("");
 
     window.initModality(Modality.APPLICATION_MODAL);
@@ -880,9 +876,47 @@ public class Controller
     }
     statusContainer.getChildren().addAll(status, inputStatus);
 
+    //Task inputTaskId
+    VBox taskIdContainer = new VBox();
+    taskIdContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskID = new Label("Insert the ID ");
+    inputTaskID = new TextField();
+    inputTaskID.setPromptText("Enter task ID");
+    taskIdContainer.getChildren().addAll(taskID, inputTaskID);
+
+    //Task member list input
+
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
+    memberCheckBoxes = new CheckBox[selectedProject.getTeam().size()];
+
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+    }
+
+
+
+    VBox layout = new VBox(10);
+
+    closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
+
+    layout.getChildren().addAll(nameContainer, statusContainer,memberListContainer,taskIdContainer,statusContainer
+
+   , closeAndSaveButton.get("addRequirement"), errorLabel);
+
+    layout.setAlignment(Pos.CENTER);
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
 
   }
-
 
   /**
    * FXML method to the search TextField.
@@ -1078,8 +1112,8 @@ public class Controller
           }
         }
 
-        if (inputRequirementName.getText().isEmpty() || inputRequirementName.getText()
-            .equals(""))
+        if (inputRequirementName.getText().isEmpty() || inputRequirementName
+            .getText().equals(""))
         {
           errorLabel.setText("ERROR: Fix name");
         }
@@ -1098,16 +1132,20 @@ public class Controller
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputStatus.getValue(), inputRequirementDeadline.getValue(), selectedMembers);
-          System.out.println("B "+inputRequirementName.getText());
-          System.out.println("A "+requirement.getName());
+              inputStatus.getValue(), inputRequirementDeadline.getValue(),
+              selectedMembers);
+          System.out.println("B " + inputRequirementName.getText());
+          System.out.println("A " + requirement.getName());
           selectedProject.add(requirement);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added requirement " + requirement);
           updateRequirementArea();
         }
 
-      } else if(actionEvent.getSource() == closeAndSaveButton.get("editRequirement")){
+      }
+      else if (actionEvent.getSource() == closeAndSaveButton
+          .get("editRequirement"))
+      {
 
       }
     }
