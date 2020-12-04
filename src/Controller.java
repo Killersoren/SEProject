@@ -861,9 +861,25 @@ public class Controller
     // Requirement name input.
     VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label requirementName = new Label("Task name: ");
+    Label taskNameLabel = new Label("Task name: ");
     inputTaskName = new TextField();
     inputTaskName.setPromptText("Enter task name");
+
+    nameContainer.getChildren().addAll(taskNameLabel, inputTaskName);
+
+    //Task status input
+
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    statusContainer.getChildren().addAll(status, inputStatus);
+
 
   }
 
