@@ -39,6 +39,12 @@ public class Controller
   @FXML private TableColumn<Requirement, String> requirementStatus;
   @FXML private TableColumn<Requirement, String> requirementDeadline;
 
+  @FXML private TableView<Task> taskfield;
+  @FXML private TableColumn<Task, String> taskName;
+  @FXML private TableColumn<Task, String> taskStatus;
+  @FXML private TableColumn<Task, String> taskDeadline;
+  //@FXML private
+
   // Project JavaFX objects \\
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
@@ -51,6 +57,16 @@ public class Controller
   TextField inputUserStory = new TextField();
   ComboBox<String> inputStatus = new ComboBox<>();
   DatePicker inputRequirementDeadline = new DatePicker();
+
+  //Task JavaFx objects
+  TextField inputTaskName = new TextField();
+  TextField inputTaskID = new TextField();
+  TextField inputEstimatedHours = new TextField();
+  ComboBox<Member> responsibleMember=new ComboBox<>();
+  TextField inputTotalHoursWorked = new TextField();
+  ComboBox<String> inputStatusforTask = new ComboBox<>();
+  DatePicker inputRequirementDeadlineforTask = new DatePicker();
+
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
@@ -590,6 +606,9 @@ public class Controller
    *
    * @param //args Command line arguments
    */
+
+
+
   @FXML public void addRequirementClick()
   {
 
@@ -822,6 +841,32 @@ public class Controller
   {
 
   }
+
+
+  /**
+   * FXML method to the button which adds a new task
+   *
+   * @param //args Command line arguments
+   */
+
+  @FXML public void addTaskClick()
+  {
+    Stage window=new Stage();
+    errorLabel.setText("");
+
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Add new requirement");
+    window.setMinWidth(300);
+
+    // Requirement name input.
+    VBox nameContainer = new VBox();
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label requirementName = new Label("Task name: ");
+    inputTaskName = new TextField();
+    inputTaskName.setPromptText("Enter task name");
+
+  }
+
 
   /**
    * FXML method to the search TextField.
