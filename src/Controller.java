@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Controller
@@ -205,7 +206,7 @@ public class Controller
               requirementDetailsTab.setText(
                   selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              System.out.println(selectedRequirement);
+              System.out.println(selectedRequirement.getName());
             }
           }
         });
@@ -606,9 +607,6 @@ public class Controller
    *
    * @param //args Command line arguments
    */
-
-
-
   @FXML public void addRequirementClick()
   {
 
@@ -839,6 +837,58 @@ public class Controller
 
   @FXML public void removeRequirementClick()
   {
+    if (!(selectedRequirement == null))
+    {
+      Stage window = new Stage();
+
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Remove Requirement: " + selectedRequirement.getName());
+      window.setMinWidth(300);
+
+      HBox nameContainer = new HBox(2);
+      nameContainer.setPadding(new Insets(10, 10, 0, 10));
+      Label projectName = new Label(
+          "Do you really want to remove: " + selectedRequirement.getName());
+
+      nameContainer.getChildren().addAll(projectName);
+
+      Button closeWithSaveButton = new Button("Yes, please");
+
+      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+
+      closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+
+          }
+        }
+      });
+
+      closeWithOutSaveButton.setOnAction(new EventHandler<ActionEvent>()
+      {
+        @Override public void handle(ActionEvent e)
+        {
+          {
+            window.close();
+          }
+        }
+      });
+
+      VBox layout = new VBox(10);
+
+      layout.getChildren()
+          .addAll(nameContainer, errorLabel, closeWithSaveButton,
+              closeWithOutSaveButton);
+      layout.setAlignment(Pos.CENTER);
+
+      Scene scene = new Scene(layout);
+      window.setResizable(false);
+      window.setScene(scene);
+      window.showAndWait();
+
+    }
 
   }
 
@@ -967,8 +1017,6 @@ public class Controller
       else if (actionEvent.getSource() == closeAndSaveButton
           .get("editEmployee"))
       {
-        System.out.println("margaryna");
-
         if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
         {
