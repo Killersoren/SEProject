@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -902,10 +901,9 @@ public class Controller
 
 
         LocalDate selectedDate = inputRequirementDeadline.getValue();
+        LocalDate currentDate = LocalDate.now();
 
-        Duration duration = Duration.between(LocalDate.now(), selectedDate);
 
-        System.out.println("Days until deadline: " + duration.toDays());
       }
     }
   }
