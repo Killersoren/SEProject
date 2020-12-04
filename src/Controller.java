@@ -26,6 +26,7 @@ public class Controller
   @FXML private RadioButton searchByName, searchByEmployee;
   @FXML private TextField searchField;
   @FXML private Tab projectDetailsTab;
+  @FXML private Tab requirementDetailsTab;
 
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
@@ -95,6 +96,7 @@ public class Controller
     updateProjectArea();
     setSelectedMember();
     setSelectedProject();
+    setSelectedRequirement();
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
@@ -155,6 +157,32 @@ public class Controller
                   .setText(selectedProject.getName() + " project details");
               projectDetailsTab.setDisable(false);
               System.out.println(selectedProject);
+            }
+          }
+        });
+  }
+
+  /**
+   * Method used to select a requirement with the mouse in the TableView so the requirement later can be edited or removed.
+   *
+   * @param //args Command line arguments
+   */
+  private void setSelectedRequirement()
+  {
+    requirementField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (requirementField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = requirementField.getSelectionModel().getSelectedIndex();
+              selectedRequirement = requirementField.getItems().get(index);
+              requirementDetailsTab
+                  .setText(selectedRequirement.getName() + " requirement details");
+             requirementDetailsTab.setDisable(false);
+              System.out.println(selectedRequirement);
             }
           }
         });
