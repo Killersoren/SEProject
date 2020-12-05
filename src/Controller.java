@@ -973,11 +973,14 @@ public class Controller
       inputStatus.getItems().add(statusOptions.get(i));
     }
     statusContainer.getChildren().addAll(status, inputStatus);
+  }
 
+  @FXML public void editTaskClick()
+  {
 
   }
 
-  @FXML public void removeTask()
+  @FXML public void removeTaskClick()
   {
     if (!(selectedTask == null))
     {
