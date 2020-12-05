@@ -204,9 +204,9 @@
                               </VBox>
                               <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Add Task" />
-                                    <Button mnemonicParsing="false" text="Edit Task" />
-                                    <Button mnemonicParsing="false" text="Remove Task" />
+                                    <Button fx:id="addTaskButton" mnemonicParsing="false" onAction="#addTaskClick" text="Add Task" />
+                                    <Button fx:id="editTaskButton" mnemonicParsing="false" onAction="#editTaskClick" text="Edit Task" />
+                                    <Button fx:id="removeTaskButton" mnemonicParsing="false" onAction="#removeTaskClick" text="Remove Task" />
                                  </children>
                               </HBox>
                            </children>
