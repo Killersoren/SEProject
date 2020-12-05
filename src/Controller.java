@@ -238,6 +238,7 @@ public class Controller
               requirementUserStoryLabel.setText(
                   requirementUserStoryLabel.getText() + selectedRequirement
                       .getUserstory());
+              updateTaskArea();
             }
           }
         });
@@ -323,6 +324,7 @@ public class Controller
     {
       for (int i = 0; i < selectedRequirement.getTasks().size(); i++)
       {
+        System.out.println(i);
         taskField.getItems().add(selectedRequirement.getTasks().getTask(i));
       }
     }
