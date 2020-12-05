@@ -113,10 +113,9 @@ public class Controller
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
-    requirementName.setCellValueFactory(
-        new PropertyValueFactory<Requirement, String>("Name"));
-    requirementStatus.setCellValueFactory(
-        new PropertyValueFactory<Requirement, String>("Status"));
+    requirementName.setCellValueFactory(new PropertyValueFactory<Requirement, String>("Name"));
+    requirementStatus.setCellValueFactory(new PropertyValueFactory<Requirement, String>("Status"));
+    requirementDeadline.setCellValueFactory(new PropertyValueFactory<Requirement, String>("Deadline"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -218,6 +217,7 @@ public class Controller
               System.out.println(selectedRequirement.getName());
               requirementNameLabel.setText(requirementNameLabel.getText()+selectedRequirement.getName());
               requirementStatusLabel.setText(requirementStatusLabel.getText()+selectedRequirement.getStatus());
+              requirementDeadlineLabel.setText(requirementDeadlineLabel.getText() + selectedRequirement.getDeadline().toString());
               requirementUserStoryLabel.setText(requirementUserStoryLabel.getText()+selectedRequirement.getUserstory());
             }
           }
