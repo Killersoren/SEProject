@@ -290,7 +290,7 @@ public class Controller
 
               taskStatusLabel.setText(taskStatusLabel.getText()+selectedTask.getStatus());
 
-
+updateTaskArea();
 
 
             }
@@ -1127,18 +1127,18 @@ public class Controller
     errorLabel.setText("");
 
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Edit requirement");
+    window.setTitle("Edit task");
     window.setMinWidth(300);
 
     // Requirement name input.
     VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label requirementName = new Label("Requirement name: ");
-    inputRequirementName = new TextField();
-    inputRequirementName.setPromptText("Enter requirement name");
-    inputRequirementName.setText(selectedRequirement.getName());
+    Label taskName = new Label("Task name: ");
+    inputTaskName = new TextField();
+    inputTaskName.setPromptText("Enter Task name");
+    inputTaskName.setText(selectedTask.getName());
 
-    nameContainer.getChildren().addAll(requirementName, inputRequirementName);
+    nameContainer.getChildren().addAll(taskName, inputTaskName);
 
     // Requirement user story input.
     VBox userStoryContainer = new VBox();
