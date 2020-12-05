@@ -74,7 +74,7 @@ public class Controller
   ComboBox<Member> responsibleMember=new ComboBox<>();
   TextField inputTotalHoursWorked = new TextField();
   ComboBox<String> inputStatusForTask = new ComboBox<>();
-  DatePicker inputRequirementDeadlineForTask = new DatePicker();
+  DatePicker inputTaskDeadline = new DatePicker();
 
 
   // General JavaFX objects \\
@@ -951,14 +951,14 @@ public class Controller
 
   @FXML public void addTaskClick()
   {
-    Stage window=new Stage();
+    Stage window = new Stage();
     errorLabel.setText("");
 
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new requirement");
+    window.setTitle("Add new task");
     window.setMinWidth(300);
 
-    // Requirement name input.
+    // task name input.
     VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskNameLabel = new Label("Task name: ");
@@ -979,6 +979,92 @@ public class Controller
       inputStatus.getItems().add(statusOptions.get(i));
     }
     statusContainer.getChildren().addAll(status, inputStatus);
+
+    //Task ID input
+
+    VBox taskIDContainer = new VBox();
+    taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskIDLabel = new Label("Task ID  ");
+    inputTaskID = new TextField();
+    inputTaskID.setPromptText("Enter task ID");
+    taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
+
+    // Task deadline input.
+    VBox deadlineContainer = new VBox();
+    deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskDeadline = new Label("Deadline:");
+    inputTaskDeadline.setShowWeekNumbers(false);
+    final DatePicker datePicker = new DatePicker();
+    datePicker.setOnAction(new EventHandler()
+    {
+      public void handle(Event t)
+      {
+        LocalDate date = datePicker.getValue();
+        System.err.println("Selected date: " + date);
+      }
+    });
+    inputTaskDeadline.setDayCellFactory(picker -> new DateCell()
+    {
+      public void updateItem(LocalDate date, boolean empty)
+      {
+        super.updateItem(date, empty);
+        setDisable(empty || date.compareTo(LocalDate.now()) < 1);
+      }
+    });
+    inputTaskDeadline.setOnAction(new EventHandler()
+    {
+      public void handle(Event t)
+      {
+        System.err
+            .println("Selected date: " + inputTaskDeadline.getValue());
+      }
+    });
+    inputTaskDeadline.setPromptText("Set deadline..");
+
+    deadlineContainer.getChildren()
+        .addAll(taskDeadline, inputTaskDeadline);
+
+
+    //Task memberlist input
+
+    VBox memberListContainer = new VBox();
+    memberListContainer.setPadding(new Insets(0, 10, 0, 10));
+    Label membersLabel = new Label("Select members: ");
+    GridPane memberSelectContainer = new GridPane();
+    memberCheckBoxes = new CheckBox[selectedRequirement.getTeam().size()];
+
+    for (int i = 0; i < memberCheckBoxes.length; i++)
+    {
+      memberCheckBoxes[i] = new CheckBox(
+          selectedRequirement.getTeam().get(i).getName());
+      memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
+      memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+    }
+
+    // Add member label Node and member selection Node
+    memberListContainer.getChildren()
+        .addAll(membersLabel, memberSelectContainer);
+
+    VBox layout = new VBox(10);
+
+    closeAndSaveButton.get("Task")
+        .setOnAction(new PopupListener(window));
+
+    layout.getChildren()
+        .addAll(nameContainer, statusContainer,taskIDContainer,
+            memberListContainer, deadlineContainer,
+            closeAndSaveButton.get("addTask"), errorLabel);
+
+    layout.setAlignment(Pos.CENTER);
+
+    Scene scene = new Scene(layout);
+    window.setResizable(false);
+    window.setScene(scene);
+    window.showAndWait();
+
+
+
+
   }
 
   @FXML public void editTaskClick()
