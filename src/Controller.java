@@ -1262,7 +1262,31 @@ public class Controller
         }
 
       } else if(actionEvent.getSource() == closeAndSaveButton.get("editRequirement")){
-
+        // Edit new name
+        selectedRequirement.setName(inputRequirementName.getText());
+        // Edit new userstory
+        selectedRequirement.setUserstory(inputUserStory.getText());
+        // Edit new status
+        selectedRequirement.setStatus(inputStatus.getValue());
+        // New MemberList object to replace the old one
+        selectedMembers = new MemberList();
+        // Run loop to check which members to add and which to not add
+        for(int i = 0 ; i < memberCheckBoxes.length ; i++){
+          if(memberCheckBoxes[i].isSelected()){
+            selectedMembers.addMember(selectedProject.getTeam().get(i));
+          }
+        }
+        // Edit new team from selected checkboxes
+        selectedRequirement.setTeam(selectedMembers);
+        // Edit new deadline
+        selectedRequirement.setDeadline(inputRequirementDeadline.getValue());
+        // Close window
+        window.close();
+        // Update GUI table with requirements to show changes
+        updateRequirementArea();
+        // Save all changes
+        adapterProjects.saveProjects(finalProjectList);
+        // END of editing requirement
       }
     }
   }

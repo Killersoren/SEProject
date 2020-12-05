@@ -26,6 +26,26 @@ public class Requirement implements Serializable
     this.team = team;
   }
 
+  public void setUserstory(String userstory) {
+    this.userstory = userstory;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public void setDeadline(LocalDate deadline) {
+    this.deadline = deadline;
+  }
+
+  public void setTeam(MemberList team) {
+    this.team = team;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public void remove(Task task)
   {
     tasks.remove(task);
