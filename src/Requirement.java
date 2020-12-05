@@ -6,7 +6,7 @@ public class Requirement implements Serializable
 {
   private String name,userstory,status;
   private int estimatedHours,totalHoursWorked;
-  private ArrayList<Task> tasks;
+  private TaskList tasks;
   private LocalDate deadline;
   private MemberList team;
 
@@ -22,7 +22,7 @@ public class Requirement implements Serializable
     this.status = status;
     this.estimatedHours = 0;
     this.totalHoursWorked = 0;
-    this.tasks = new ArrayList<>();
+    this.tasks = new TaskList();
     this.team = team;
   }
 
@@ -48,7 +48,7 @@ public class Requirement implements Serializable
 
   public void remove(Task task)
   {
-    tasks.remove(task);
+    tasks.removeTask(task);
   }
 
   public MemberList getTeam()

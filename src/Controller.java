@@ -291,8 +291,7 @@ public class Controller
       for (int i = 0; i < selectedProject.getRequirements().size(); i++)
       {
         System.out.println(i);
-        requirementField.getItems()
-            .add(selectedProject.getRequirements().get(i));
+        requirementField.getItems().add(selectedProject.getRequirements().getRequirement(i));
       }
     }
   }
