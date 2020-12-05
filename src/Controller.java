@@ -45,6 +45,11 @@ public class Controller
   @FXML private Label requirementDeadlineLabel;
   @FXML private Label requirementUserStoryLabel;
 
+  @FXML private Label taskNameLabel;
+  @FXML private Label taskStatusLabel;
+  @FXML private Label taskDeadlineLabel;
+  @FXML private Label taskIDLabel;
+
   @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
   @FXML private TableColumn<Task, String> taskStatus;
@@ -118,10 +123,10 @@ public class Controller
         new PropertyValueFactory<Requirement, String>("Status"));
     requirementDeadline.setCellValueFactory(
         new PropertyValueFactory<Requirement, String>("Deadline"));
-    taskName.setCellValueFactory(
-        new PropertyValueFactory<Task, String>("Name"));
-    taskStatus.setCellValueFactory(
-        new PropertyValueFactory<Task, String>("Status"));
+    taskName
+        .setCellValueFactory(new PropertyValueFactory<Task, String>("Name"));
+    taskStatus
+        .setCellValueFactory(new PropertyValueFactory<Task, String>("Status"));
     taskDeadline.setCellValueFactory(
         new PropertyValueFactory<Task, String>("Deadline"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
@@ -268,7 +273,19 @@ public class Controller
               int index = taskField.getSelectionModel().getSelectedIndex();
               selectedTask = taskField.getItems().get(index);
               System.out.println(selectedTask.getName());
+              taskNameLabel.setText(taskNameLabel.getText().substring(0, 7));
+
+              taskIDLabel.setText(taskIDLabel.getText().substring(0, 9));
+
+              taskStatusLabel
+                  .setText(taskStatusLabel.getText().substring(0, 13));
+
+
+              taskDeadlineLabel.setText(taskDeadlineLabel.getText().substring(0,11));
+
+
             }
+
           }
         });
   }
@@ -1557,13 +1574,13 @@ public class Controller
         {
           window.close();
 
-                    Task task = new Task(
-                        inputTaskName.getText(), inputTaskID.getText(),
-                        inputStatus.getValue(), inputTaskDeadline.getValue(), selectedMembers);
-                    selectedRequirement.getTasks().addTask(task);
-                    adapterProjects.saveProjects(finalProjectList);
-                    System.out.println("Added task " + task);
-                    updateTaskArea();
+          Task task = new Task(inputTaskName.getText(), inputTaskID.getText(),
+              inputStatus.getValue(), inputTaskDeadline.getValue(),
+              selectedMembers);
+          selectedRequirement.getTasks().addTask(task);
+          adapterProjects.saveProjects(finalProjectList);
+          System.out.println("Added task " + task);
+          updateTaskArea();
         }
 
       }
