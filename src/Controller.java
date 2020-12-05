@@ -205,9 +205,9 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 18));
-              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 20));
-              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 24));
+              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 7));
+              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 9));
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 13));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
