@@ -164,7 +164,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementUserStoryLabel" prefHeight="17.0" prefWidth="600.0" text="Requirement user story: " wrapText="true">
+                                    <Label fx:id="requirementUserStoryLabel" prefHeight="17.0" prefWidth="600.0" text="Requirement user story: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
