@@ -26,6 +26,7 @@ public class Controller
   @FXML private TextField searchField;
   @FXML private Tab projectDetailsTab;
   @FXML private Tab requirementDetailsTab;
+  @FXML private Tab taskDetailsTab;
 
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
@@ -282,6 +283,14 @@ public class Controller
 
 
               taskDeadlineLabel.setText(taskDeadlineLabel.getText().substring(0,11));
+
+              taskDetailsTab.setDisable(false);
+              System.out.println(selectedTask.getName());
+              taskNameLabel.setText(taskNameLabel.getText()+ selectedTask.getName());
+
+              taskStatusLabel.setText(taskStatusLabel.getText()+selectedTask.getStatus());
+
+
 
 
             }
