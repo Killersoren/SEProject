@@ -118,6 +118,12 @@ public class Controller
         new PropertyValueFactory<Requirement, String>("Status"));
     requirementDeadline.setCellValueFactory(
         new PropertyValueFactory<Requirement, String>("Deadline"));
+    taskName.setCellValueFactory(
+        new PropertyValueFactory<Task, String>("Name"));
+    taskStatus.setCellValueFactory(
+        new PropertyValueFactory<Task, String>("Status"));
+    taskDeadline.setCellValueFactory(
+        new PropertyValueFactory<Task, String>("Deadline"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
     updateEmployeeArea();
@@ -1557,7 +1563,7 @@ public class Controller
                     selectedRequirement.getTasks().addTask(task);
                     adapterProjects.saveProjects(finalProjectList);
                     System.out.println("Added task " + task);
-                    updateRequirementArea();
+                    updateTaskArea();
         }
 
       }

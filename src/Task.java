@@ -28,6 +28,16 @@ public class Task implements Serializable
     return name;
   }
 
+  public String getStatus()
+  {
+    return status;
+  }
+
+  public LocalDate getDeadline()
+  {
+    return deadline;
+  }
+
   public int getEstimatedHours()
   {
     return estimatedHours;
