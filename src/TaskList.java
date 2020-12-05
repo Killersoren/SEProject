@@ -35,6 +35,10 @@ public class TaskList implements Serializable
         return -1;
     }
 
+    public boolean isEmpty(){
+        return tasks.isEmpty();
+    }
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }
