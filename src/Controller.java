@@ -44,6 +44,9 @@ public class Controller
   @FXML private Label requirementTeamLabel;
   @FXML private Label requirementDeadlineLabel;
   @FXML private Label requirementUserStoryLabel;
+  @FXML private Label requirementEstimatedHoursLabel;
+  @FXML private Label requirementTotalHoursWorked;
+
 
   @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
@@ -217,8 +220,12 @@ public class Controller
               System.out.println(selectedRequirement.getName());
               requirementNameLabel.setText(requirementNameLabel.getText()+selectedRequirement.getName());
               requirementStatusLabel.setText(requirementStatusLabel.getText()+selectedRequirement.getStatus());
+              requirementTeamLabel.setText(requirementTeamLabel.getText() + selectedRequirement.getTeam().getMembers().toString());
               requirementDeadlineLabel.setText(requirementDeadlineLabel.getText() + selectedRequirement.getDeadline().toString());
               requirementUserStoryLabel.setText(requirementUserStoryLabel.getText()+selectedRequirement.getUserstory());
+              requirementEstimatedHoursLabel.setText(requirementEstimatedHoursLabel.getText());
+
+
             }
           }
         });

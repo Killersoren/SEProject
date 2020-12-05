@@ -67,12 +67,20 @@ public class Requirement implements Serializable
 
   public int getTotalHoursWorked()
   {
-    return totalHoursWorked;
+    int sum = 0;
+    for(int i = 0 ; i < tasks.size() ; i++){
+      sum += tasks.getTask(i).getTotalHoursWorked();
+    }
+    return sum;
   }
 
   public int getEstimatedHours()
   {
-    return estimatedHours;
+    int sum = 0;
+    for(int i = 0 ; i < tasks.size() ; i++){
+      sum += tasks.getTask(i).getEstimatedHours();
+    }
+    return sum;
   }
 
   public String getUserstory()
