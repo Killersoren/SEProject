@@ -44,6 +44,9 @@ public class Controller
   @FXML private Label requirementTeamLabel;
   @FXML private Label requirementDeadlineLabel;
   @FXML private Label requirementUserStoryLabel;
+  @FXML private Label requirementEstimatedHoursLabel;
+  @FXML private Label requirementTotalHoursWorked;
+
 
   @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
@@ -81,11 +84,11 @@ public class Controller
   // Adapters
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
-  private MemberList finalMemberList;
 
   // Class list Objects
   private MemberList selectedMembers;
   private ProjectList finalProjectList;
+  private MemberList finalMemberList;
 
   // Selected objects
   private Member selectedMember;
@@ -124,6 +127,7 @@ public class Controller
     setSelectedProject();
     setSelectedRequirement();
     setSelectedTask();
+
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
@@ -217,8 +221,12 @@ public class Controller
               System.out.println(selectedRequirement.getName());
               requirementNameLabel.setText(requirementNameLabel.getText()+selectedRequirement.getName());
               requirementStatusLabel.setText(requirementStatusLabel.getText()+selectedRequirement.getStatus());
+              requirementTeamLabel.setText(requirementTeamLabel.getText() + selectedRequirement.getTeam().getMembers().toString());
               requirementDeadlineLabel.setText(requirementDeadlineLabel.getText() + selectedRequirement.getDeadline().toString());
               requirementUserStoryLabel.setText(requirementUserStoryLabel.getText()+selectedRequirement.getUserstory());
+              requirementEstimatedHoursLabel.setText(requirementEstimatedHoursLabel.getText());
+
+
             }
           }
         });
@@ -292,6 +300,18 @@ public class Controller
       {
         System.out.println(i);
         requirementField.getItems().add(selectedProject.getRequirements().getRequirement(i));
+      }
+    }
+  }
+
+  private void updateTaskArea()
+  {
+    taskField.getItems().clear();
+    if (adapterProjects != null)
+    {
+      for (int i = 0; i < selectedRequirement.getTasks().size(); i++)
+      {
+        taskField.getItems().add(selectedRequirement.getTasks().getTask(i));
       }
     }
   }
@@ -401,9 +421,13 @@ public class Controller
 
       Label errorMessage = new Label("");
 
-      Button closeWithSaveButton = new Button("Yes, please");
+      Button closeWithSaveButton = new Button("Save and close");
 
-      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+      Button closeWithOutSaveButton = new Button("Close without saving");
+
+      HBox closingButtons = new HBox(closeWithSaveButton,closeWithOutSaveButton);
+      closingButtons.setPadding(new Insets(10, 40, 10, 50));
+      closingButtons.setSpacing(50);
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -432,8 +456,7 @@ public class Controller
       VBox layout = new VBox(10);
 
       layout.getChildren()
-          .addAll(nameContainer, errorMessage, closeWithSaveButton,
-              closeWithOutSaveButton);
+          .addAll(nameContainer, errorMessage, closingButtons);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);

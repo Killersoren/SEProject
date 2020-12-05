@@ -26,6 +26,11 @@ public class Requirement implements Serializable
     this.team = team;
   }
 
+  public TaskList getTasks()
+  {
+    return tasks;
+  }
+
   public void setUserstory(String userstory) {
     this.userstory = userstory;
   }
@@ -67,13 +72,23 @@ public class Requirement implements Serializable
 
   public int getTotalHoursWorked()
   {
-    return totalHoursWorked;
+    int sum = 0;
+    for(int i = 0 ; i < tasks.size() ; i++){
+      sum += tasks.getTask(i).getTotalHoursWorked();
+    }
+    return sum;
   }
 
   public int getEstimatedHours()
   {
-    return estimatedHours;
+    int sum = 0;
+    for(int i = 0 ; i < tasks.size() ; i++){
+      sum += tasks.getTask(i).getEstimatedHours();
+    }
+    return sum;
   }
+
+
 
   public String getUserstory()
   {
