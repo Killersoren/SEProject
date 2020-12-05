@@ -84,11 +84,11 @@ public class Controller
   // Adapters
   private ProjectListAdapter adapterProjects;
   private EmployeeListAdapter adapterEmployee;
-  private MemberList finalMemberList;
 
   // Class list Objects
   private MemberList selectedMembers;
   private ProjectList finalProjectList;
+  private MemberList finalMemberList;
 
   // Selected objects
   private Member selectedMember;
@@ -127,6 +127,7 @@ public class Controller
     setSelectedProject();
     setSelectedRequirement();
     setSelectedTask();
+
     //      updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
@@ -408,9 +409,13 @@ public class Controller
 
       Label errorMessage = new Label("");
 
-      Button closeWithSaveButton = new Button("Yes, please");
+      Button closeWithSaveButton = new Button("Yes");
 
-      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+      Button closeWithOutSaveButton = new Button("No");
+
+      HBox closingButtons = new HBox(closeWithSaveButton,closeWithOutSaveButton);
+      closingButtons.setPadding(new Insets(10, 40, 10, 80));
+      closingButtons.setSpacing(50);
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -439,8 +444,7 @@ public class Controller
       VBox layout = new VBox(10);
 
       layout.getChildren()
-          .addAll(nameContainer, errorMessage, closeWithSaveButton,
-              closeWithOutSaveButton);
+          .addAll(nameContainer, errorMessage, closingButtons);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
