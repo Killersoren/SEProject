@@ -1,7 +1,5 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -208,9 +206,9 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 18));
-              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 20));
-              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 24));
+              requirementNameLabel.setText(requirementNameLabel.getText().substring(0, 7));
+              requirementStatusLabel.setText(requirementStatusLabel.getText().substring(0, 9));
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText().substring(0, 13));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
@@ -842,21 +840,14 @@ public class Controller
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label membersLabel = new Label("Select members: ");
     GridPane memberSelectContainer = new GridPane();
-
     memberCheckBoxes = new CheckBox[selectedProject.getTeam().size()];
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
-
-      for(int j = 0 ; j < selectedRequirement.getTeam().size() ; j++){
-        if(memberCheckBoxes[i].getText().equals(selectedRequirement.getTeam().get(j).getName())){
-          memberCheckBoxes[i].setSelected(true);
-        }
-      }
-
     }
 
     // Add member label Node and member selection Node
@@ -865,13 +856,13 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("editRequirement")
+    closeAndSaveButton.get("addRequirement")
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(nameContainer, userStoryContainer, statusContainer,
             memberListContainer, deadlineContainer,
-            closeAndSaveButton.get("editRequirement"), errorLabel);
+            closeAndSaveButton.get("addRequirement"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1268,31 +1259,7 @@ public class Controller
         }
 
       } else if(actionEvent.getSource() == closeAndSaveButton.get("editRequirement")){
-        // Edit new name
-        selectedRequirement.setName(inputRequirementName.getText());
-        // Edit new userstory
-        selectedRequirement.setUserstory(inputUserStory.getText());
-        // Edit new status
-        selectedRequirement.setStatus(inputStatus.getValue());
-        // New MemberList object to replace the old one
-        selectedMembers = new MemberList();
-        // Run loop to check which members to add and which to not add
-        for(int i = 0 ; i < memberCheckBoxes.length ; i++){
-          if(memberCheckBoxes[i].isSelected()){
-            selectedMembers.addMember(selectedProject.getTeam().get(i));
-          }
-        }
-        // Edit new team from selected checkboxes
-        selectedRequirement.setTeam(selectedMembers);
-        // Edit new deadline
-        selectedRequirement.setDeadline(inputRequirementDeadline.getValue());
-        // Close window
-        window.close();
-        // Update GUI table with requirements to show changes
-        updateRequirementArea();
-        // Save all changes
-        adapterProjects.saveProjects(finalProjectList);
-        // END of editing requirement
+
       }
     }
   }

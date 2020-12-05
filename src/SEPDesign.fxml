@@ -130,41 +130,41 @@
                               </TableView>
                               <VBox prefHeight="248.0" prefWidth="600.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement info">
+                                    <Label prefHeight="25.0" prefWidth="647.0" text=" Requirement info">
                                        <font>
                                           <Font size="16.0" />
                                        </font></Label>
-                                    <Label fx:id="requirementNameLabel" prefHeight="25.0" prefWidth="608.0" text="Requirement Name: ">
+                                    <Label fx:id="requirementNameLabel" prefHeight="25.0" prefWidth="608.0" text=" Name: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementStatusLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement status: ">
+                                    <Label fx:id="requirementStatusLabel" prefHeight="17.0" prefWidth="635.0" text=" Status: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement deadline">
+                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text=" Deadline">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementTeamLabel" prefHeight="17.0" prefWidth="635.0" text="Requirement team:">
+                                    <Label fx:id="requirementTeamLabel" prefHeight="17.0" prefWidth="635.0" text=" Team:">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement estimated hours: ">
+                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Estimated hours: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text="Requirement total hours worked: ">
+                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Total hours worked: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementUserStoryLabel" prefHeight="17.0" prefWidth="600.0" text="Requirement user story: ">
+                                    <Label fx:id="requirementUserStoryLabel" alignment="TOP_LEFT" maxWidth="600.0" prefHeight="81.0" prefWidth="600.0" text=" User story: " wrapText="true">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

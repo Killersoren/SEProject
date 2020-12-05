@@ -45,26 +45,6 @@ public class Requirement implements Serializable
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setTeam(MemberList team) {
-    this.team = team;
-  }
-
-  public void setDeadline(LocalDate deadline) {
-    this.deadline = deadline;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public void setUserstory(String userstory) {
-    this.userstory = userstory;
-  }
-
   public int getTotalHoursWorked()
   {
     return totalHoursWorked;

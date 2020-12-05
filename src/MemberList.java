@@ -55,15 +55,6 @@ public class MemberList implements Serializable
     return -1;
   }
 
-  public boolean hasMember(Member member){
-    for(int i = 0 ; i < members.size() ; i++){
-      if(members.get(i).equals(member)){
-        return true;
-      }
-    }
-    return false;
-  }
-
   public ArrayList<Member> getMembers()
   {
     return members;
