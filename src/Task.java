@@ -27,4 +27,14 @@ public class Task implements Serializable
   {
     return name;
   }
+
+  public int getEstimatedHours()
+  {
+    return estimatedHours;
+  }
+
+  public int getTotalHoursWorked()
+  {
+    return totalHoursWorked;
+  }
 }

@@ -1549,7 +1549,7 @@ public class Controller
           Task task = new Task(
               inputTaskName.getText(), inputTaskID.getText(),
               inputStatus.getValue(), inputTaskDeadline.getValue(), selectedMembers);
-          selectedRequirement.add(task);
+          selectedRequirement.getTasks().addTask(task);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added task " + task);
           updateRequirementArea();
@@ -1560,7 +1560,7 @@ public class Controller
     }
   }
     }
-  }
-}
+
+
 
 
