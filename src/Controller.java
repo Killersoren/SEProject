@@ -141,6 +141,9 @@ public class Controller
     closeAndSaveButton.put("addRequirement", new Button("Add new requirement"));
     closeAndSaveButton.put("editRequirement", new Button("Save and close"));
 
+    closeAndSaveButton.put("addTask", new Button("Add new task"));
+    closeAndSaveButton.put("editTask", new Button("Save and close"));
+
   }
 
   /**
@@ -214,6 +217,8 @@ public class Controller
                   .setText(requirementStatusLabel.getText().substring(0, 9));
               requirementUserStoryLabel.setText(
                   requirementUserStoryLabel.getText().substring(0, 13));
+              requirementDeadlineLabel
+                  .setText(requirementDeadlineLabel.getText().substring(0, 11));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
@@ -657,8 +662,7 @@ public class Controller
 
       VBox layout = new VBox(10);
 
-      layout.getChildren()
-          .addAll(nameContainer, errorLabel, closingButtons);
+      layout.getChildren().addAll(nameContainer, errorLabel, closingButtons);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
@@ -1068,7 +1072,7 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("Task").setOnAction(new PopupListener(window));
+    closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
 
     layout.getChildren().addAll(nameContainer, statusContainer, taskIDContainer,
         memberListContainer, deadlineContainer,
@@ -1512,7 +1516,7 @@ public class Controller
         adapterProjects.saveProjects(finalProjectList);
         // END of editing requirement
       }
-      else if (actionEvent.getSource()==closeAndSaveButton.get("addTask"))
+      else if (actionEvent.getSource() == closeAndSaveButton.get("addTask"))
       {
 
         selectedMembers = new MemberList();
@@ -1541,26 +1545,24 @@ public class Controller
           errorLabel.setText("ERROR: Fix members");
         }
 
-
         else
         {
           window.close();
 
-          Task task = new Task(
-              inputTaskName.getText(), inputTaskID.getText(),
-              inputStatus.getValue(), inputTaskDeadline.getValue(), selectedMembers);
-          selectedRequirement.getTasks().addTask(task);
-          adapterProjects.saveProjects(finalProjectList);
-          System.out.println("Added task " + task);
-          updateRequirementArea();
+                    Task task = new Task(
+                        inputTaskName.getText(), inputTaskID.getText(),
+                        inputStatus.getValue(), inputTaskDeadline.getValue(), selectedMembers);
+                    selectedRequirement.getTasks().addTask(task);
+                    adapterProjects.saveProjects(finalProjectList);
+                    System.out.println("Added task " + task);
+                    updateRequirementArea();
         }
 
       }
 
     }
   }
-    }
 
-
+}
 
 

@@ -131,7 +131,7 @@
                      <children>
                         <VBox prefHeight="538.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView fx:id="requirementField" prefHeight="304.0" prefWidth="600.0">
+                              <TableView fx:id="requirementField" prefHeight="262.0" prefWidth="600.0">
                                 <columns>
                                   <TableColumn fx:id="requirementName" prefWidth="200.0" text="Name" />
                                   <TableColumn fx:id="requirementStatus" prefWidth="200.0" text="Status" />
@@ -154,7 +154,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text=" Deadline">
+                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text=" Deadline: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -181,7 +181,7 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
+                              <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="50.0" style="-fx-border-color: darkGrey;">
                                  <children>
                                     <Button fx:id="addRequirementButton" mnemonicParsing="false" onAction="#addRequirementClick" text="Add Requirement" />
                                     <Button fx:id="editRequirementButton" mnemonicParsing="false" onAction="#editRequirementClick" text="Edit Requirement" />
@@ -200,7 +200,7 @@
                      <children>
                         <VBox prefHeight="540.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView fx:id="taskField" prefHeight="308.0" prefWidth="600.0">
+                              <TableView fx:id="taskField" prefHeight="274.0" prefWidth="600.0">
                                 <columns>
                                   <TableColumn fx:id="taskName" prefWidth="200.0" text="Name" />
                                   <TableColumn fx:id="taskStatus" prefWidth="200.0" text="Status" />
@@ -212,7 +212,7 @@
                                     <Label prefHeight="17.0" prefWidth="400.0" text="Task info" />
                                  </children>
                               </VBox>
-                              <HBox alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="600.0" spacing="50.0">
+                              <HBox alignment="CENTER" prefHeight="43.0" prefWidth="600.0" spacing="50.0" style="-fx-border-color: darkGrey;">
                                  <children>
                                     <Button fx:id="addTaskButton" mnemonicParsing="false" onAction="#addTaskClick" text="Add Task" />
                                     <Button fx:id="editTaskButton" mnemonicParsing="false" onAction="#editTaskClick" text="Edit Task" />
