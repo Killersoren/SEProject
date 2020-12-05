@@ -83,6 +83,8 @@ public class Requirement implements Serializable
     return sum;
   }
 
+
+
   public String getUserstory()
   {
     return userstory;
