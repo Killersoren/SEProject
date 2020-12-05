@@ -620,9 +620,14 @@ public class Controller
 
       nameContainer.getChildren().addAll(projectName);
 
-      Button closeWithSaveButton = new Button("Yes, please");
+      Button closeWithSaveButton = new Button("Save and close");
 
-      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+      Button closeWithOutSaveButton = new Button("Close without saving");
+
+      HBox closingButtons = new HBox(closeWithSaveButton,
+          closeWithOutSaveButton);
+      closingButtons.setPadding(new Insets(10, 40, 10, 50));
+      closingButtons.setSpacing(50);
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -653,8 +658,7 @@ public class Controller
       VBox layout = new VBox(10);
 
       layout.getChildren()
-          .addAll(nameContainer, errorLabel, closeWithSaveButton,
-              closeWithOutSaveButton);
+          .addAll(nameContainer, errorLabel, closingButtons);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
