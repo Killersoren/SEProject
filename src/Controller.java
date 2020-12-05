@@ -1512,6 +1512,53 @@ public class Controller
         adapterProjects.saveProjects(finalProjectList);
         // END of editing requirement
       }
+      else if (actionEvent.getSource()==closeAndSaveButton.get("addTask"))
+      {
+
+        selectedMembers = new MemberList();
+        for (int i = 0; i < memberCheckBoxes.length; i++)
+        {
+          if (memberCheckBoxes[i].isSelected())
+          {
+            selectedMembers.addMember(finalMemberList.get(i));
+            System.out.println(
+                "Member " + finalMemberList.get(i) + " has been added to "
+                    + inputTaskName.getText());
+          }
+        }
+        if (inputTaskName.getText().isEmpty() || inputTaskName.getText()
+            .equals(""))
+        {
+          errorLabel.setText("ERROR: Fix name");
+        }
+        else if (inputTaskID.getText().isEmpty() || inputTaskID.getText()
+            .equals(""))
+        {
+          errorLabel.setText("ERROR: Fix taxID");
+        }
+        else if (selectedMembers.size() == 0)
+        {
+          errorLabel.setText("ERROR: Fix members");
+        }
+
+
+        else
+        {
+          window.close();
+
+          Task task = new Task(
+              inputTaskName.getText(), inputTaskID.getText(),
+              inputStatus.getValue(), inputTaskDeadline.getValue(), selectedMembers);
+          selectedRequirement.add(task);
+          adapterProjects.saveProjects(finalProjectList);
+          System.out.println("Added task " + task);
+          updateRequirementArea();
+        }
+
+      }
+
+    }
+  }
     }
   }
 }
