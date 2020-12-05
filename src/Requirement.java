@@ -26,6 +26,11 @@ public class Requirement implements Serializable
     this.team = team;
   }
 
+  public TaskList getTasks()
+  {
+    return tasks;
+  }
+
   public void setUserstory(String userstory) {
     this.userstory = userstory;
   }

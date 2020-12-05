@@ -297,6 +297,18 @@ public class Controller
     }
   }
 
+  private void updateTaskArea()
+  {
+    taskField.getItems().clear();
+    if (adapterProjects != null)
+    {
+      for (int i = 0; i < selectedRequirement.getTasks().size(); i++)
+      {
+        taskField.getItems().add(selectedRequirement.getTasks().getTask(i));
+      }
+    }
+  }
+
 
 
   /**
@@ -402,12 +414,12 @@ public class Controller
 
       Label errorMessage = new Label("");
 
-      Button closeWithSaveButton = new Button("Yes");
+      Button closeWithSaveButton = new Button("Save and close");
 
-      Button closeWithOutSaveButton = new Button("No");
+      Button closeWithOutSaveButton = new Button("Close without saving");
 
       HBox closingButtons = new HBox(closeWithSaveButton,closeWithOutSaveButton);
-      closingButtons.setPadding(new Insets(10, 40, 10, 80));
+      closingButtons.setPadding(new Insets(10, 40, 10, 50));
       closingButtons.setSpacing(50);
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
