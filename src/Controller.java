@@ -1276,13 +1276,19 @@ public class Controller
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
-        @Override public void handle(ActionEvent e)
+       public void handle(ActionEvent e)
         {
           {
             window.close();
+            String temp = selectedProject.getName();
+            selectedRequirement.getTasks().removeTask(selectedTask);
+            finalProjectList.getProject(temp).getRequirements().remove(selectedTask);
+            adapterProjects.saveProjects(finalProjectList);
+            updateRequirementArea();
+            updateTaskArea();
             selectedTask = null;
-            requirementDetailsTab.setText("Requirement details");
-            requirementDetailsTab.setDisable(true);
+            taskDetailsTab.setText("Task details");
+            taskDetailsTab.setDisable(true);
           }
         }
       });

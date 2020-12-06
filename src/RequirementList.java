@@ -53,4 +53,9 @@ public class RequirementList implements Serializable
     {
         requirements.remove(requirement);
     }
+
+    public void remove(Task selectedTask)
+    {
+        requirements.remove(selectedTask);
+    }
 }
