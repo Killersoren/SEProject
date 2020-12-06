@@ -26,6 +26,7 @@ public class Controller
   @FXML private TextField searchField;
   @FXML private Tab projectDetailsTab;
   @FXML private Tab requirementDetailsTab;
+  @FXML private Tab taskDetailsTab;
 
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
@@ -97,6 +98,7 @@ public class Controller
   private Task selectedTask;
 
   private final ArrayList<String> statusOptions = new ArrayList<>();
+
 
   /**
    * Runs one time before the GUI is shown
