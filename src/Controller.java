@@ -475,6 +475,24 @@ public class Controller
         {
           {
             window.close();
+            ProjectList projects = adapterProjects
+                .getProjectByEmployeeName(selectedMember.getName());
+            for (int i = 0; i < projects.size(); i++)
+            {
+
+              System.out.println("start");
+              System.out.println("IU "+finalProjectList.get(1));
+              System.out.println("POL "+selectedMember.getName());
+              finalProjectList.getProject(projects.get(i).getName()).getTeam().deleteMember(selectedMember.getName());
+//        finalProjectList.getProject(projects.get(i).getName()).getTeam().removeMember(selectedMember);
+              System.out.println("K "+finalProjectList.getProject(projects.get(i).getName()).getTeam());
+            }
+
+            finalMemberList.getIndexFromName(selectedMember.getName());
+
+            finalMemberList
+                .get(finalMemberList.getIndexFromName(selectedMember.getName()))
+                .setName(inputMemberName.getText());
             finalMemberList.removeMember(selectedMember);
             adapterEmployee.saveMembers(finalMemberList);
             adapterProjects.saveProjects(finalProjectList);

@@ -18,6 +18,11 @@ public class ProjectList implements Serializable
     projects.remove(selectedProject);
   }
 
+  public void removeMember(int index, Member member)
+  {
+    projects.get(index).getTeam().removeMember(member);
+  }
+
 
   public int getNumbersOfProjects()
   {

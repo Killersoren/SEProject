@@ -42,6 +42,11 @@ public class MemberList implements Serializable
     members.remove(member);
   }
 
+  public void deleteMember(String name)
+  {
+    members.remove(getIndexFromName(name));
+  }
+
   public void replaceMember(String name,String newName)
   {
     members.get(getIndexFromName(name)).setName(newName);
@@ -81,11 +86,14 @@ public class MemberList implements Serializable
   public String toString()
   {
     String str = "";
-    for (int i = 0; i < members.size(); i++)
+    if (members.size()!=0)
     {
-      str += members.get(i).getName() + " , ";
+      for (int i = 0; i < members.size(); i++)
+      {
+        str += members.get(i).getName() + " , ";
+      }
+      str = str.substring(0, str.length() - 2);
     }
-    str = str.substring(0, str.length() - 2);
     return str;
   }
 }
