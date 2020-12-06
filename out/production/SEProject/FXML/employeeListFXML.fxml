@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Employee.EmployeeController">
+   <children>
+      <VBox prefHeight="567.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="539.0" prefWidth="600.0">
+               <children>
+                  <TableView fx:id="employeeField" maxWidth="600.0" prefHeight="513.0" prefWidth="600.0" style="-fx-border-color: darkGrey;">
+                     <columns>
+                        <TableColumn fx:id="employeeName" maxWidth="600.0" prefWidth="599.0" text="Employees" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="1.5" />
+                     </padding>
+                  </TableView>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" maxHeight="70.0" minHeight="30.0" prefHeight="60.0" prefWidth="600.0" spacing="50.0" style="-fx-border-color: darkGrey;">
+               <children>
+                  <Button fx:id="addEmployeeButton" alignment="CENTER" mnemonicParsing="false" text="Add Employee" />
+                  <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edit Employee" />
+                  <Button fx:id="removeEmployeeButton" mnemonicParsing="false" text="Remove Employee" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

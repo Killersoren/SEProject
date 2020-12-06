@@ -52,9 +52,4 @@ public class Task implements Serializable
   {
     return totalHoursWorked;
   }
-
-  public String getTaskID()
-  {
-    return taskID;
-  }
 }
