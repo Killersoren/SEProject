@@ -276,22 +276,26 @@ public class Controller
               System.out.println(selectedTask.getName());
               taskNameLabel.setText(taskNameLabel.getText().substring(0, 7));
 
-              taskIDLabel.setText(taskIDLabel.getText().substring(0, 9));
+              taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
 
               taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 13));
+                  .setText(taskStatusLabel.getText().substring(0, 9));
 
+              taskDeadlineLabel
+                  .setText(taskDeadlineLabel.getText().substring(0, 11));
 
-              taskDeadlineLabel.setText(taskDeadlineLabel.getText().substring(0,11));
-
-              taskDetailsTab.setDisable(false);
               System.out.println(selectedTask.getName());
-              taskNameLabel.setText(taskNameLabel.getText()+ selectedTask.getName());
+              taskNameLabel
+                  .setText(taskNameLabel.getText() + selectedTask.getName());
 
-              taskStatusLabel.setText(taskStatusLabel.getText()+selectedTask.getStatus());
-
-updateTaskArea();
-
+              taskStatusLabel.setText(
+                  taskStatusLabel.getText() + selectedTask
+                      .getStatus());
+              taskDeadlineLabel.setText(
+                  taskDeadlineLabel.getText() + selectedTask
+                      .getDeadline().toString());
+              taskIDLabel.setText(
+                  taskIDLabel.getText() + selectedTask.getTaskID());
 
             }
 
@@ -1070,7 +1074,8 @@ updateTaskArea();
       public void updateItem(LocalDate date, boolean empty)
       {
         super.updateItem(date, empty);
-        setDisable(empty || date.compareTo(LocalDate.now()) < 1);
+        setDisable(empty || date.compareTo(LocalDate.now()) < 1
+            || date.compareTo(selectedRequirement.getDeadline()) > 0);
       }
     });
     inputTaskDeadline.setOnAction(new EventHandler()
@@ -1182,7 +1187,8 @@ updateTaskArea();
       public void updateItem(LocalDate date, boolean empty)
       {
         super.updateItem(date, empty);
-        setDisable(empty || date.compareTo(LocalDate.now()) < 1);
+        setDisable(empty || date.compareTo(LocalDate.now()) < 1
+            || date.compareTo(selectedRequirement.getDeadline()) > 0);
       }
     });
     inputRequirementDeadline.setOnAction(new EventHandler()
