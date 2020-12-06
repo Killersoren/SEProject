@@ -26,7 +26,7 @@ public class Controller
   @FXML private TextField searchField;
   @FXML private Tab projectDetailsTab;
   @FXML private Tab requirementDetailsTab;
-  @FXML private Tab taskDetailsTab;
+
 
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
@@ -1289,8 +1289,8 @@ public class Controller
             updateRequirementArea();
             updateTaskArea();
             selectedTask = null;
-            taskDetailsTab.setText("Task details");
-            taskDetailsTab.setDisable(true);
+            requirementDetailsTab.setText("Task details");
+            requirementDetailsTab.setDisable(true);
           }
         }
       });
