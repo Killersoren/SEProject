@@ -281,23 +281,19 @@ public class Controller
               taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
 
               taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 9));
+                  .setText(taskStatusLabel.getText().substring(0, 5));
 
               taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText().substring(0, 11));
+                  .setText(taskDeadlineLabel.getText().substring(0, 5));
 
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
 
               taskStatusLabel.setText(
-                  taskStatusLabel.getText() + selectedTask
-                      .getStatus());
-              taskDeadlineLabel.setText(
-                  taskDeadlineLabel.getText() + selectedTask
-                      .getDeadline().toString());
-              taskIDLabel.setText(
-                  taskIDLabel.getText() + selectedTask.getTaskID());
+                  taskStatusLabel.getText() + selectedTask.getStatus());
+
+              updateTaskArea();
 
             }
 
@@ -970,7 +966,7 @@ public class Controller
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
-        @Override public void handle(ActionEvent e)
+        public void handle(ActionEvent e)
         {
           {
             window.close();
@@ -1320,6 +1316,7 @@ public class Controller
     }
 
   }
+
 
   /**
    * FXML method to the search TextField.

@@ -35,6 +35,7 @@ public class RequirementList implements Serializable
         return -1;
     }
 
+
     public ArrayList<Requirement> getRequirements() {
         return requirements;
     }
