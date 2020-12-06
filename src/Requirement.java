@@ -10,7 +10,10 @@ public class Requirement implements Serializable
   private LocalDate deadline;
   private MemberList team;
 
-
+  public String getStatus()
+  {
+    return status;
+  }
 
   public Requirement(String name, String userstory, String status, LocalDate deadline, MemberList team) {
     this.deadline = deadline;
@@ -26,11 +29,6 @@ public class Requirement implements Serializable
   public TaskList getTasks()
   {
     return tasks;
-  }
-
-  public String getStatus()
-  {
-    return status;
   }
 
   public void setUserstory(String userstory) {
