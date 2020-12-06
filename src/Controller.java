@@ -27,7 +27,6 @@ public class Controller
   @FXML private Tab projectDetailsTab;
   @FXML private Tab requirementDetailsTab;
 
-
   @FXML private TableView<Member> employeeField;
   @FXML private TableColumn<Member, String> employeeName;
 
@@ -275,7 +274,6 @@ public class Controller
               selectedTask = taskField.getItems().get(index);
               System.out.println(selectedTask.getName());
 
-
               taskNameLabel.setText(taskNameLabel.getText().substring(0, 7));
 
               taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
@@ -289,11 +287,6 @@ public class Controller
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
-
-              taskStatusLabel.setText(
-                  taskStatusLabel.getText() + selectedTask.getStatus());
-
-              updateTaskArea();
 
             }
 
@@ -484,7 +477,9 @@ public class Controller
             window.close();
             finalMemberList.removeMember(selectedMember);
             adapterEmployee.saveMembers(finalMemberList);
+            adapterProjects.saveProjects(finalProjectList);
             updateEmployeeArea();
+            updateProjectArea();
             selectedMember = null;
           }
         }
@@ -1280,13 +1275,12 @@ public class Controller
             window.close();
             String temp = selectedProject.getName();
             selectedRequirement.getTasks().removeTask(selectedTask);
-            finalProjectList.getProject(temp).getRequirements().remove(selectedTask);
+            finalProjectList.getProject(temp).getRequirements()
+                .remove(selectedTask);
             adapterProjects.saveProjects(finalProjectList);
             updateRequirementArea();
             updateTaskArea();
             selectedTask = null;
-            requirementDetailsTab.setText("Task details");
-            requirementDetailsTab.setDisable(true);
           }
         }
       });
@@ -1316,7 +1310,6 @@ public class Controller
     }
 
   }
-
 
   /**
    * FXML method to the search TextField.
@@ -1396,11 +1389,22 @@ public class Controller
           window.close();
           Member member = new Member(inputMemberName.getText());
           System.out.println(member.getName());
+          ProjectList projects = adapterProjects
+              .getProjectByEmployeeName(selectedMember.getName());
+          for (int i = 0; i < projects.size(); i++)
+          {
+            finalProjectList.getProject(projects.get(i).getName()).getTeam().replaceMember(selectedMember.getName(),member.getName());
+          }
+          adapterProjects.saveProjects(finalProjectList);
           finalMemberList.getIndexFromName(selectedMember.getName());
+
           finalMemberList
               .get(finalMemberList.getIndexFromName(selectedMember.getName()))
               .setName(inputMemberName.getText());
+          adapterProjects.saveProjects(finalProjectList);
+
           adapterEmployee.saveMembers(finalMemberList);
+
           updateEmployeeArea();
           updateProjectArea();
         }

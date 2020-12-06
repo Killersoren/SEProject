@@ -36,9 +36,15 @@ public class MemberList implements Serializable
     members.add(member);
   }
 
+
   public void removeMember(Member member)
   {
     members.remove(member);
+  }
+
+  public void replaceMember(String name,String newName)
+  {
+    members.get(getIndexFromName(name)).setName(newName);
   }
 
   public int getIndexFromName(String name)
