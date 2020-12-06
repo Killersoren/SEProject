@@ -29,11 +29,11 @@ public class EmployeeListAdapter {
    */
   public EmployeeList getAllMembers()
   {
-    EmployeeList members = new EmployeeList();
+    EmployeeList employeeList = new EmployeeList();
 
     try
     {
-      members = (EmployeeList) mfio.readObjectFromFile(fileName);
+      employeeList = (EmployeeList)mfio.readObjectFromFile(fileName);
     }
     catch (FileNotFoundException e)
     {
@@ -47,7 +47,7 @@ public class EmployeeListAdapter {
     {
       System.out.println("Class Not Found: ");
     }
-    return members;
+    return employeeList;
   }
 
 
