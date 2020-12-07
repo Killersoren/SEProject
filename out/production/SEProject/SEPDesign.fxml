@@ -144,41 +144,128 @@
                                        <font>
                                           <Font size="16.0" />
                                        </font></Label>
-                                    <Label fx:id="requirementNameLabel" prefHeight="25.0" prefWidth="608.0" text=" Name: ">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="requirementStatusLabel" prefHeight="17.0" prefWidth="635.0" text=" Status: ">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="requirementDeadlineLabel" prefHeight="17.0" prefWidth="635.0" text=" Deadline: ">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="requirementTeamLabel" prefHeight="17.0" prefWidth="635.0" text=" Team:">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Estimated hours: ">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Total hours worked: ">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="requirementUserStoryLabel" alignment="TOP_LEFT" maxWidth="600.0" prefHeight="81.0" prefWidth="600.0" text=" User story: " wrapText="true">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <Label prefWidth="150.0" text="Name: ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="requirementNameLabel" prefHeight="25.0">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label prefWidth="150.0" text="Status: ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="requirementStatusLabel" prefHeight="25.0">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox prefHeight="25.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Deadline">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="requirementDeadlineLabel" prefHeight="25.0">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="233.0" prefHeight="25.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Team:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="requirementTeamLabel">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefWidth="150.0" text=" Estimated hours: ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="243.0" prefHeight="25.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefWidth="150.0" text=" Total hours worked: ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="233.0" prefHeight="25.0">
+                                       <children>
+                                          <Label prefWidth="150.0" text=" User story: ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="requirementUserStoryLabel" alignment="TOP_LEFT" maxWidth="600.0" wrapText="true">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
                                  </children>
                               </VBox>
                               <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="50.0" style="-fx-border-color: darkGrey;">
