@@ -129,7 +129,6 @@ public class ProjectListAdapter
       {
         for (int i = 0; i < result.size(); i++)
         {
-          System.out.println(result.get(i).getTeam().size());
           for (int j = 0; j < result.get(i).getTeam().size(); j++)
           {
             if (result.get(i).getTeam().get(j).getName().contains(searchPhrase))
