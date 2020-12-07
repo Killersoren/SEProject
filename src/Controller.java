@@ -76,7 +76,7 @@ public class Controller
   //Task JavaFx objects
   TextField inputTaskName = new TextField();
   TextField inputTaskID = new TextField();
-  TextField inputEstimatedHours = new TextField();
+  TextField inputTaskEstimatedHours = new TextField();
   ComboBox<Integer> inputTotalHoursWorked = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
 
@@ -350,9 +350,9 @@ public class Controller
     window.setResizable(false);
   }
 
-  private HBox nameWindowPart(TextField inputText, String labelName)
+  private VBox textFieldWindowPart(TextField inputText, String labelName)
   {
-    HBox nameContainer = new HBox(2);
+    VBox nameContainer = new VBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label label = new Label(labelName);
     inputText.setPromptText("Enter " + labelName.toLowerCase());
@@ -373,7 +373,7 @@ public class Controller
 
     nameWindow(window, "Add a new member");
 
-    HBox employeeNameContainer = nameWindowPart(inputMemberName,
+    VBox employeeNameContainer = textFieldWindowPart(inputMemberName,
         "Employee name: ");
 
     closeAndSaveButton.get("addEmployee")
@@ -404,22 +404,18 @@ public class Controller
 
       nameWindow(window, "Edit employee" + selectedEmployee.getName());
 
-      HBox employeeNameContainer = nameWindowPart(inputMemberName,
-          "New Employee name: ");
       // Employee name input.
-      HBox nameContainer = new HBox(2);
-      nameContainer.setPadding(new Insets(10, 10, 0, 10));
-      Label memberName = new Label("New name: ");
-      inputMemberName = new TextField();
+      VBox employeeNameContainer = textFieldWindowPart(inputMemberName,
+          "New Employee name: ");
+
       inputMemberName.setText(selectedEmployee.getName());
-      nameContainer.getChildren().addAll(memberName, inputMemberName);
 
       closeAndSaveButton.get("editEmployee")
           .setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(nameContainer, errorLabel,
+      layout.getChildren().addAll(employeeNameContainer, errorLabel,
           closeAndSaveButton.get("editEmployee"));
       layout.setAlignment(Pos.CENTER);
 
@@ -522,12 +518,8 @@ public class Controller
     nameWindow(window, "Add project");
 
     // Project name input.
-    VBox nameContainer = new VBox();
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label projectName = new Label("Project name: ");
-    inputProjectName = new TextField();
-    inputProjectName.setPromptText("Enter project name");
-    nameContainer.getChildren().addAll(projectName, inputProjectName);
+    VBox projectNameContainer = textFieldWindowPart(inputProjectName,
+        "Project name: ");
 
     // Project member list input.
     VBox memberListContainer = new VBox();
@@ -552,7 +544,7 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    layout.getChildren().addAll(nameContainer, memberListContainer,
+    layout.getChildren().addAll(projectNameContainer, memberListContainer,
         closeAndSaveButton.get("addProject"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -579,12 +571,9 @@ public class Controller
       nameWindow(window, "Edit project" + selectedProject.getName());
 
       // Project name input.
-      VBox nameContainer = new VBox();
-      nameContainer.setPadding(new Insets(10, 10, 0, 10));
-      Label projectName = new Label("Project name: ");
-      inputProjectName = new TextField();
+      VBox projectNameContainer = textFieldWindowPart(inputProjectName,
+          "New Project name: ");
       inputProjectName.setText(selectedProject.getName());
-      nameContainer.getChildren().addAll(projectName, inputProjectName);
 
       // Project member list input.
       VBox memberListContainer = new VBox();
@@ -617,7 +606,7 @@ public class Controller
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(nameContainer, memberListContainer,
+      layout.getChildren().addAll(projectNameContainer, memberListContainer,
           closeAndSaveButton.get("editProject"), errorLabel);
 
       layout.setAlignment(Pos.CENTER);
@@ -708,22 +697,13 @@ public class Controller
     nameWindow(window, "Add requirement");
 
     // Requirement name input.
-    VBox nameContainer = new VBox();
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label requirementName = new Label("Requirement name: ");
-    inputRequirementName = new TextField();
-    inputRequirementName.setPromptText("Enter requirement name");
 
-    nameContainer.getChildren().addAll(requirementName, inputRequirementName);
+    VBox requirementNameContainer = textFieldWindowPart(inputRequirementName,
+        " Requirement name: ");
 
     // Requirement user story input.
-    VBox userStoryContainer = new VBox();
-    userStoryContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label userStory = new Label("User story: ");
-    inputUserStory = new TextField();
-    inputUserStory.setPromptText("Enter user story");
-
-    userStoryContainer.getChildren().addAll(userStory, inputUserStory);
+    VBox requirementUserStoryContainer = textFieldWindowPart(inputUserStory,
+        "User story: ");
 
     // Requirement status input.
     VBox statusContainer = new VBox();
@@ -797,8 +777,8 @@ public class Controller
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
-        .addAll(nameContainer, userStoryContainer, statusContainer,
-            memberListContainer, deadlineContainer,
+        .addAll(requirementNameContainer, requirementUserStoryContainer,
+            statusContainer, memberListContainer, deadlineContainer,
             closeAndSaveButton.get("addRequirement"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -816,24 +796,16 @@ public class Controller
     nameWindow(window, "Edit requirement " + selectedRequirement.getName());
 
     // Requirement name input.
-    VBox nameContainer = new VBox();
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label requirementName = new Label("Requirement name: ");
-    inputRequirementName = new TextField();
-    inputRequirementName.setPromptText("Enter requirement name");
+    VBox requirementNameContainer = textFieldWindowPart(inputRequirementName,
+        "New Requirement name: ");
+
     inputRequirementName.setText(selectedRequirement.getName());
 
-    nameContainer.getChildren().addAll(requirementName, inputRequirementName);
-
     // Requirement user story input.
-    VBox userStoryContainer = new VBox();
-    userStoryContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label userStory = new Label("User story: ");
-    inputUserStory = new TextField();
-    inputUserStory.setPromptText("Enter user story");
-    inputUserStory.setText(selectedRequirement.getUserstory());
+    VBox requirementUserStoryContainer = textFieldWindowPart(inputUserStory,
+        "User story: ");
 
-    userStoryContainer.getChildren().addAll(userStory, inputUserStory);
+    inputUserStory.setText(selectedRequirement.getUserstory());
 
     // Requirement status input.
     VBox statusContainer = new VBox();
@@ -917,8 +889,8 @@ public class Controller
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
-        .addAll(nameContainer, userStoryContainer, statusContainer,
-            memberListContainer, deadlineContainer,
+        .addAll(requirementNameContainer, requirementUserStoryContainer,
+            statusContainer, memberListContainer, deadlineContainer,
             closeAndSaveButton.get("editRequirement"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -1000,24 +972,12 @@ public class Controller
     errorLabel.setText("");
     nameWindow(window, "Add Task");
 
-    // task name input.
-    VBox nameContainer = new VBox();
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskNameLabel = new Label("Task name: ");
-    inputTaskName = new TextField();
-    inputTaskName.setPromptText("Enter task name");
-
-    nameContainer.getChildren().addAll(taskNameLabel, inputTaskName);
+    // Task name input.
+    VBox taskNameContainer = textFieldWindowPart(inputTaskName, " Task name: ");
 
     // task estimated hours input.
-    VBox estimatedHoursContainer = new VBox();
-    estimatedHoursContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskEstimatedHoursLabel = new Label("Task estimated hours: ");
-    inputEstimatedHours = new TextField();
-    inputEstimatedHours.setPromptText("Enter estimated number of hours");
-
-    estimatedHoursContainer.getChildren()
-        .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
+    VBox taskEstimatedHoursContainer = textFieldWindowPart(
+        inputTaskEstimatedHours, "Estimated hours: ");
 
     //Task status input
 
@@ -1033,13 +993,7 @@ public class Controller
     statusContainer.getChildren().addAll(status, inputStatus);
 
     //Task ID input
-
-    VBox taskIDContainer = new VBox();
-    taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskIDLabel = new Label("Task ID  ");
-    inputTaskID = new TextField();
-    inputTaskID.setPromptText("Enter task ID");
-    taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
+    VBox taskIDContainer = textFieldWindowPart(inputTaskID, "Task ID: ");
 
     // Task deadline input.
     VBox deadlineContainer = new VBox();
@@ -1099,9 +1053,10 @@ public class Controller
 
     closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
 
-    layout.getChildren().addAll(nameContainer, statusContainer, taskIDContainer,
-        memberListContainer, estimatedHoursContainer, deadlineContainer,
-        closeAndSaveButton.get("addTask"), errorLabel);
+    layout.getChildren()
+        .addAll(taskNameContainer, statusContainer, taskIDContainer,
+            memberListContainer, taskEstimatedHoursContainer, deadlineContainer,
+            closeAndSaveButton.get("addTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1117,25 +1072,16 @@ public class Controller
     nameWindow(window, "Edit task " + selectedTask.getName());
 
     // Task name input.
-    VBox nameContainer = new VBox();
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskName = new Label("Task name: ");
-    inputTaskName = new TextField();
-    inputTaskName.setPromptText("Enter Task name");
+    VBox taskNameContainer = textFieldWindowPart(inputTaskName,
+        "New Task name: ");
+
     inputTaskName.setText(selectedTask.getName());
 
-    nameContainer.getChildren().addAll(taskName, inputTaskName);
-
     // task estimated hours input.
-    VBox estimatedHoursContainer = new VBox();
-    estimatedHoursContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskEstimatedHoursLabel = new Label("Task estimated hours: ");
-    inputEstimatedHours = new TextField();
-    inputEstimatedHours
+    VBox taskEstimatedHoursContainer = textFieldWindowPart(
+        inputTaskEstimatedHours, "Estimated hours: ");
+    inputTaskEstimatedHours
         .setText(String.valueOf(selectedTask.getEstimatedHours()));
-
-    estimatedHoursContainer.getChildren()
-        .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
 
     //Task total hours input
 
@@ -1152,7 +1098,7 @@ public class Controller
         inputTotalHoursWorked.getItems()
             .remove(0, inputTotalHoursWorked.getItems().size());
         for (int i = 0;
-             i <= Integer.parseInt(inputEstimatedHours.getText()); i++)
+             i <= Integer.parseInt(inputTaskEstimatedHours.getText()); i++)
         {
           inputTotalHoursWorked.getItems().add(i);
         }
@@ -1163,13 +1109,8 @@ public class Controller
     totalHoursContainer.getChildren().addAll(totalHours, inputTotalHoursWorked);
 
     //Task ID input
-    VBox taskIDContainer = new VBox();
-    taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label taskIDLabel = new Label("Task ID  ");
-    inputTaskID = new TextField();
+    VBox taskIDContainer = textFieldWindowPart(inputTaskID, "Task ID: ");
     inputTaskID.setText(selectedTask.getTaskID());
-
-    taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
 
     // Task status input.
     VBox statusContainer = new VBox();
@@ -1205,13 +1146,6 @@ public class Controller
         super.updateItem(date, empty);
         setDisable(empty || date.compareTo(LocalDate.now()) < 1
             || date.compareTo(selectedRequirement.getDeadline()) > 0);
-      }
-    });
-    inputTaskDeadline.setOnAction(new EventHandler()
-    {
-      public void handle(Event t)
-      {
-        System.err.println("Selected date: " + inputTaskDeadline.getValue());
       }
     });
     inputTaskDeadline.setPromptText("Set deadline..");
@@ -1253,9 +1187,10 @@ public class Controller
 
     closeAndSaveButton.get("editTask").setOnAction(new PopupListener(window));
 
-    layout.getChildren().addAll(nameContainer, taskIDContainer, statusContainer,
-        memberListContainer, estimatedHoursContainer, totalHoursContainer,
-        deadlineContainer, closeAndSaveButton.get("editTask"), errorLabel);
+    layout.getChildren()
+        .addAll(taskNameContainer, taskIDContainer, statusContainer,
+            memberListContainer, taskEstimatedHoursContainer, totalHoursContainer,
+            deadlineContainer, closeAndSaveButton.get("editTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1587,8 +1522,8 @@ public class Controller
         {
           errorLabel.setText("ERROR: Fix taxID");
         }
-        else if (inputEstimatedHours.getText().isEmpty() || inputEstimatedHours
-            .getText().equals(""))
+        else if (inputTaskEstimatedHours.getText().isEmpty()
+            || inputTaskEstimatedHours.getText().equals(""))
         {
           errorLabel.setText("ERROR: Fix estimated hours");
         }
@@ -1602,7 +1537,7 @@ public class Controller
 
           Task task = new Task(inputTaskName.getText(), inputTaskID.getText(),
               inputStatus.getValue(),
-              Integer.parseInt(inputEstimatedHours.getText()),
+              Integer.parseInt(inputTaskEstimatedHours.getText()),
               inputTaskDeadline.getValue(), selectedMembers);
           selectedRequirement.getTasks().addTask(task);
           adapterProjects.saveProjects(finalProjectList);
@@ -1631,8 +1566,8 @@ public class Controller
         // Edit new team from selected checkboxes
         selectedTask.setTaskMembers(selectedMembers);
         // Edit estimated hours
-        selectedTask
-            .setEstimatedHours(Integer.parseInt(inputEstimatedHours.getText()));
+        selectedTask.setEstimatedHours(
+            Integer.parseInt(inputTaskEstimatedHours.getText()));
         // Edit total hours
         selectedTask.setTotalHoursWorked(inputTotalHoursWorked.getValue());
         // Edit new deadline
