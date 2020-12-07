@@ -35,6 +35,22 @@ public class TaskList implements Serializable
         return -1;
     }
 
+    public int getTotalEstimatedHours(){
+        int sum = 0;
+        for(int i = 0 ; i < tasks.size() ; i++){
+            sum =+ tasks.get(i).getEstimatedHours();
+        }
+        return sum;
+    }
+
+    public int getTotalWorkedHours(){
+        int sum = 0;
+        for(int i = 0 ; i < tasks.size() ; i++){
+            sum =+ tasks.get(i).getTotalHoursWorked();
+        }
+        return sum;
+    }
+
     public boolean isEmpty(){
         return tasks.isEmpty();
     }

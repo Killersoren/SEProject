@@ -226,21 +226,27 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              int index = requirementField.getSelectionModel()
-                  .getSelectedIndex();
+              int index = requirementField.getSelectionModel().getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(
-                  selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
               requirementNameLabel.setText(selectedRequirement.getName());
               requirementStatusLabel.setText(selectedRequirement.getStatus());
-              requirementDeadlineLabel
-                  .setText(selectedRequirement.getDeadline().toString());
-              requirementTeamLabel
-                  .setText(selectedRequirement.getTeam().toString());
-              requirementUserStoryLabel
-                  .setText(selectedRequirement.getUserstory());
+              requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
+              requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
+              if(!selectedRequirement.getTasks().isEmpty()){
+                requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours()+"");
+                requirementEstimatedLabel.setTextFill(Color.BLACK);
+                requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours()+"");
+                requirementHoursWorkedLabel.setTextFill(Color.BLACK);
+              } else {
+                requirementEstimatedLabel.setText("No tasks in this requirement");
+                requirementEstimatedLabel.setTextFill(Color.RED);
+                requirementHoursWorkedLabel.setText("No tasks in this requirement");
+                requirementHoursWorkedLabel.setTextFill(Color.RED);
+              }
+              requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
               updateTaskArea();
             }
           }
@@ -928,8 +934,7 @@ public class Controller
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(
-          selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
       for (int j = 0; j < selectedRequirement.getTeam().size(); j++)
