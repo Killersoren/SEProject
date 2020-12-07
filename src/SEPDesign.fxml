@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -222,7 +223,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label>
+                                          <Label fx:id="requirementEstimatedLabel">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -239,7 +240,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label>
+                                          <Label fx:id="requirementHoursWorkedLabel">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -256,11 +257,11 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="requirementUserStoryLabel" alignment="TOP_LEFT" maxWidth="600.0" wrapText="true">
+                                          <TextArea fx:id="requirementUserStoryLabel" editable="false" prefWidth="400.0">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
-                                          </Label>
+                                          </TextArea>
                                        </children>
                                        <padding>
                                           <Insets left="15.0" />
