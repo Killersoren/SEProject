@@ -584,9 +584,7 @@ public class Controller
       Stage window = new Stage();
       errorLabel.setText("");
 
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Edit project");
-      window.setMinWidth(300);
+      nameWindow(window, "Edit project"+selectedProject.getName());
 
       // Project name input.
       VBox nameContainer = new VBox();
@@ -649,10 +647,7 @@ public class Controller
     if (!(selectedProject == null))
     {
       Stage window = new Stage();
-
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Remove Project: " + selectedProject.getName());
-      window.setMinWidth(300);
+      nameWindow(window, "Remove project"+selectedProject.getName());
 
       // Project name input.
       HBox nameContainer = new HBox(2);
@@ -718,13 +713,9 @@ public class Controller
    */
   @FXML public void addRequirementClick()
   {
-
     Stage window = new Stage();
     errorLabel.setText("");
-
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new requirement");
-    window.setMinWidth(300);
+    nameWindow(window, "Add requirement");
 
     // Requirement name input.
     VBox nameContainer = new VBox();
@@ -833,10 +824,7 @@ public class Controller
   {
     Stage window = new Stage();
     errorLabel.setText("");
-
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Edit requirement");
-    window.setMinWidth(300);
+    nameWindow(window, "Edit requirement "+selectedRequirement.getName());
 
     // Requirement name input.
     VBox nameContainer = new VBox();
@@ -957,10 +945,7 @@ public class Controller
     if (!(selectedRequirement == null))
     {
       Stage window = new Stage();
-
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Remove Requirement: " + selectedRequirement.getName());
-      window.setMinWidth(300);
+      nameWindow(window, "Remove requirement "+selectedRequirement.getName());
 
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -1026,10 +1011,7 @@ public class Controller
   {
     Stage window = new Stage();
     errorLabel.setText("");
-
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new task");
-    window.setMinWidth(300);
+    nameWindow(window, "Add Task");
 
     // task name input.
     VBox nameContainer = new VBox();
@@ -1147,10 +1129,7 @@ public class Controller
   {
     Stage window = new Stage();
     errorLabel.setText("");
-
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Edit task");
-    window.setMinWidth(300);
+    nameWindow(window, "Edit task "+selectedTask.getName());
 
     // Task name input.
     VBox nameContainer = new VBox();
@@ -1307,10 +1286,7 @@ public class Controller
     if (!(selectedTask == null))
     {
       Stage window = new Stage();
-
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Remove Task: " + selectedTask.getName());
-      window.setMinWidth(300);
+      nameWindow(window, "Remove task "+selectedTask.getName());
 
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
