@@ -78,7 +78,7 @@ public class Controller
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
   ComboBox<Employee> responsibleMember = new ComboBox<>();
-  TextField inputTotalHoursWorked = new TextField();
+  ComboBox<Integer>  inputTotalHoursWorked= new ComboBox<>();
   ComboBox<String> inputStatusForTask = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
 
@@ -1185,6 +1185,19 @@ public class Controller
     estimatedHoursContainer.getChildren()
         .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
 
+    //Task total hours input
+
+    VBox totalHoursContainer = new VBox();
+    totalHoursContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label totalHours = new Label("Status: ");
+
+    inputTotalHoursWorked = new ComboBox();
+    for (int i = 0; i < Integer.parseInt(inputEstimatedHours.getText()); i++)
+    {
+      inputStatus.getItems().add(String.valueOf(i));
+    }
+    totalHoursContainer.getChildren().addAll(totalHours, inputStatus);
+
     //Task ID input
     VBox taskIDContainer = new VBox();
     taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -1276,7 +1289,7 @@ public class Controller
     closeAndSaveButton.get("editTask").setOnAction(new PopupListener(window));
 
     layout.getChildren().addAll(nameContainer, taskIDContainer, statusContainer,
-        memberListContainer,estimatedHoursContainer, deadlineContainer,
+        memberListContainer,estimatedHoursContainer,totalHoursContainer, deadlineContainer,
         closeAndSaveButton.get("editTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -1676,9 +1689,12 @@ public class Controller
         }
         // Edit new team from selected checkboxes
         selectedTask.setTaskMembers(selectedMembers);
-        // Edit new status
+        // Edit estimated hours
         selectedTask.setEstimatedHours(
             Integer.parseInt(inputEstimatedHours.getText()));
+        // Edit estimated hours
+        selectedTask.setEstimatedHours(
+           inputTotalHoursWorked.getValue());
         // Edit new deadline
         selectedTask.setDeadline(inputTaskDeadline.getValue());
         // Close window
