@@ -1154,17 +1154,16 @@ public class Controller
 
     nameContainer.getChildren().addAll(taskName, inputTaskName);
 
-    // Requirement user story input.
-    VBox userStoryContainer = new VBox();
-    userStoryContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label userStory = new Label("User story: ");
-    inputUserStory = new TextField();
-    inputUserStory.setPromptText("Enter user story");
-    inputUserStory.setText(selectedRequirement.getUserstory());
+    //Task ID input
+    VBox taskIDContainer = new VBox();
+    taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskIDLabel = new Label("Task ID  ");
+    inputTaskID = new TextField();
+    inputTaskID.setPromptText(selectedTask.getTaskID());
+    taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
 
-    userStoryContainer.getChildren().addAll(userStory, inputUserStory);
 
-    // Requirement status input.
+    // Task status input.
     VBox statusContainer = new VBox();
     statusContainer.setPadding(new Insets(10, 10, 0, 10));
     Label status = new Label("Status: ");
@@ -1177,11 +1176,11 @@ public class Controller
     inputStatus.setValue(selectedRequirement.getStatus());
     statusContainer.getChildren().addAll(status, inputStatus);
 
-    // Requirement deadline input.
+    // Task deadline input.
     VBox deadlineContainer = new VBox();
     deadlineContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskDeadline = new Label("Deadline:");
-    inputRequirementDeadline.setShowWeekNumbers(false);
+    inputTaskDeadline.setShowWeekNumbers(false);
     final DatePicker datePicker = new DatePicker();
     datePicker.setOnAction(new EventHandler()
     {
@@ -1191,7 +1190,7 @@ public class Controller
         System.err.println("Selected date: " + date);
       }
     });
-    inputRequirementDeadline.setDayCellFactory(picker -> new DateCell()
+    inputTaskDeadline.setDayCellFactory(picker -> new DateCell()
     {
       public void updateItem(LocalDate date, boolean empty)
       {
@@ -1200,21 +1199,21 @@ public class Controller
             || date.compareTo(selectedRequirement.getDeadline()) > 0);
       }
     });
-    inputRequirementDeadline.setOnAction(new EventHandler()
+    inputTaskDeadline.setOnAction(new EventHandler()
     {
       public void handle(Event t)
       {
         System.err
-            .println("Selected date: " + inputRequirementDeadline.getValue());
+            .println("Selected date: " + inputTaskDeadline.getValue());
       }
     });
-    inputRequirementDeadline.setPromptText("Set deadline..");
-    inputRequirementDeadline.setValue(selectedRequirement.getDeadline());
+    inputTaskDeadline.setPromptText("Set deadline..");
+    inputTaskDeadline.setValue(selectedTask.getDeadline());
 
     deadlineContainer.getChildren()
-        .addAll(taskDeadline, inputRequirementDeadline);
+        .addAll(taskDeadline, inputTaskDeadline);
 
-    // Requirement member list input.
+    // Task member list input.
     VBox memberListContainer = new VBox();
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label membersLabel = new Label("Select members: ");
@@ -1246,13 +1245,13 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("editRequirement")
+    closeAndSaveButton.get("editTask")
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
-        .addAll(nameContainer, userStoryContainer, statusContainer,
+        .addAll(nameContainer, taskIDContainer, statusContainer,
             memberListContainer, deadlineContainer,
-            closeAndSaveButton.get("editRequirement"), errorLabel);
+            closeAndSaveButton.get("editTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1625,7 +1624,36 @@ public class Controller
         }
 
       }
-
+      else if (actionEvent.getSource() == closeAndSaveButton.get("editTask"))
+      {
+        // Edit new name
+        selectedTask.setName(inputTaskName.getText());
+        // Edit new ID
+        selectedTask.setTaskID(inputTaskID.getText());
+        // Edit new status
+        selectedTask.setStatus(inputStatus.getValue());
+        // New EmployeeList object to replace the old one
+        selectedMembers = new EmployeeList();
+        // Run loop to check which members to add and which to not add
+        for (int i = 0; i < memberCheckBoxes.length; i++)
+        {
+          if (memberCheckBoxes[i].isSelected())
+          {
+            selectedMembers.addMember(selectedProject.getTeam().get(i));
+          }
+        }
+        // Edit new team from selected checkboxes
+        selectedTask.setTaskMembers(selectedMembers);
+        // Edit new deadline
+        selectedTask.setDeadline(inputTaskDeadline.getValue());
+        // Close window
+        window.close();
+        // Update GUI table with requirements to show changes
+        updateTaskArea();
+        // Save all changes
+        adapterProjects.saveProjects(finalProjectList);
+        // END of editing requirement
+      }
     }
   }
 
