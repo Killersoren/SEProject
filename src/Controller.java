@@ -229,7 +229,7 @@ public class Controller
               requirementUserStoryLabel.setText(
                   requirementUserStoryLabel.getText().substring(0, 13));
               requirementDeadlineLabel
-                  .setText(requirementDeadlineLabel.getText().substring(0, 9));
+                  .setText(requirementDeadlineLabel.getText().substring(0, 10));
               int index = requirementField.getSelectionModel()
                   .getSelectedIndex();
               selectedRequirement = requirementField.getItems().get(index);
@@ -279,14 +279,22 @@ public class Controller
               taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
 
               taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 5));
+                  .setText(taskStatusLabel.getText().substring(0, 8));
 
               taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText().substring(0, 5));
+                  .setText(taskDeadlineLabel.getText().substring(0, 10));
 
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
+
+              taskIDLabel.setText(taskIDLabel.getText()+selectedTask.getTaskID());
+
+              taskStatusLabel
+                  .setText(taskStatusLabel.getText()+selectedTask.getStatus());
+
+              taskDeadlineLabel
+                  .setText(taskDeadlineLabel.getText()+selectedTask.getDeadline());
 
             }
 

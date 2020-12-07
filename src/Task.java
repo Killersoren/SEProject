@@ -23,6 +23,41 @@ public class Task implements Serializable
     this.taskMembers = taskMembers;
   }
 
+  public void setName(String name)
+  {
+    this.name = name;
+  }
+
+  public void setStatus(String status)
+  {
+    this.status = status;
+  }
+
+  public String getTaskID()
+  {
+    return taskID;
+  }
+
+  public void setTaskID(String taskID)
+  {
+    this.taskID = taskID;
+  }
+
+  public void setDeadline(LocalDate deadline)
+  {
+    this.deadline = deadline;
+  }
+
+  public EmployeeList getTaskMembers()
+  {
+    return taskMembers;
+  }
+
+  public void setTaskMembers(EmployeeList taskMembers)
+  {
+    this.taskMembers = taskMembers;
+  }
+
   public String getName()
   {
     return name;
