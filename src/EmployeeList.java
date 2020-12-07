@@ -1,11 +1,11 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MemberList implements Serializable
+public class EmployeeList implements Serializable
 {
   private ArrayList<Employee> employees;
 
-  public MemberList()
+  public EmployeeList()
   {
     this.employees = new ArrayList<>();
   }
@@ -73,9 +73,9 @@ public class MemberList implements Serializable
 
   public boolean equals(Object obj)
   {
-    if (obj instanceof MemberList)
+    if (obj instanceof EmployeeList)
     {
-      if (this.getMembers().equals(((MemberList) obj).getMembers()))
+      if (this.getMembers().equals(((EmployeeList) obj).getMembers()))
       {
         return true;
       }
