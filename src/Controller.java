@@ -87,9 +87,9 @@ public class Controller
   private EmployeeListAdapter adapterEmployee;
 
   // Class list Objects
-  private MemberList selectedMembers;
+  private EmployeeList selectedMembers;
   private ProjectList finalProjectList;
-  private MemberList finalMemberList;
+  private EmployeeList finalEmployeeList;
 
   // Selected objects
   private Employee selectedEmployee;
@@ -295,7 +295,7 @@ public class Controller
   }
 
   /**
-   * Updates the MemberList objects the TreeView<Employee> on the GUI
+   * Updates the EmployeeList objects the TreeView<Employee> on the GUI
    *
    * @param //args Command line arguments
    */
@@ -304,10 +304,10 @@ public class Controller
     employeeField.getItems().clear();
     if (adapterEmployee != null)
     {
-      finalMemberList = adapterEmployee.getAllMembers();
-      for (int i = 0; i < finalMemberList.size(); i++)
+      finalEmployeeList = adapterEmployee.getAllMembers();
+      for (int i = 0; i < finalEmployeeList.size(); i++)
       {
-        employeeField.getItems().add(finalMemberList.get(i));
+        employeeField.getItems().add(finalEmployeeList.get(i));
       }
     }
   }
@@ -483,8 +483,8 @@ public class Controller
                   .deleteMember(selectedEmployee.getName());
             }
 
-            finalMemberList.removeMember(selectedEmployee);
-            adapterEmployee.saveMembers(finalMemberList);
+            finalEmployeeList.removeMember(selectedEmployee);
+            adapterEmployee.saveMembers(finalEmployeeList);
             adapterProjects.saveProjects(finalProjectList);
             updateEmployeeArea();
             updateProjectArea();
@@ -544,11 +544,11 @@ public class Controller
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label membersLabel = new Label("Select members: ");
     GridPane memberSelectContainer = new GridPane();
-    memberCheckBoxes = new CheckBox[finalMemberList.size()];
+    memberCheckBoxes = new CheckBox[finalEmployeeList.size()];
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(finalEmployeeList.get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
     }
@@ -603,11 +603,11 @@ public class Controller
       memberListContainer.setPadding(new Insets(0, 10, 0, 10));
       Label membersLabel = new Label("Select members: ");
       GridPane memberSelectContainer = new GridPane();
-      memberCheckBoxes = new CheckBox[finalMemberList.size()];
+      memberCheckBoxes = new CheckBox[finalEmployeeList.size()];
 
       for (int i = 0; i < memberCheckBoxes.length; i++)
       {
-        memberCheckBoxes[i] = new CheckBox(finalMemberList.get(i).getName());
+        memberCheckBoxes[i] = new CheckBox(finalEmployeeList.get(i).getName());
         memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
 
         for (int j = 0; j < selectedProject.getTeam().size(); j++)
@@ -1377,8 +1377,8 @@ public class Controller
         {
           window.close();
           Employee employee = new Employee(inputMemberName.getText());
-          finalMemberList.addMember(employee);
-          adapterEmployee.saveMembers(finalMemberList);
+          finalEmployeeList.addMember(employee);
+          adapterEmployee.saveMembers(finalEmployeeList);
           updateEmployeeArea();
           updateProjectArea();
         }
@@ -1405,14 +1405,14 @@ public class Controller
                 .replaceMember(selectedEmployee.getName(), employee.getName());
           }
           adapterProjects.saveProjects(finalProjectList);
-          finalMemberList.getIndexFromName(selectedEmployee.getName());
+          finalEmployeeList.getIndexFromName(selectedEmployee.getName());
 
-          finalMemberList
-              .get(finalMemberList.getIndexFromName(selectedEmployee.getName()))
+          finalEmployeeList
+              .get(finalEmployeeList.getIndexFromName(selectedEmployee.getName()))
               .setName(inputMemberName.getText());
           adapterProjects.saveProjects(finalProjectList);
 
-          adapterEmployee.saveMembers(finalMemberList);
+          adapterEmployee.saveMembers(finalEmployeeList);
 
           updateEmployeeArea();
           updateProjectArea();
@@ -1425,14 +1425,14 @@ public class Controller
       }
       else if (actionEvent.getSource() == closeAndSaveButton.get("addProject"))
       {
-        selectedMembers = new MemberList();
+        selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
           if (memberCheckBoxes[i].isSelected())
           {
-            selectedMembers.addMember(finalMemberList.get(i));
+            selectedMembers.addMember(finalEmployeeList.get(i));
             System.out.println(
-                "Employee " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalEmployeeList.get(i) + " has been added to "
                     + inputProjectName.getText());
           }
         }
@@ -1462,14 +1462,14 @@ public class Controller
       {
 
         // Make team of the new selected members
-        selectedMembers = new MemberList();
+        selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
           if (memberCheckBoxes[i].isSelected())
           {
-            selectedMembers.addMember(finalMemberList.get(i));
+            selectedMembers.addMember(finalEmployeeList.get(i));
             System.out.println(
-                "Employee " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalEmployeeList.get(i) + " has been added to "
                     + inputProjectName.getText());
           }
         }
@@ -1500,14 +1500,14 @@ public class Controller
       else if (actionEvent.getSource() == closeAndSaveButton
           .get("addRequirement"))
       {
-        selectedMembers = new MemberList();
+        selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
           if (memberCheckBoxes[i].isSelected())
           {
-            selectedMembers.addMember(finalMemberList.get(i));
+            selectedMembers.addMember(finalEmployeeList.get(i));
             System.out.println(
-                "Employee " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalEmployeeList.get(i) + " has been added to "
                     + inputRequirementName.getText());
           }
         }
@@ -1552,8 +1552,8 @@ public class Controller
         selectedRequirement.setUserstory(inputUserStory.getText());
         // Edit new status
         selectedRequirement.setStatus(inputStatus.getValue());
-        // New MemberList object to replace the old one
-        selectedMembers = new MemberList();
+        // New EmployeeList object to replace the old one
+        selectedMembers = new EmployeeList();
         // Run loop to check which members to add and which to not add
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
@@ -1577,14 +1577,14 @@ public class Controller
       else if (actionEvent.getSource() == closeAndSaveButton.get("addTask"))
       {
 
-        selectedMembers = new MemberList();
+        selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
         {
           if (memberCheckBoxes[i].isSelected())
           {
-            selectedMembers.addMember(finalMemberList.get(i));
+            selectedMembers.addMember(finalEmployeeList.get(i));
             System.out.println(
-                "Employee " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalEmployeeList.get(i) + " has been added to "
                     + inputTaskName.getText());
           }
         }

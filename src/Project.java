@@ -1,13 +1,12 @@
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Project implements Serializable
 {
   private String name;
   private RequirementList requirements;
-  private MemberList team;
+  private EmployeeList team;
 
-  public Project(String name, MemberList team)
+  public Project(String name, EmployeeList team)
   {
     this.name = name;
     this.requirements = new RequirementList();
@@ -33,7 +32,7 @@ public class Project implements Serializable
     this.name = name;
   }
 
-  public void setTeam(MemberList team) {
+  public void setTeam(EmployeeList team) {
     this.team = team;
   }
 
@@ -68,7 +67,7 @@ public class Project implements Serializable
    * Gets the project's team.
    * @return the project's team
    */
-  public MemberList getTeam()
+  public EmployeeList getTeam()
   {
     return team;
   }
