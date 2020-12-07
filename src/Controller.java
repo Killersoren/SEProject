@@ -225,30 +225,7 @@ public class Controller
               Object newValue)
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
-            {
-              int index = requirementField.getSelectionModel().getSelectedIndex();
-
-              selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
-              requirementDetailsTab.setDisable(false);
-              requirementNameLabel.setText(selectedRequirement.getName());
-              requirementStatusLabel.setText(selectedRequirement.getStatus());
-              requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
-              requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
-              if(!selectedRequirement.getTasks().isEmpty()){
-                requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours()+"");
-                requirementEstimatedLabel.setTextFill(Color.BLACK);
-                requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours()+"");
-                requirementHoursWorkedLabel.setTextFill(Color.BLACK);
-              } else {
-                requirementEstimatedLabel.setText("No tasks in this requirement");
-                requirementEstimatedLabel.setTextFill(Color.RED);
-                requirementHoursWorkedLabel.setText("No tasks in this requirement");
-                requirementHoursWorkedLabel.setTextFill(Color.RED);
-              }
-              requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
-              updateTaskArea();
-            }
+            updateRequirementArea();
           }
         });
   }
@@ -358,6 +335,30 @@ public class Controller
             .add(selectedProject.getRequirements().getRequirement(i));
       }
     }
+
+    if(!requirementField.getSelectionModel().isEmpty()) {
+      int index = requirementField.getSelectionModel().getSelectedIndex();
+
+        selectedRequirement = requirementField.getItems().get(index);
+        requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
+        requirementDetailsTab.setDisable(false);
+        requirementNameLabel.setText(selectedRequirement.getName());
+        requirementStatusLabel.setText(selectedRequirement.getStatus());
+        requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
+        requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
+        if (!selectedRequirement.getTasks().isEmpty()) {
+          requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours() + "");
+          requirementEstimatedLabel.setTextFill(Color.BLACK);
+          requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
+          requirementHoursWorkedLabel.setTextFill(Color.BLACK);
+        } else {
+          requirementEstimatedLabel.setText("No tasks in this requirement");
+          requirementEstimatedLabel.setTextFill(Color.RED);
+          requirementHoursWorkedLabel.setText("No tasks in this requirement");
+          requirementHoursWorkedLabel.setTextFill(Color.RED);
+      }
+    }
+
   }
 
   private void updateTaskArea()
