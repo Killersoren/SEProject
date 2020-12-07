@@ -133,7 +133,7 @@ public class Controller
     setSelectedRequirement();
     setSelectedTask();
 
-    //      updateProjectDetailsArea();
+    //updateProjectDetailsArea();
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
     errorLabel.setPadding(new Insets(0, 0, 50, 0));
@@ -229,8 +229,6 @@ public class Controller
         });
   }
 
-
-
   /**
    * Updates the EmployeeList objects the TreeView<Employee> on the GUI
    *
@@ -281,7 +279,6 @@ public class Controller
 
     if (selectedRequirement != null)
     {
-
       requirementNameLabel.setText(selectedRequirement.getName());
       requirementStatusLabel.setText(selectedRequirement.getStatus());
       requirementDeadlineLabel
@@ -360,6 +357,18 @@ public class Controller
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle(str);
     window.setMinWidth(300);
+    window.setResizable(false);
+  }
+
+  private HBox nameWindowPart(TextField inputText, String labelName)
+  {
+    HBox nameContainer = new HBox(2);
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label label = new Label(labelName);
+    inputText.setPromptText("Enter " + labelName.toLowerCase());
+    nameContainer.getChildren().addAll(label, inputText);
+
+    return nameContainer;
   }
 
   /**
@@ -374,24 +383,19 @@ public class Controller
 
     nameWindow(window, "Add a new member");
 
-    // Employee name input.
-    HBox nameContainer = new HBox(2);
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label memberName = new Label("Employee name: ");
-    inputMemberName.setPromptText("Enter member name");
-    nameContainer.getChildren().addAll(memberName, inputMemberName);
+    HBox employeeNameContainer = nameWindowPart(inputMemberName,
+        "Employee name: ");
 
     closeAndSaveButton.get("addEmployee")
         .setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
-    layout.getChildren().addAll(nameContainer, errorLabel,
+    layout.getChildren().addAll(employeeNameContainer, errorLabel,
         closeAndSaveButton.get("addEmployee"));
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
     window.setScene(scene);
     window.showAndWait();
 
@@ -408,8 +412,10 @@ public class Controller
     {
       Stage window = new Stage();
 
-      nameWindow(window, "Edit employee"+selectedEmployee.getName());
+      nameWindow(window, "Edit employee" + selectedEmployee.getName());
 
+      HBox employeeNameContainer = nameWindowPart(inputMemberName,
+          "New Employee name: ");
       // Employee name input.
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -428,7 +434,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
 
@@ -446,7 +451,7 @@ public class Controller
     {
       Stage window = new Stage();
 
-      nameWindow(window, "Remove employee"+selectedEmployee.getName());
+      nameWindow(window, "Remove employee" + selectedEmployee.getName());
 
       // Employee name input.
       HBox nameContainer = new HBox(2);
@@ -507,7 +512,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
 
@@ -564,7 +568,7 @@ public class Controller
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
+
     window.setScene(scene);
     window.showAndWait();
 
@@ -582,7 +586,7 @@ public class Controller
       Stage window = new Stage();
       errorLabel.setText("");
 
-      nameWindow(window, "Edit project"+selectedProject.getName());
+      nameWindow(window, "Edit project" + selectedProject.getName());
 
       // Project name input.
       VBox nameContainer = new VBox();
@@ -629,7 +633,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
     }
@@ -645,7 +648,7 @@ public class Controller
     if (!(selectedProject == null))
     {
       Stage window = new Stage();
-      nameWindow(window, "Remove project"+selectedProject.getName());
+      nameWindow(window, "Remove project" + selectedProject.getName());
 
       // Project name input.
       HBox nameContainer = new HBox(2);
@@ -696,7 +699,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
 
@@ -812,7 +814,6 @@ public class Controller
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
     window.setScene(scene);
     window.showAndWait();
 
@@ -822,7 +823,7 @@ public class Controller
   {
     Stage window = new Stage();
     errorLabel.setText("");
-    nameWindow(window, "Edit requirement "+selectedRequirement.getName());
+    nameWindow(window, "Edit requirement " + selectedRequirement.getName());
 
     // Requirement name input.
     VBox nameContainer = new VBox();
@@ -933,7 +934,6 @@ public class Controller
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
     window.setScene(scene);
     window.showAndWait();
   }
@@ -943,7 +943,7 @@ public class Controller
     if (!(selectedRequirement == null))
     {
       Stage window = new Stage();
-      nameWindow(window, "Remove requirement "+selectedRequirement.getName());
+      nameWindow(window, "Remove requirement " + selectedRequirement.getName());
 
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -952,9 +952,9 @@ public class Controller
 
       nameContainer.getChildren().addAll(projectName);
 
-      Button closeWithSaveButton = new Button("Yes, please");
+      Button closeWithSaveButton = new Button("Save and close");
 
-      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+      Button closeWithOutSaveButton = new Button("Save without closing");
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -991,7 +991,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
 
@@ -1117,17 +1116,15 @@ public class Controller
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
     window.setScene(scene);
     window.showAndWait();
-
   }
 
   @FXML public void editTaskClick()
   {
     Stage window = new Stage();
     errorLabel.setText("");
-    nameWindow(window, "Edit task "+selectedTask.getName());
+    nameWindow(window, "Edit task " + selectedTask.getName());
 
     // Task name input.
     VBox nameContainer = new VBox();
@@ -1164,7 +1161,6 @@ public class Controller
       {
         inputTotalHoursWorked.getItems()
             .remove(0, inputTotalHoursWorked.getItems().size());
-
         for (int i = 0;
              i <= Integer.parseInt(inputEstimatedHours.getText()); i++)
         {
@@ -1274,7 +1270,6 @@ public class Controller
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
-    window.setResizable(false);
     window.setScene(scene);
     window.showAndWait();
   }
@@ -1284,7 +1279,7 @@ public class Controller
     if (!(selectedTask == null))
     {
       Stage window = new Stage();
-      nameWindow(window, "Remove task "+selectedTask.getName());
+      nameWindow(window, "Remove task " + selectedTask.getName());
 
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -1293,9 +1288,9 @@ public class Controller
 
       nameContainer.getChildren().addAll(projectName);
 
-      Button closeWithSaveButton = new Button("Yes, please");
+      Button closeWithSaveButton = new Button("Save and close");
 
-      Button closeWithOutSaveButton = new Button("No, I'm sorry");
+      Button closeWithOutSaveButton = new Button("Save without closing");
 
       closeWithSaveButton.setOnAction(new EventHandler<ActionEvent>()
       {
@@ -1333,7 +1328,6 @@ public class Controller
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
-      window.setResizable(false);
       window.setScene(scene);
       window.showAndWait();
 
@@ -1612,7 +1606,6 @@ public class Controller
         {
           errorLabel.setText("ERROR: Fix members");
         }
-
         else
         {
           window.close();
@@ -1661,7 +1654,7 @@ public class Controller
         updateTaskLabels();
         // Save all changes
         adapterProjects.saveProjects(finalProjectList);
-        // END of editing requirement
+        // END of editing task
       }
     }
   }
