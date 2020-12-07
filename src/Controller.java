@@ -115,26 +115,19 @@ public class Controller
     statusOptions.add("Not Started");
     statusOptions.add("Rejected");
     statusOptions.add("Started");
-    employeeName.setCellValueFactory(
-        new PropertyValueFactory<Employee, String>("Name"));
-    projectName
-        .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
-    projectTeam
-        .setCellValueFactory(new PropertyValueFactory<Project, String>("Team"));
-    requirementName.setCellValueFactory(
-        new PropertyValueFactory<Requirement, String>("Name"));
-    requirementStatus.setCellValueFactory(
-        new PropertyValueFactory<Requirement, String>("Status"));
-    requirementDeadline.setCellValueFactory(
-        new PropertyValueFactory<Requirement, String>("Deadline"));
-    taskName
-        .setCellValueFactory(new PropertyValueFactory<Task, String>("Name"));
-    taskStatus
-        .setCellValueFactory(new PropertyValueFactory<Task, String>("Status"));
-    taskDeadline.setCellValueFactory(
-        new PropertyValueFactory<Task, String>("Deadline"));
+    employeeName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    projectName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    projectTeam.setCellValueFactory(new PropertyValueFactory<>("Team"));
+    requirementName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    requirementStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+    requirementDeadline
+        .setCellValueFactory(new PropertyValueFactory<>("Deadline"));
+    taskName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    taskStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+    taskDeadline.setCellValueFactory(new PropertyValueFactory<>("Deadline"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
+
     updateEmployeeArea();
     updateProjectArea();
     setSelectedMember();
@@ -178,7 +171,6 @@ public class Controller
             {
               int index = employeeField.getSelectionModel().getSelectedIndex();
               selectedEmployee = employeeField.getItems().get(index);
-              System.out.println(selectedEmployee);
             }
           }
         });
@@ -204,7 +196,6 @@ public class Controller
               projectDetailsTab
                   .setText(selectedProject.getName() + " project details");
               projectDetailsTab.setDisable(false);
-              System.out.println(selectedProject);
               updateRequirementArea();
             }
           }
@@ -230,7 +221,8 @@ public class Controller
                   .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(
+                  selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
               updateRequirementArea();
               updateTaskArea();
@@ -239,62 +231,7 @@ public class Controller
         });
   }
 
-  /**
-   * Method used to select a task with the mouse in the TableView so the requirement later can be edited or removed.
-   *
-   * @param //args Command line arguments
-   */
-  private void setSelectedTask()
-  {
-    taskField.getSelectionModel().selectedItemProperty()
-        .addListener(new ChangeListener()
-        {
-          public void changed(ObservableValue observableValue, Object oldValue,
-              Object newValue)
-          {
-            if (taskField.getSelectionModel().getSelectedItem() != null)
-            {
-              int index = taskField.getSelectionModel().getSelectedIndex();
-              selectedTask = taskField.getItems().get(index);
-              System.out.println(selectedTask.getName());
 
-              taskNameLabel.setText(" Name: ");
-
-              taskIDLabel.setText(" Id: ");
-
-              taskStatusLabel.setText(" Status: ");
-
-              taskDeadlineLabel.setText(" Deadline: ");
-
-              taskEstimatedHoursLabel.setText(" Estimated hours: ");
-
-              taskTotalWorkLabel.setText(" Total work: ");
-
-              System.out.println(selectedTask.getName());
-              taskNameLabel
-                  .setText(taskNameLabel.getText() + selectedTask.getName());
-
-              taskIDLabel
-                  .setText(taskIDLabel.getText() + selectedTask.getTaskID());
-
-              taskStatusLabel.setText(
-                  taskStatusLabel.getText() + selectedTask.getStatus());
-
-              taskDeadlineLabel.setText(
-                  taskDeadlineLabel.getText() + selectedTask.getDeadline());
-
-              taskEstimatedHoursLabel.setText(
-                  taskEstimatedHoursLabel.getText() + selectedTask
-                      .getEstimatedHours());
-
-              taskTotalWorkLabel.setText(
-                  taskTotalWorkLabel.getText() + selectedTask
-                      .getTotalHoursWorked());
-            }
-
-          }
-        });
-  }
 
   /**
    * Updates the EmployeeList objects the TreeView<Employee> on the GUI
@@ -332,28 +269,38 @@ public class Controller
     }
   }
 
-  private void updateRequirementArea() {
+  private void updateRequirementArea()
+  {
     requirementField.getItems().clear();
-    if (adapterProjects != null) {
-      for (int i = 0; i < selectedProject.getRequirements().size(); i++) {
+    if (adapterProjects != null)
+    {
+      for (int i = 0; i < selectedProject.getRequirements().size(); i++)
+      {
         System.out.println(i);
         requirementField.getItems()
-                .add(selectedProject.getRequirements().getRequirement(i));
+            .add(selectedProject.getRequirements().getRequirement(i));
       }
     }
 
-    if (selectedRequirement != null) {
+    if (selectedRequirement != null)
+    {
 
       requirementNameLabel.setText(selectedRequirement.getName());
       requirementStatusLabel.setText(selectedRequirement.getStatus());
-      requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
+      requirementDeadlineLabel
+          .setText(selectedRequirement.getDeadline().toString());
       requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
-      if (!selectedRequirement.getTasks().isEmpty()) {
-        requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours() + "");
+      if (!selectedRequirement.getTasks().isEmpty())
+      {
+        requirementEstimatedLabel.setText(
+            selectedRequirement.getTasks().getTotalEstimatedHours() + "");
         requirementEstimatedLabel.setTextFill(Color.BLACK);
-        requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
+        requirementHoursWorkedLabel
+            .setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
         requirementHoursWorkedLabel.setTextFill(Color.BLACK);
-      } else {
+      }
+      else
+      {
         requirementEstimatedLabel.setText("No tasks in this requirement");
         requirementEstimatedLabel.setTextFill(Color.RED);
         requirementHoursWorkedLabel.setText("No tasks in this requirement");
@@ -363,6 +310,44 @@ public class Controller
     }
   }
 
+  private void updateTaskLabels()
+  {
+    System.out.println(selectedTask.getName());
+    taskNameLabel.setText(" Name: " + selectedTask.getName());
+    taskIDLabel.setText(" Id: " + selectedTask.getTaskID());
+    taskStatusLabel.setText(" Status: " + selectedTask.getStatus());
+    taskDeadlineLabel.setText(" Deadline: " + selectedTask.getDeadline());
+    taskEstimatedHoursLabel
+        .setText(" Estimated hours: " + selectedTask.getEstimatedHours());
+    taskTotalWorkLabel
+        .setText(" Total work: " + selectedTask.getTotalHoursWorked());
+  }
+
+  /**
+   * Method used to select a task with the mouse in the TableView so the requirement later can be edited or removed.
+   *
+   * @param //args Command line arguments
+   */
+  private void setSelectedTask()
+  {
+    taskField.getSelectionModel().selectedItemProperty()
+        .addListener(new ChangeListener()
+        {
+          public void changed(ObservableValue observableValue, Object oldValue,
+              Object newValue)
+          {
+            if (taskField.getSelectionModel().getSelectedItem() != null)
+            {
+              int index = taskField.getSelectionModel().getSelectedIndex();
+              selectedTask = taskField.getItems().get(index);
+              System.out.println(selectedTask.getName());
+
+              updateTaskLabels();
+            }
+          }
+        });
+  }
+
   private void updateTaskArea()
   {
     taskField.getItems().clear();
@@ -370,10 +355,16 @@ public class Controller
     {
       for (int i = 0; i < selectedRequirement.getTasks().size(); i++)
       {
-        System.out.println(i);
         taskField.getItems().add(selectedRequirement.getTasks().getTask(i));
       }
     }
+  }
+
+  private void nameWindow(Stage window, String str)
+  {
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle(str);
+    window.setMinWidth(300);
   }
 
   /**
@@ -383,13 +374,10 @@ public class Controller
    */
   @FXML public void addEmployeeClick()
   {
-
     errorLabel.setText("");
     Stage window = new Stage();
 
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new member");
-    window.setMinWidth(300);
+    nameWindow(window, "Add a new member");
 
     // Employee name input.
     HBox nameContainer = new HBox(2);
@@ -425,9 +413,7 @@ public class Controller
     {
       Stage window = new Stage();
 
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Edit member: " + selectedEmployee.getName());
-      window.setMinWidth(300);
+      nameWindow(window, "Edit employee"+selectedEmployee.getName());
 
       // Employee name input.
       HBox nameContainer = new HBox(2);
@@ -465,9 +451,7 @@ public class Controller
     {
       Stage window = new Stage();
 
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Remove member: " + selectedEmployee.getName());
-      window.setMinWidth(300);
+      nameWindow(window, "Remove employee"+selectedEmployee.getName());
 
       // Employee name input.
       HBox nameContainer = new HBox(2);
@@ -546,9 +530,7 @@ public class Controller
     Stage window = new Stage();
     errorLabel.setText("");
 
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Add new project");
-    window.setMinWidth(300);
+    nameWindow(window, "Add project");
 
     // Project name input.
     VBox nameContainer = new VBox();
@@ -1723,6 +1705,7 @@ public class Controller
         window.close();
         // Update GUI table with requirements to show changes
         updateTaskArea();
+        updateTaskLabels();
         // Save all changes
         adapterProjects.saveProjects(finalProjectList);
         // END of editing requirement
