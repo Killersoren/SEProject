@@ -217,7 +217,7 @@
                                     </HBox>
                                     <HBox layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="200.0">
                                        <children>
-                                          <Label prefWidth="150.0" text=" Estimated hours: ">
+                                          <Label prefWidth="150.0" text="Estimated hours: ">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -234,7 +234,7 @@
                                     </HBox>
                                     <HBox layoutX="10.0" layoutY="243.0" prefHeight="25.0" prefWidth="200.0">
                                        <children>
-                                          <Label prefWidth="150.0" text=" Total hours worked: ">
+                                          <Label prefWidth="150.0" text="Total hours worked: ">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -251,7 +251,7 @@
                                     </HBox>
                                     <HBox layoutX="10.0" layoutY="233.0" prefHeight="25.0">
                                        <children>
-                                          <Label prefWidth="150.0" text=" User story: ">
+                                          <Label prefWidth="150.0" text="User story: ">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>

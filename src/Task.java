@@ -53,6 +53,16 @@ public class Task implements Serializable
     return taskMembers;
   }
 
+  public void setEstimatedHours(int estimatedHours)
+  {
+    this.estimatedHours = estimatedHours;
+  }
+
+  public void setTotalHoursWorked(int totalHoursWorked)
+  {
+    this.totalHoursWorked = totalHoursWorked;
+  }
+
   public void setTaskMembers(EmployeeList taskMembers)
   {
     this.taskMembers = taskMembers;

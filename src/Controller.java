@@ -51,6 +51,8 @@ public class Controller
   @FXML private Label taskStatusLabel;
   @FXML private Label taskDeadlineLabel;
   @FXML private Label taskIDLabel;
+  @FXML private Label taskEstimatedHoursLabel;
+  @FXML private Label taskTotalWorkLabel;
 
   @FXML private TableView<Task> taskField;
   @FXML private TableColumn<Task, String> taskName;
@@ -113,8 +115,8 @@ public class Controller
     statusOptions.add("Not Started");
     statusOptions.add("Rejected");
     statusOptions.add("Started");
-    employeeName
-        .setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+    employeeName.setCellValueFactory(
+        new PropertyValueFactory<Employee, String>("Name"));
     projectName
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
@@ -224,16 +226,21 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              int index = requirementField.getSelectionModel().getSelectedIndex();
+              int index = requirementField.getSelectionModel()
+                  .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(
+                  selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
               requirementNameLabel.setText(selectedRequirement.getName());
               requirementStatusLabel.setText(selectedRequirement.getStatus());
-              requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
-              requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
-              requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
+              requirementDeadlineLabel
+                  .setText(selectedRequirement.getDeadline().toString());
+              requirementTeamLabel
+                  .setText(selectedRequirement.getTeam().toString());
+              requirementUserStoryLabel
+                  .setText(selectedRequirement.getUserstory());
               updateTaskArea();
             }
           }
@@ -259,27 +266,38 @@ public class Controller
               selectedTask = taskField.getItems().get(index);
               System.out.println(selectedTask.getName());
 
-              taskNameLabel.setText(taskNameLabel.getText().substring(0, 7));
+              taskNameLabel.setText(" Name: ");
 
-              taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
+              taskIDLabel.setText(" Id: ");
 
-              taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 8));
+              taskStatusLabel.setText(" Status: ");
 
-              taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText().substring(0, 10));
+              taskDeadlineLabel.setText(" Deadline: ");
+
+              taskEstimatedHoursLabel.setText(" Estimated hours: ");
+
+              taskTotalWorkLabel.setText(" Total work: ");
 
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
-              taskIDLabel.setText(taskIDLabel.getText()+selectedTask.getTaskID());
 
-              taskStatusLabel
-                  .setText(taskStatusLabel.getText()+selectedTask.getStatus());
+              taskIDLabel
+                  .setText(taskIDLabel.getText() + selectedTask.getTaskID());
 
-              taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText()+selectedTask.getDeadline());
+              taskStatusLabel.setText(
+                  taskStatusLabel.getText() + selectedTask.getStatus());
 
+              taskDeadlineLabel.setText(
+                  taskDeadlineLabel.getText() + selectedTask.getDeadline());
+
+              taskEstimatedHoursLabel.setText(
+                  taskEstimatedHoursLabel.getText() + selectedTask
+                      .getEstimatedHours());
+
+              taskTotalWorkLabel.setText(
+                  taskTotalWorkLabel.getText() + selectedTask
+                      .getTotalHoursWorked());
             }
 
           }
@@ -910,11 +928,15 @@ public class Controller
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
-      for(int j = 0 ; j < selectedRequirement.getTeam().size() ; j++){
-        if(memberCheckBoxes[i].getText().equals(selectedRequirement.getTeam().getMembers().get(j).getName())){
+      for (int j = 0; j < selectedRequirement.getTeam().size(); j++)
+      {
+        if (memberCheckBoxes[i].getText().equals(
+            selectedRequirement.getTeam().getMembers().get(j).getName()))
+        {
           memberCheckBoxes[i].setSelected(true);
         }
       }
@@ -1030,6 +1052,16 @@ public class Controller
 
     nameContainer.getChildren().addAll(taskNameLabel, inputTaskName);
 
+    // task estimated hours input.
+    VBox estimatedHoursContainer = new VBox();
+    estimatedHoursContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskEstimatedHoursLabel = new Label("Task estimated hours: ");
+    inputEstimatedHours = new TextField();
+    inputEstimatedHours.setPromptText("Enter estimated number of hours");
+
+    estimatedHoursContainer.getChildren()
+        .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
+
     //Task status input
 
     VBox statusContainer = new VBox();
@@ -1086,7 +1118,7 @@ public class Controller
 
     deadlineContainer.getChildren().addAll(taskDeadline, inputTaskDeadline);
 
-    //Task memberlist input
+    //Task memberList input
 
     VBox memberListContainer = new VBox();
     memberListContainer.setPadding(new Insets(0, 10, 0, 10));
@@ -1111,7 +1143,7 @@ public class Controller
     closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
 
     layout.getChildren().addAll(nameContainer, statusContainer, taskIDContainer,
-        memberListContainer, deadlineContainer,
+        memberListContainer, estimatedHoursContainer, deadlineContainer,
         closeAndSaveButton.get("addTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
@@ -1132,7 +1164,7 @@ public class Controller
     window.setTitle("Edit task");
     window.setMinWidth(300);
 
-    // Requirement name input.
+    // Task name input.
     VBox nameContainer = new VBox();
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskName = new Label("Task name: ");
@@ -1142,6 +1174,17 @@ public class Controller
 
     nameContainer.getChildren().addAll(taskName, inputTaskName);
 
+    // task estimated hours input.
+    VBox estimatedHoursContainer = new VBox();
+    estimatedHoursContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label taskEstimatedHoursLabel = new Label("Task estimated hours: ");
+    inputEstimatedHours = new TextField();
+    inputEstimatedHours.setText(
+        String.valueOf(selectedTask.getEstimatedHours()));
+
+    estimatedHoursContainer.getChildren()
+        .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
+
     //Task ID input
     VBox taskIDContainer = new VBox();
     taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
@@ -1149,7 +1192,6 @@ public class Controller
     inputTaskID = new TextField();
     inputTaskID.setPromptText(selectedTask.getTaskID());
     taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
-
 
     // Task status input.
     VBox statusContainer = new VBox();
@@ -1191,15 +1233,13 @@ public class Controller
     {
       public void handle(Event t)
       {
-        System.err
-            .println("Selected date: " + inputTaskDeadline.getValue());
+        System.err.println("Selected date: " + inputTaskDeadline.getValue());
       }
     });
     inputTaskDeadline.setPromptText("Set deadline..");
     inputTaskDeadline.setValue(selectedTask.getDeadline());
 
-    deadlineContainer.getChildren()
-        .addAll(taskDeadline, inputTaskDeadline);
+    deadlineContainer.getChildren().addAll(taskDeadline, inputTaskDeadline);
 
     // Task member list input.
     VBox memberListContainer = new VBox();
@@ -1233,13 +1273,11 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("editTask")
-        .setOnAction(new PopupListener(window));
+    closeAndSaveButton.get("editTask").setOnAction(new PopupListener(window));
 
-    layout.getChildren()
-        .addAll(nameContainer, taskIDContainer, statusContainer,
-            memberListContainer, deadlineContainer,
-            closeAndSaveButton.get("editTask"), errorLabel);
+    layout.getChildren().addAll(nameContainer, taskIDContainer, statusContainer,
+        memberListContainer,estimatedHoursContainer, deadlineContainer,
+        closeAndSaveButton.get("editTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1402,8 +1440,8 @@ public class Controller
           adapterProjects.saveProjects(finalProjectList);
           finalEmployeeList.getIndexFromName(selectedEmployee.getName());
 
-          finalEmployeeList
-              .get(finalEmployeeList.getIndexFromName(selectedEmployee.getName()))
+          finalEmployeeList.get(
+              finalEmployeeList.getIndexFromName(selectedEmployee.getName()))
               .setName(inputMemberName.getText());
           adapterProjects.saveProjects(finalProjectList);
 
@@ -1593,6 +1631,11 @@ public class Controller
         {
           errorLabel.setText("ERROR: Fix taxID");
         }
+        else if (inputEstimatedHours.getText().isEmpty() || inputEstimatedHours
+            .getText().equals(""))
+        {
+          errorLabel.setText("ERROR: Fix estimated hours");
+        }
         else if (selectedMembers.size() == 0)
         {
           errorLabel.setText("ERROR: Fix members");
@@ -1603,8 +1646,9 @@ public class Controller
           window.close();
 
           Task task = new Task(inputTaskName.getText(), inputTaskID.getText(),
-              inputStatus.getValue(), inputTaskDeadline.getValue(),
-              selectedMembers);
+              inputStatus.getValue(),
+              Integer.parseInt(inputEstimatedHours.getText()),
+              inputTaskDeadline.getValue(), selectedMembers);
           selectedRequirement.getTasks().addTask(task);
           adapterProjects.saveProjects(finalProjectList);
           System.out.println("Added task " + task);
@@ -1632,6 +1676,9 @@ public class Controller
         }
         // Edit new team from selected checkboxes
         selectedTask.setTaskMembers(selectedMembers);
+        // Edit new status
+        selectedTask.setEstimatedHours(
+            Integer.parseInt(inputEstimatedHours.getText()));
         // Edit new deadline
         selectedTask.setDeadline(inputTaskDeadline.getValue());
         // Close window
