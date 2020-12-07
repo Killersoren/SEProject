@@ -276,7 +276,6 @@ public class Controller
     {
       for (int i = 0; i < selectedProject.getRequirements().size(); i++)
       {
-        System.out.println(i);
         requirementField.getItems()
             .add(selectedProject.getRequirements().getRequirement(i));
       }
@@ -312,7 +311,6 @@ public class Controller
 
   private void updateTaskLabels()
   {
-    System.out.println(selectedTask.getName());
     taskNameLabel.setText(" Name: " + selectedTask.getName());
     taskIDLabel.setText(" Id: " + selectedTask.getTaskID());
     taskStatusLabel.setText(" Status: " + selectedTask.getStatus());
@@ -340,7 +338,6 @@ public class Controller
             {
               int index = taskField.getSelectionModel().getSelectedIndex();
               selectedTask = taskField.getItems().get(index);
-              System.out.println(selectedTask.getName());
 
               updateTaskLabels();
             }
@@ -1447,7 +1444,6 @@ public class Controller
         {
           window.close();
           Employee employee = new Employee(inputMemberName.getText());
-          System.out.println(employee.getName());
           ProjectList projects = adapterProjects
               .getProjectByEmployeeName(selectedEmployee.getName());
           for (int i = 0; i < projects.size(); i++)
@@ -1482,9 +1478,6 @@ public class Controller
           if (memberCheckBoxes[i].isSelected())
           {
             selectedMembers.addMember(finalEmployeeList.get(i));
-            System.out.println(
-                "Employee " + finalEmployeeList.get(i) + " has been added to "
-                    + inputProjectName.getText());
           }
         }
 
@@ -1505,7 +1498,6 @@ public class Controller
               selectedMembers);
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
-          System.out.println("Added project " + project);
           updateProjectArea();
         }
       }
@@ -1519,9 +1511,6 @@ public class Controller
           if (memberCheckBoxes[i].isSelected())
           {
             selectedMembers.addMember(finalEmployeeList.get(i));
-            System.out.println(
-                "Employee " + finalEmployeeList.get(i) + " has been added to "
-                    + inputProjectName.getText());
           }
         }
 
@@ -1557,9 +1546,6 @@ public class Controller
           if (memberCheckBoxes[i].isSelected())
           {
             selectedMembers.addMember(finalEmployeeList.get(i));
-            System.out.println(
-                "Employee " + finalEmployeeList.get(i) + " has been added to "
-                    + inputRequirementName.getText());
           }
         }
 
@@ -1585,11 +1571,8 @@ public class Controller
               inputRequirementName.getText(), inputUserStory.getText(),
               inputStatus.getValue(), inputRequirementDeadline.getValue(),
               selectedMembers);
-          System.out.println("B " + inputRequirementName.getText());
-          System.out.println("A " + requirement.getName());
           selectedProject.add(requirement);
           adapterProjects.saveProjects(finalProjectList);
-          System.out.println("Added requirement " + requirement);
           updateRequirementArea();
         }
 
@@ -1634,9 +1617,6 @@ public class Controller
           if (memberCheckBoxes[i].isSelected())
           {
             selectedMembers.addMember(finalEmployeeList.get(i));
-            System.out.println(
-                "Employee " + finalEmployeeList.get(i) + " has been added to "
-                    + inputTaskName.getText());
           }
         }
         if (inputTaskName.getText().isEmpty() || inputTaskName.getText()
@@ -1669,7 +1649,6 @@ public class Controller
               inputTaskDeadline.getValue(), selectedMembers);
           selectedRequirement.getTasks().addTask(task);
           adapterProjects.saveProjects(finalProjectList);
-          System.out.println("Added task " + task);
           updateTaskArea();
         }
 
