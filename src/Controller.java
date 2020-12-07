@@ -78,7 +78,7 @@ public class Controller
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
   ComboBox<Employee> responsibleMember = new ComboBox<>();
-  ComboBox<Integer>  inputTotalHoursWorked= new ComboBox<>();
+  ComboBox<Integer> inputTotalHoursWorked = new ComboBox<>();
   ComboBox<String> inputStatusForTask = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
 
@@ -226,27 +226,40 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              int index = requirementField.getSelectionModel().getSelectedIndex();
+              int index = requirementField.getSelectionModel()
+                  .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(
+                  selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
               requirementNameLabel.setText(selectedRequirement.getName());
               requirementStatusLabel.setText(selectedRequirement.getStatus());
-              requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
-              requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
-              if(!selectedRequirement.getTasks().isEmpty()){
-                requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours()+"");
+              requirementDeadlineLabel
+                  .setText(selectedRequirement.getDeadline().toString());
+              requirementTeamLabel
+                  .setText(selectedRequirement.getTeam().toString());
+              if (!selectedRequirement.getTasks().isEmpty())
+              {
+                requirementEstimatedLabel.setText(
+                    selectedRequirement.getTasks().getTotalEstimatedHours()
+                        + "");
                 requirementEstimatedLabel.setTextFill(Color.BLACK);
-                requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours()+"");
+                requirementHoursWorkedLabel.setText(
+                    selectedRequirement.getTasks().getTotalWorkedHours() + "");
                 requirementHoursWorkedLabel.setTextFill(Color.BLACK);
-              } else {
-                requirementEstimatedLabel.setText("No tasks in this requirement");
+              }
+              else
+              {
+                requirementEstimatedLabel
+                    .setText("No tasks in this requirement");
                 requirementEstimatedLabel.setTextFill(Color.RED);
-                requirementHoursWorkedLabel.setText("No tasks in this requirement");
+                requirementHoursWorkedLabel
+                    .setText("No tasks in this requirement");
                 requirementHoursWorkedLabel.setTextFill(Color.RED);
               }
-              requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
+              requirementUserStoryLabel
+                  .setText(selectedRequirement.getUserstory());
               updateTaskArea();
             }
           }
@@ -934,7 +947,8 @@ public class Controller
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(
+          selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
       for (int j = 0; j < selectedRequirement.getTeam().size(); j++)
@@ -1184,8 +1198,8 @@ public class Controller
     estimatedHoursContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskEstimatedHoursLabel = new Label("Task estimated hours: ");
     inputEstimatedHours = new TextField();
-    inputEstimatedHours.setText(
-        String.valueOf(selectedTask.getEstimatedHours()));
+    inputEstimatedHours
+        .setText(String.valueOf(selectedTask.getEstimatedHours()));
 
     estimatedHoursContainer.getChildren()
         .addAll(taskEstimatedHoursLabel, inputEstimatedHours);
@@ -1194,21 +1208,35 @@ public class Controller
 
     VBox totalHoursContainer = new VBox();
     totalHoursContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label totalHours = new Label("Status: ");
+    Label totalHours = new Label("Total hours: ");
 
     inputTotalHoursWorked = new ComboBox();
-    for (int i = 0; i < Integer.parseInt(inputEstimatedHours.getText()); i++)
+
+    inputTotalHoursWorked.setOnMouseClicked(new EventHandler()
     {
-      inputStatus.getItems().add(String.valueOf(i));
-    }
-    totalHoursContainer.getChildren().addAll(totalHours, inputStatus);
+      public void handle(Event t)
+      {
+        inputTotalHoursWorked.getItems()
+            .remove(0, inputTotalHoursWorked.getItems().size());
+
+        for (int i = 0;
+             i <= Integer.parseInt(inputEstimatedHours.getText()); i++)
+        {
+          inputTotalHoursWorked.getItems().add(i);
+        }
+
+      }
+
+    });
+    totalHoursContainer.getChildren().addAll(totalHours, inputTotalHoursWorked);
 
     //Task ID input
     VBox taskIDContainer = new VBox();
     taskIDContainer.setPadding(new Insets(10, 10, 0, 10));
     Label taskIDLabel = new Label("Task ID  ");
     inputTaskID = new TextField();
-    inputTaskID.setPromptText(selectedTask.getTaskID());
+    inputTaskID.setText(selectedTask.getTaskID());
+
     taskIDContainer.getChildren().addAll(taskIDLabel, inputTaskID);
 
     // Task status input.
@@ -1294,8 +1322,8 @@ public class Controller
     closeAndSaveButton.get("editTask").setOnAction(new PopupListener(window));
 
     layout.getChildren().addAll(nameContainer, taskIDContainer, statusContainer,
-        memberListContainer,estimatedHoursContainer,totalHoursContainer, deadlineContainer,
-        closeAndSaveButton.get("editTask"), errorLabel);
+        memberListContainer, estimatedHoursContainer, totalHoursContainer,
+        deadlineContainer, closeAndSaveButton.get("editTask"), errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1695,11 +1723,10 @@ public class Controller
         // Edit new team from selected checkboxes
         selectedTask.setTaskMembers(selectedMembers);
         // Edit estimated hours
-        selectedTask.setEstimatedHours(
-            Integer.parseInt(inputEstimatedHours.getText()));
-        // Edit estimated hours
-        selectedTask.setEstimatedHours(
-           inputTotalHoursWorked.getValue());
+        selectedTask
+            .setEstimatedHours(Integer.parseInt(inputEstimatedHours.getText()));
+        // Edit total hours
+        selectedTask.setTotalHoursWorked(inputTotalHoursWorked.getValue());
         // Edit new deadline
         selectedTask.setDeadline(inputTaskDeadline.getValue());
         // Close window
