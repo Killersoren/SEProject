@@ -234,12 +234,12 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Estimated hours: ">
+                                    <Label fx:id="taskEstimatedHoursLabel" prefHeight="17.0" prefWidth="635.0" text=" Estimated hours: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label prefHeight="17.0" prefWidth="635.0" text=" Total hours worked: ">
+                                    <Label fx:id="taskTotalWorkLabel" prefHeight="17.0" prefWidth="635.0" text=" Total hours worked: ">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

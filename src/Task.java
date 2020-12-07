@@ -9,7 +9,7 @@ public class Task implements Serializable
   private Employee responsibleEmployee;
   private EmployeeList taskMembers;
 
-  public Task(String name, String taskID,String status, LocalDate deadline,
+  public Task(String name, String taskID,String status, int estimatedHours, LocalDate deadline,
       EmployeeList taskMembers)
   {
     this.deadline = deadline;
@@ -17,7 +17,7 @@ public class Task implements Serializable
     this.status = status;
     relatedRequirement = 0;
     this.taskID = taskID;
-    estimatedHours = 0;
+    this.estimatedHours = estimatedHours;
     totalHoursWorked = 0;
     responsibleEmployee = null;
     this.taskMembers = taskMembers;
