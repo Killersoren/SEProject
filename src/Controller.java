@@ -103,8 +103,6 @@ public class Controller
 
   /**
    * Runs one time before the GUI is shown
-   *
-   * @param //args Command line arguments
    */
   public void initialize()
   {
@@ -118,14 +116,14 @@ public class Controller
     projectTeam.setCellValueFactory(new PropertyValueFactory<>("Team"));
     requirementName.setCellValueFactory(new PropertyValueFactory<>("Name"));
     requirementStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
-    requirementDeadline
-        .setCellValueFactory(new PropertyValueFactory<>("Deadline"));
+    requirementDeadline.setCellValueFactory(new PropertyValueFactory<>("Deadline"));
     taskName.setCellValueFactory(new PropertyValueFactory<>("Name"));
     taskStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
     taskDeadline.setCellValueFactory(new PropertyValueFactory<>("Deadline"));
     adapterProjects = new ProjectListAdapter("Projects.bin");
     adapterEmployee = new EmployeeListAdapter("Employees.bin");
 
+    // Update all GUI
     updateEmployeeArea();
     updateProjectArea();
     setSelectedMember();
@@ -154,8 +152,6 @@ public class Controller
 
   /**
    * Method used to select a member with the mouse in the TableView so the member later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedMember()
   {
@@ -176,8 +172,6 @@ public class Controller
 
   /**
    * Method used to select a project with the mouse in the TableView so the member later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedProject()
   {
@@ -202,8 +196,6 @@ public class Controller
 
   /**
    * Method used to select a requirement with the mouse in the TableView so the requirement later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedRequirement()
   {
@@ -231,8 +223,6 @@ public class Controller
 
   /**
    * Updates the EmployeeList objects the TreeView<Employee> on the GUI
-   *
-   * @param //args Command line arguments
    */
   private void updateEmployeeArea()
   {
@@ -249,8 +239,6 @@ public class Controller
 
   /**
    * Updates the ProjectList objects the TreeView<Project> on the GUI
-   *
-   * @param //args Command line arguments
    */
   private void updateProjectArea()
   {
@@ -265,6 +253,9 @@ public class Controller
     }
   }
 
+  /**
+   * Updates the Requirement objects on the TreeView<Project> on the GUI
+   */
   private void updateRequirementArea()
   {
     requirementField.getItems().clear();
@@ -304,16 +295,15 @@ public class Controller
     }
   }
 
+
   private void updateTaskLabels()
   {
     taskNameLabel.setText(" Name: " + selectedTask.getName());
     taskIDLabel.setText(" Id: " + selectedTask.getTaskID());
     taskStatusLabel.setText(" Status: " + selectedTask.getStatus());
     taskDeadlineLabel.setText(" Deadline: " + selectedTask.getDeadline());
-    taskEstimatedHoursLabel
-        .setText(" Estimated hours: " + selectedTask.getEstimatedHours());
-    taskTotalWorkLabel
-        .setText(" Total work: " + selectedTask.getTotalHoursWorked());
+    taskEstimatedHoursLabel.setText(" Estimated hours: " + selectedTask.getEstimatedHours());
+    taskTotalWorkLabel.setText(" Total work: " + selectedTask.getTotalHoursWorked());
   }
 
   /**
