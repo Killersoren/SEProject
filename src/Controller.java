@@ -43,7 +43,7 @@ public class Controller
   @FXML private Label requirementStatusLabel;
   @FXML private Label requirementTeamLabel;
   @FXML private Label requirementDeadlineLabel;
-  @FXML private Label requirementUserStoryLabel;
+  @FXML private TextArea requirementUserStoryLabel;
   @FXML private Label requirementEstimatedLabel;
   @FXML private Label requirementHoursWorkedLabel;
 
