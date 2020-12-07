@@ -18,9 +18,9 @@ public class ProjectList implements Serializable
     projects.remove(selectedProject);
   }
 
-  public void removeMember(int index, Member member)
+  public void removeMember(int index, Employee employee)
   {
-    projects.get(index).getTeam().removeMember(member);
+    projects.get(index).getTeam().removeMember(employee);
   }
 
 
@@ -92,13 +92,13 @@ public class ProjectList implements Serializable
     return searchResultIndexesArr;
   }
 
-  public ArrayList<Project> getProjectsWhereMemberIsIn(Member member){
+  public ArrayList<Project> getProjectsWhereMemberIsIn(Employee employee){
 
     ArrayList<Project> projectsMemberIsIn = new ArrayList<>();
 
     for(int i = 0 ; i < projects.size() ; i++){
       for(int j = 0 ; j < projects.get(i).getTeam().size() ; i++){
-        if(projects.get(i).getTeam().get(j).equals(member)){
+        if(projects.get(i).getTeam().get(j).equals(employee)){
           projectsMemberIsIn.add(projects.get(i));
         }
       }

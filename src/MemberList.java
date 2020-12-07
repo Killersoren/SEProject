@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public class MemberList implements Serializable
 {
-  private ArrayList<Member> members;
+  private ArrayList<Employee> employees;
 
   public MemberList()
   {
-    this.members = new ArrayList<>();
+    this.employees = new ArrayList<>();
   }
 
   /**
@@ -17,47 +17,47 @@ public class MemberList implements Serializable
    */
   public int size()
   {
-    return members.size();
+    return employees.size();
   }
 
   /**
-   * Gets a Member object from position index from the list.
+   * Gets a Employee object from position index from the list.
    *
-   * @param index the position in the list of the Member object
-   * @return the Member object at position index if one exists, else null
+   * @param index the position in the list of the Employee object
+   * @return the Employee object at position index if one exists, else null
    */
-  public Member get(int index)
+  public Employee get(int index)
   {
-    return members.get(index);
+    return employees.get(index);
   }
 
-  public void addMember(Member member)
+  public void addMember(Employee employee)
   {
-    members.add(member);
+    employees.add(employee);
   }
 
 
-  public void removeMember(Member member)
+  public void removeMember(Employee employee)
   {
-    members.remove(member);
+    employees.remove(employee);
   }
 
   public void deleteMember(String name)
   {
-    members.remove(getIndexFromName(name));
+    employees.remove(getIndexFromName(name));
   }
 
   public void replaceMember(String name,String newName)
   {
-    members.get(getIndexFromName(name)).setName(newName);
+    employees.get(getIndexFromName(name)).setName(newName);
   }
 
   public int getIndexFromName(String name)
   {
-    for (int i = 0; i < members.size(); i++)
+    for (int i = 0; i < employees.size(); i++)
     {
 
-      if (members.get(i).getName().equals(name))
+      if (employees.get(i).getName().equals(name))
       {
         return i;
       }
@@ -66,9 +66,9 @@ public class MemberList implements Serializable
     return -1;
   }
 
-  public ArrayList<Member> getMembers()
+  public ArrayList<Employee> getMembers()
   {
-    return members;
+    return employees;
   }
 
   public boolean equals(Object obj)
@@ -86,11 +86,11 @@ public class MemberList implements Serializable
   public String toString()
   {
     String str = "";
-    if (members.size()!=0)
+    if (employees.size()!=0)
     {
-      for (int i = 0; i < members.size(); i++)
+      for (int i = 0; i < employees.size(); i++)
       {
-        str += members.get(i).getName() + " , ";
+        str += employees.get(i).getName() + " , ";
       }
       str = str.substring(0, str.length() - 2);
     }

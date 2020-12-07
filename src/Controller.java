@@ -27,8 +27,8 @@ public class Controller
   @FXML private Tab projectDetailsTab;
   @FXML private Tab requirementDetailsTab;
 
-  @FXML private TableView<Member> employeeField;
-  @FXML private TableColumn<Member, String> employeeName;
+  @FXML private TableView<Employee> employeeField;
+  @FXML private TableColumn<Employee, String> employeeName;
 
   @FXML private TableView<Project> projectField;
   @FXML private TableColumn<Project, String> projectName;
@@ -60,7 +60,7 @@ public class Controller
   TextField inputProjectName = new TextField();
   CheckBox[] memberCheckBoxes;
 
-  // Member JavaFX objects \\
+  // Employee JavaFX objects \\
   TextField inputMemberName = new TextField();
 
   // Requirement JavaFX objects
@@ -73,7 +73,7 @@ public class Controller
   TextField inputTaskName = new TextField();
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
-  ComboBox<Member> responsibleMember = new ComboBox<>();
+  ComboBox<Employee> responsibleMember = new ComboBox<>();
   TextField inputTotalHoursWorked = new TextField();
   ComboBox<String> inputStatusForTask = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
@@ -92,7 +92,7 @@ public class Controller
   private MemberList finalMemberList;
 
   // Selected objects
-  private Member selectedMember;
+  private Employee selectedEmployee;
   private Project selectedProject;
   private Requirement selectedRequirement;
   private Task selectedTask;
@@ -112,7 +112,7 @@ public class Controller
     statusOptions.add("Rejected");
     statusOptions.add("Started");
     employeeName
-        .setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
+        .setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
     projectName
         .setCellValueFactory(new PropertyValueFactory<Project, String>("Name"));
     projectTeam
@@ -173,8 +173,8 @@ public class Controller
             if (employeeField.getSelectionModel().getSelectedItem() != null)
             {
               int index = employeeField.getSelectionModel().getSelectedIndex();
-              selectedMember = employeeField.getItems().get(index);
-              System.out.println(selectedMember);
+              selectedEmployee = employeeField.getItems().get(index);
+              System.out.println(selectedEmployee);
             }
           }
         });
@@ -295,7 +295,7 @@ public class Controller
   }
 
   /**
-   * Updates the MemberList objects the TreeView<Member> on the GUI
+   * Updates the MemberList objects the TreeView<Employee> on the GUI
    *
    * @param //args Command line arguments
    */
@@ -372,10 +372,10 @@ public class Controller
     window.setTitle("Add new member");
     window.setMinWidth(300);
 
-    // Member name input.
+    // Employee name input.
     HBox nameContainer = new HBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label memberName = new Label("Member name: ");
+    Label memberName = new Label("Employee name: ");
     inputMemberName.setPromptText("Enter member name");
     nameContainer.getChildren().addAll(memberName, inputMemberName);
 
@@ -402,20 +402,20 @@ public class Controller
    */
   @FXML public void editEmployeeClick()
   {
-    if (!(selectedMember == null))
+    if (!(selectedEmployee == null))
     {
       Stage window = new Stage();
 
       window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Edit member: " + selectedMember.getName());
+      window.setTitle("Edit member: " + selectedEmployee.getName());
       window.setMinWidth(300);
 
-      // Member name input.
+      // Employee name input.
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
       Label memberName = new Label("New name: ");
       inputMemberName = new TextField();
-      inputMemberName.setText(selectedMember.getName());
+      inputMemberName.setText(selectedEmployee.getName());
       nameContainer.getChildren().addAll(memberName, inputMemberName);
 
       closeAndSaveButton.get("editEmployee")
@@ -442,19 +442,19 @@ public class Controller
    */
   @FXML public void removeEmployeeClick()
   {
-    if (!(selectedMember == null))
+    if (!(selectedEmployee == null))
     {
       Stage window = new Stage();
 
       window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Remove member: " + selectedMember.getName());
+      window.setTitle("Remove member: " + selectedEmployee.getName());
       window.setMinWidth(300);
 
-      // Member name input.
+      // Employee name input.
       HBox nameContainer = new HBox(2);
       nameContainer.setPadding(new Insets(10, 10, 0, 10));
       Label memberName = new Label(
-          "Do you really want to remove: " + selectedMember.getName());
+          "Do you really want to remove: " + selectedEmployee.getName());
 
       nameContainer.getChildren().addAll(memberName);
 
@@ -476,19 +476,19 @@ public class Controller
           {
             window.close();
             ProjectList projects = adapterProjects
-                .getProjectByEmployeeName(selectedMember.getName());
+                .getProjectByEmployeeName(selectedEmployee.getName());
             for (int i = 0; i < projects.size(); i++)
             {
               finalProjectList.getProject(projects.get(i).getName()).getTeam()
-                  .deleteMember(selectedMember.getName());
+                  .deleteMember(selectedEmployee.getName());
             }
 
-            finalMemberList.removeMember(selectedMember);
+            finalMemberList.removeMember(selectedEmployee);
             adapterEmployee.saveMembers(finalMemberList);
             adapterProjects.saveProjects(finalProjectList);
             updateEmployeeArea();
             updateProjectArea();
-            selectedMember = null;
+            selectedEmployee = null;
           }
         }
       });
@@ -1376,8 +1376,8 @@ public class Controller
             .equals("")))
         {
           window.close();
-          Member member = new Member(inputMemberName.getText());
-          finalMemberList.addMember(member);
+          Employee employee = new Employee(inputMemberName.getText());
+          finalMemberList.addMember(employee);
           adapterEmployee.saveMembers(finalMemberList);
           updateEmployeeArea();
           updateProjectArea();
@@ -1395,20 +1395,20 @@ public class Controller
             .equals("")))
         {
           window.close();
-          Member member = new Member(inputMemberName.getText());
-          System.out.println(member.getName());
+          Employee employee = new Employee(inputMemberName.getText());
+          System.out.println(employee.getName());
           ProjectList projects = adapterProjects
-              .getProjectByEmployeeName(selectedMember.getName());
+              .getProjectByEmployeeName(selectedEmployee.getName());
           for (int i = 0; i < projects.size(); i++)
           {
             finalProjectList.getProject(projects.get(i).getName()).getTeam()
-                .replaceMember(selectedMember.getName(), member.getName());
+                .replaceMember(selectedEmployee.getName(), employee.getName());
           }
           adapterProjects.saveProjects(finalProjectList);
-          finalMemberList.getIndexFromName(selectedMember.getName());
+          finalMemberList.getIndexFromName(selectedEmployee.getName());
 
           finalMemberList
-              .get(finalMemberList.getIndexFromName(selectedMember.getName()))
+              .get(finalMemberList.getIndexFromName(selectedEmployee.getName()))
               .setName(inputMemberName.getText());
           adapterProjects.saveProjects(finalProjectList);
 
@@ -1432,7 +1432,7 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                "Member " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalMemberList.get(i) + " has been added to "
                     + inputProjectName.getText());
           }
         }
@@ -1469,7 +1469,7 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                "Member " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalMemberList.get(i) + " has been added to "
                     + inputProjectName.getText());
           }
         }
@@ -1507,7 +1507,7 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                "Member " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalMemberList.get(i) + " has been added to "
                     + inputRequirementName.getText());
           }
         }
@@ -1584,7 +1584,7 @@ public class Controller
           {
             selectedMembers.addMember(finalMemberList.get(i));
             System.out.println(
-                "Member " + finalMemberList.get(i) + " has been added to "
+                "Employee " + finalMemberList.get(i) + " has been added to "
                     + inputTaskName.getText());
           }
         }
