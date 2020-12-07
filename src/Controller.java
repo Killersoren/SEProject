@@ -44,6 +44,8 @@ public class Controller
   @FXML private Label requirementTeamLabel;
   @FXML private Label requirementDeadlineLabel;
   @FXML private Label requirementUserStoryLabel;
+  @FXML private Label requirementEstimatedLabel;
+  @FXML private Label requirementHoursWorkedLabel;
 
   @FXML private Label taskNameLabel;
   @FXML private Label taskStatusLabel;
@@ -222,33 +224,24 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              requirementNameLabel
-                  .setText(requirementNameLabel.getText().substring(0, 7));
-              requirementStatusLabel
-                  .setText(requirementStatusLabel.getText().substring(0, 9));
-              requirementUserStoryLabel.setText(
-                  requirementUserStoryLabel.getText().substring(0, 13));
-              requirementDeadlineLabel
-                  .setText(requirementDeadlineLabel.getText().substring(0, 10));
-              int index = requirementField.getSelectionModel()
-                  .getSelectedIndex();
+              requirementNameLabel.setText("Name: ");
+              requirementStatusLabel.setText("Status: ");
+              requirementDeadlineLabel.setText("Deadline: ");
+              requirementTeamLabel.setText("Team: ");
+              requirementEstimatedLabel.setText("Estimated hours: ");
+              requirementHoursWorkedLabel.setText("Total hours worked: ");
+              requirementUserStoryLabel.setText("User story: ");
+
+              int index = requirementField.getSelectionModel().getSelectedIndex();
+
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(
-                  selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              System.out.println(selectedRequirement.getName());
-              requirementNameLabel.setText(
-                  requirementNameLabel.getText() + selectedRequirement
-                      .getName());
-              requirementStatusLabel.setText(
-                  requirementStatusLabel.getText() + selectedRequirement
-                      .getStatus());
-              requirementDeadlineLabel.setText(
-                  requirementDeadlineLabel.getText() + selectedRequirement
-                      .getDeadline().toString());
-              requirementUserStoryLabel.setText(
-                  requirementUserStoryLabel.getText() + selectedRequirement
-                      .getUserstory());
+              requirementNameLabel.setText(requirementNameLabel.getText() + selectedRequirement.getName());
+              requirementStatusLabel.setText(requirementStatusLabel.getText() + selectedRequirement.getStatus());
+              requirementDeadlineLabel.setText(requirementDeadlineLabel.getText() + selectedRequirement.getDeadline().toString());
+              requirementTeamLabel.setText(requirementTeamLabel.getText() + selectedRequirement.getTeam().toString());
+              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText() + selectedRequirement.getUserstory());
               updateTaskArea();
             }
           }
@@ -279,22 +272,14 @@ public class Controller
               taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
 
               taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 8));
+                  .setText(taskStatusLabel.getText().substring(0, 5));
 
               taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText().substring(0, 10));
+                  .setText(taskDeadlineLabel.getText().substring(0, 5));
 
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
-
-              taskIDLabel.setText(taskIDLabel.getText()+selectedTask.getTaskID());
-
-              taskStatusLabel
-                  .setText(taskStatusLabel.getText()+selectedTask.getStatus());
-
-              taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText()+selectedTask.getDeadline());
 
             }
 
@@ -926,10 +911,14 @@ public class Controller
 
     for (int i = 0; i < memberCheckBoxes.length; i++)
     {
-      memberCheckBoxes[i] = new CheckBox(
-          selectedProject.getTeam().get(i).getName());
+      memberCheckBoxes[i] = new CheckBox(selectedProject.getTeam().get(i).getName());
       memberSelectContainer.add(memberCheckBoxes[i], i % 2, i / 2);
       memberCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+      for(int j = 0 ; j < selectedRequirement.getTeam().size() ; j++){
+        if(memberCheckBoxes[i].getText().equals(selectedRequirement.getTeam().getMembers().get(j).getName())){
+          memberCheckBoxes[i].setSelected(true);
+        }
+      }
     }
 
     // Add member label Node and member selection Node
