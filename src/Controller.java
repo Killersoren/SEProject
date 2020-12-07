@@ -224,24 +224,16 @@ public class Controller
           {
             if (requirementField.getSelectionModel().getSelectedItem() != null)
             {
-              requirementNameLabel.setText("Name: ");
-              requirementStatusLabel.setText("Status: ");
-              requirementDeadlineLabel.setText("Deadline: ");
-              requirementTeamLabel.setText("Team: ");
-//              requirementEstimatedLabel.setText("Estimated hours: ");
-//              requirementHoursWorkedLabel.setText("Total hours worked: ");
-              requirementUserStoryLabel.setText("User story: ");
-
               int index = requirementField.getSelectionModel().getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
               requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              requirementNameLabel.setText(requirementNameLabel.getText() + selectedRequirement.getName());
-              requirementStatusLabel.setText(requirementStatusLabel.getText() + selectedRequirement.getStatus());
-              requirementDeadlineLabel.setText(requirementDeadlineLabel.getText() + selectedRequirement.getDeadline().toString());
-              requirementTeamLabel.setText(requirementTeamLabel.getText() + selectedRequirement.getTeam().toString());
-              requirementUserStoryLabel.setText(requirementUserStoryLabel.getText() + selectedRequirement.getUserstory());
+              requirementNameLabel.setText(selectedRequirement.getName());
+              requirementStatusLabel.setText(selectedRequirement.getStatus());
+              requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
+              requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
+              requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
               updateTaskArea();
             }
           }
