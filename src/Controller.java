@@ -230,36 +230,9 @@ public class Controller
                   .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(
-                  selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              requirementNameLabel.setText(selectedRequirement.getName());
-              requirementStatusLabel.setText(selectedRequirement.getStatus());
-              requirementDeadlineLabel
-                  .setText(selectedRequirement.getDeadline().toString());
-              requirementTeamLabel
-                  .setText(selectedRequirement.getTeam().toString());
-              if (!selectedRequirement.getTasks().isEmpty())
-              {
-                requirementEstimatedLabel.setText(
-                    selectedRequirement.getTasks().getTotalEstimatedHours()
-                        + "");
-                requirementEstimatedLabel.setTextFill(Color.BLACK);
-                requirementHoursWorkedLabel.setText(
-                    selectedRequirement.getTasks().getTotalWorkedHours() + "");
-                requirementHoursWorkedLabel.setTextFill(Color.BLACK);
-              }
-              else
-              {
-                requirementEstimatedLabel
-                    .setText("No tasks in this requirement");
-                requirementEstimatedLabel.setTextFill(Color.RED);
-                requirementHoursWorkedLabel
-                    .setText("No tasks in this requirement");
-                requirementHoursWorkedLabel.setTextFill(Color.RED);
-              }
-              requirementUserStoryLabel
-                  .setText(selectedRequirement.getUserstory());
+              updateRequirementArea();
               updateTaskArea();
             }
           }
@@ -359,17 +332,34 @@ public class Controller
     }
   }
 
-  private void updateRequirementArea()
-  {
+  private void updateRequirementArea() {
     requirementField.getItems().clear();
-    if (adapterProjects != null)
-    {
-      for (int i = 0; i < selectedProject.getRequirements().size(); i++)
-      {
+    if (adapterProjects != null) {
+      for (int i = 0; i < selectedProject.getRequirements().size(); i++) {
         System.out.println(i);
         requirementField.getItems()
-            .add(selectedProject.getRequirements().getRequirement(i));
+                .add(selectedProject.getRequirements().getRequirement(i));
       }
+    }
+
+    if (selectedRequirement != null) {
+
+      requirementNameLabel.setText(selectedRequirement.getName());
+      requirementStatusLabel.setText(selectedRequirement.getStatus());
+      requirementDeadlineLabel.setText(selectedRequirement.getDeadline().toString());
+      requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
+      if (!selectedRequirement.getTasks().isEmpty()) {
+        requirementEstimatedLabel.setText(selectedRequirement.getTasks().getTotalEstimatedHours() + "");
+        requirementEstimatedLabel.setTextFill(Color.BLACK);
+        requirementHoursWorkedLabel.setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
+        requirementHoursWorkedLabel.setTextFill(Color.BLACK);
+      } else {
+        requirementEstimatedLabel.setText("No tasks in this requirement");
+        requirementEstimatedLabel.setTextFill(Color.RED);
+        requirementHoursWorkedLabel.setText("No tasks in this requirement");
+        requirementHoursWorkedLabel.setTextFill(Color.RED);
+      }
+      requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
     }
   }
 
