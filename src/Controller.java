@@ -228,8 +228,8 @@ public class Controller
               requirementStatusLabel.setText("Status: ");
               requirementDeadlineLabel.setText("Deadline: ");
               requirementTeamLabel.setText("Team: ");
-              requirementEstimatedLabel.setText("Estimated hours: ");
-              requirementHoursWorkedLabel.setText("Total hours worked: ");
+//              requirementEstimatedLabel.setText("Estimated hours: ");
+//              requirementHoursWorkedLabel.setText("Total hours worked: ");
               requirementUserStoryLabel.setText("User story: ");
 
               int index = requirementField.getSelectionModel().getSelectedIndex();
@@ -272,14 +272,21 @@ public class Controller
               taskIDLabel.setText(taskIDLabel.getText().substring(0, 5));
 
               taskStatusLabel
-                  .setText(taskStatusLabel.getText().substring(0, 5));
+                  .setText(taskStatusLabel.getText().substring(0, 8));
 
               taskDeadlineLabel
-                  .setText(taskDeadlineLabel.getText().substring(0, 5));
+                  .setText(taskDeadlineLabel.getText().substring(0, 10));
 
               System.out.println(selectedTask.getName());
               taskNameLabel
                   .setText(taskNameLabel.getText() + selectedTask.getName());
+              taskIDLabel.setText(taskIDLabel.getText()+selectedTask.getTaskID());
+
+              taskStatusLabel
+                  .setText(taskStatusLabel.getText()+selectedTask.getStatus());
+
+              taskDeadlineLabel
+                  .setText(taskDeadlineLabel.getText()+selectedTask.getDeadline());
 
             }
 
