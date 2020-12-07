@@ -77,9 +77,7 @@ public class Controller
   TextField inputTaskName = new TextField();
   TextField inputTaskID = new TextField();
   TextField inputEstimatedHours = new TextField();
-  ComboBox<Employee> responsibleMember = new ComboBox<>();
   ComboBox<Integer> inputTotalHoursWorked = new ComboBox<>();
-  ComboBox<String> inputStatusForTask = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
 
   // General JavaFX objects \\
