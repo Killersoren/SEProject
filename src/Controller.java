@@ -50,7 +50,7 @@ public class Controller
   @FXML private Label taskNameLabel;
   @FXML private Label taskStatusLabel;
   @FXML private Label taskDeadlineLabel;
-  @FXML private Label taskIDLabel;
+  @FXML private Label taskIdLabel;
   @FXML private Label taskEstimatedHoursLabel;
   @FXML private Label taskTotalWorkLabel;
 
@@ -58,9 +58,12 @@ public class Controller
   @FXML private TableColumn<Task, String> taskName;
   @FXML private TableColumn<Task, String> taskStatus;
   @FXML private TableColumn<Task, String> taskDeadline;
+  //@FXML private
 
   // Project JavaFX objects \\
   TextField inputProjectName = new TextField();
+  ToggleGroup employeeToggleGroup;
+  RadioButton[] employeeRadioButtons;
   CheckBox[] employeeCheckBoxes;
 
   // Employee JavaFX objects \\
@@ -69,19 +72,25 @@ public class Controller
   // Requirement JavaFX objects
   TextField inputRequirementName = new TextField();
   TextField inputUserStory = new TextField();
-  ComboBox<String> inputTaskStatus = new ComboBox<>();
+  ComboBox<String> inputStatus = new ComboBox<>();
   DatePicker inputRequirementDeadline = new DatePicker();
 
   //Task JavaFx objects
   TextField inputTaskName = new TextField();
-  TextField inputTaskID = new TextField();
-  TextField inputTaskEstimation = new TextField();
-  ComboBox<Integer> inputTaskWorkDone = new ComboBox<>();
+  TextField inputTaskEstimatedHours = new TextField();
+  ComboBox<Integer> inputTotalHoursWorked = new ComboBox<>();
   DatePicker inputTaskDeadline = new DatePicker();
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
-  HashMap<String, Button> closeAndSaveButtons = new HashMap<>();
+  Button addEmployeeButton = new Button("Add employee");
+  Button editEmployeeButton = new Button("Edit employee");
+  Button addProjectButton = new Button("Add project");
+  Button editProjectButton = new Button("Edit project");
+  Button addRequirementButton = new Button("Add requirement");
+  Button editRequirementButton = new Button("Edit requirement");
+  Button addTaskButton = new Button("Add task");
+  Button editTaskButton = new Button("Edit task");
 
   // Adapters
   private ProjectListAdapter adapterProjects;
@@ -100,32 +109,8 @@ public class Controller
 
   private final ArrayList<String> statusOptions = new ArrayList<>();
 
-  //Private Final fields
-  private final int popUpWindowWidth = 300;
-  private final int insetsV1 = 10;
-  private final int insetsV2 = 10;
-  private final int insetsV3 = 0;
-  private final int insetsV4 = 10;
-  private final String projectsFile = "Projects.bin";
-  private final String employeesFile = "Employees.bin";
-  private final String name = "Name";
-  private final String deadline = "Deadline";
-  private final String status = "Status";
-  private final String team = "Team";
-  private final String defaultProjectDetailsTabTitle = " project details";
-  private final String defaultRequirementDetailsTabTitle = " requirement details";
-  private final String noTaskErrorMessage = "No tasks in this requirement";
-  private final String defaultNameLabel = " Name: ";
-  private final String defaultIDLabel = " Id: ";
-  private final String defaultStatusLabel = " Status: ";
-  private final String defaultDeadlineLabel = " Deadline: ";
-  private final String defaultEstimatedHoursLabel = " Estimated hours: ";
-  private final String defaultTotalWorkLabel = " Total work: ";
-
   /**
    * Runs one time before the GUI is shown
-   *
-   * @param //args Command line arguments
    */
   public void initialize()
   {
@@ -134,19 +119,19 @@ public class Controller
     statusOptions.add("Not Started");
     statusOptions.add("Rejected");
     statusOptions.add("Started");
-    employeeName.setCellValueFactory(new PropertyValueFactory<>(name));
-    projectName.setCellValueFactory(new PropertyValueFactory<>(name));
-    projectTeam.setCellValueFactory(new PropertyValueFactory<>(team));
-    requirementName.setCellValueFactory(new PropertyValueFactory<>(name));
-    requirementStatus.setCellValueFactory(new PropertyValueFactory<>(status));
-    requirementDeadline
-        .setCellValueFactory(new PropertyValueFactory<>(deadline));
-    taskName.setCellValueFactory(new PropertyValueFactory<>(name));
-    taskStatus.setCellValueFactory(new PropertyValueFactory<>(status));
-    taskDeadline.setCellValueFactory(new PropertyValueFactory<>(deadline));
-    adapterProjects = new ProjectListAdapter(projectsFile);
-    adapterEmployee = new EmployeeListAdapter(employeesFile);
+    employeeName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    projectName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    projectTeam.setCellValueFactory(new PropertyValueFactory<>("Team"));
+    requirementName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    requirementStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+    requirementDeadline.setCellValueFactory(new PropertyValueFactory<>("Deadline"));
+    taskName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    taskStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
+    taskDeadline.setCellValueFactory(new PropertyValueFactory<>("Deadline"));
+    adapterProjects = new ProjectListAdapter("Projects.bin");
+    adapterEmployee = new EmployeeListAdapter("Employees.bin");
 
+    // Update all GUI
     updateEmployeeArea();
     updateProjectArea();
     setSelectedEmployee();
@@ -158,26 +143,10 @@ public class Controller
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
     errorLabel.setPadding(new Insets(0, 0, 50, 0));
-
-    closeAndSaveButtons.put("addEmployee", new Button("Add new employee"));
-    closeAndSaveButtons.put("editEmployee", new Button("Save and close"));
-
-    closeAndSaveButtons.put("addProject", new Button("Add new project"));
-    closeAndSaveButtons.put("editProject", new Button("Save and close"));
-
-    closeAndSaveButtons
-        .put("addRequirement", new Button("Add new requirement"));
-    closeAndSaveButtons.put("editRequirement", new Button("Save and close"));
-
-    closeAndSaveButtons.put("addTask", new Button("Add new task"));
-    closeAndSaveButtons.put("editTask", new Button("Save and close"));
-
   }
 
   /**
    * Method used to select a employee with the mouse in the TableView so the employee later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedEmployee()
   {
@@ -197,27 +166,7 @@ public class Controller
   }
 
   /**
-   * Updates the EmployeeList objects the TreeView<Employee> on the GUI
-   *
-   * @param //args Command line arguments
-   */
-  private void updateEmployeeArea()
-  {
-    employeeField.getItems().clear();
-    if (adapterEmployee != null)
-    {
-      finalEmployeeList = adapterEmployee.getAllEmployees();
-      for (int i = 0; i < finalEmployeeList.size(); i++)
-      {
-        employeeField.getItems().add(finalEmployeeList.get(i));
-      }
-    }
-  }
-
-  /**
    * Method used to select a project with the mouse in the TableView so the employee later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedProject()
   {
@@ -231,8 +180,8 @@ public class Controller
             {
               int index = projectField.getSelectionModel().getSelectedIndex();
               selectedProject = projectField.getItems().get(index);
-              projectDetailsTab.setText(
-                  selectedProject.getName() + defaultProjectDetailsTabTitle);
+              projectDetailsTab
+                  .setText(selectedProject.getName() + " project details");
               projectDetailsTab.setDisable(false);
               updateRequirementArea();
             }
@@ -241,27 +190,7 @@ public class Controller
   }
 
   /**
-   * Updates the ProjectList objects the TreeView<Project> on the GUI
-   *
-   * @param //args Command line arguments
-   */
-  private void updateProjectArea()
-  {
-    projectField.getItems().clear();
-    if (adapterProjects != null)
-    {
-      finalProjectList = adapterProjects.getAllProjects();
-      for (int i = 0; i < finalProjectList.size(); i++)
-      {
-        projectField.getItems().add(finalProjectList.get(i));
-      }
-    }
-  }
-
-  /**
    * Method used to select a requirement with the mouse in the TableView so the requirement later can be edited or removed.
-   *
-   * @param //args Command line arguments
    */
   private void setSelectedRequirement()
   {
@@ -277,16 +206,51 @@ public class Controller
                   .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(selectedRequirement.getName()
-                  + defaultRequirementDetailsTabTitle);
+              requirementDetailsTab.setText(
+                  selectedRequirement.getName() + " requirement details");
               requirementDetailsTab.setDisable(false);
-              updateRequirementLabels();
+              updateRequirementArea();
               updateTaskArea();
             }
           }
         });
   }
 
+  /**
+   * Updates the EmployeeList objects the TreeView<Employee> on the GUI
+   */
+  private void updateEmployeeArea()
+  {
+    employeeField.getItems().clear();
+    if (adapterEmployee != null)
+    {
+      finalEmployeeList = adapterEmployee.getAllEmployees();
+      for (int i = 0; i < finalEmployeeList.size(); i++)
+      {
+        employeeField.getItems().add(finalEmployeeList.get(i));
+      }
+    }
+  }
+
+  /**
+   * Updates the ProjectList objects the TreeView<Project> on the GUI
+   */
+  private void updateProjectArea()
+  {
+    projectField.getItems().clear();
+    if (adapterProjects != null)
+    {
+      finalProjectList = adapterProjects.getAllProjects();
+      for (int i = 0; i < finalProjectList.size(); i++)
+      {
+        projectField.getItems().add(finalProjectList.get(i));
+      }
+    }
+  }
+
+  /**
+   * Updates the Requirement objects on the TreeView<Project> on the GUI
+   */
   private void updateRequirementArea()
   {
     requirementField.getItems().clear();
@@ -298,10 +262,7 @@ public class Controller
             .add(selectedProject.getRequirements().getRequirement(i));
       }
     }
-  }
 
-  private void updateRequirementLabels()
-  {
     if (selectedRequirement != null)
     {
       requirementNameLabel.setText(selectedRequirement.getName());
@@ -311,22 +272,33 @@ public class Controller
       requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
       if (!selectedRequirement.getTasks().isEmpty())
       {
-        requirementEstimatedLabel.setText(String
-            .valueOf(selectedRequirement.getTasks().getTotalEstimatedHours()));
+        requirementEstimatedLabel.setText(
+            selectedRequirement.getTasks().getTotalEstimatedHours() + "");
         requirementEstimatedLabel.setTextFill(Color.BLACK);
-        requirementHoursWorkedLabel.setText(String
-            .valueOf(selectedRequirement.getTasks().getTotalWorkedHours()));
+        requirementHoursWorkedLabel
+            .setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
         requirementHoursWorkedLabel.setTextFill(Color.BLACK);
       }
       else
       {
-        requirementEstimatedLabel.setText(noTaskErrorMessage);
+        requirementEstimatedLabel.setText("No tasks in this requirement");
         requirementEstimatedLabel.setTextFill(Color.RED);
-        requirementHoursWorkedLabel.setText(noTaskErrorMessage);
+        requirementHoursWorkedLabel.setText("No tasks in this requirement");
         requirementHoursWorkedLabel.setTextFill(Color.RED);
       }
       requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
     }
+  }
+
+
+  private void updateTaskLabels()
+  {
+    taskNameLabel.setText(selectedTask.getName());
+    taskIdLabel.setText(selectedTask.getId() + "");
+    taskStatusLabel.setText(selectedTask.getStatus());
+    taskDeadlineLabel.setText(selectedTask.getDeadline() + "");
+    taskEstimatedHoursLabel.setText(selectedTask.getEstimatedHours() + "");
+    taskTotalWorkLabel.setText(selectedTask.getTotalHoursWorked() + "");
   }
 
   /**
@@ -365,53 +337,23 @@ public class Controller
     }
   }
 
-  private void updateTaskLabels()
-  {
-    taskNameLabel.setText(defaultNameLabel + selectedTask.getName());
-    taskIDLabel.setText(defaultIDLabel + selectedTask.getTaskID());
-    taskStatusLabel.setText(defaultStatusLabel + selectedTask.getStatus());
-    taskDeadlineLabel.setText(defaultDeadlineLabel + selectedTask.getDeadline());
-    taskEstimatedHoursLabel
-        .setText(defaultEstimatedHoursLabel + selectedTask.getEstimatedHours());
-    taskTotalWorkLabel
-        .setText(defaultTotalWorkLabel + selectedTask.getTotalHoursWorked());
-  }
-
   private void nameWindow(Stage window, String str)
   {
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle(str);
-    window.setMinWidth(popUpWindowWidth);
+    window.setMinWidth(300);
     window.setResizable(false);
   }
 
   private VBox textFieldWindowPart(TextField inputText, String labelName)
   {
     VBox nameContainer = new VBox(2);
-    nameContainer.setPadding(new Insets(insetsV1, insetsV2, insetsV3, insetsV4));
+    nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label label = new Label(labelName);
-    inputText.setText("");
     inputText.setPromptText("Enter " + labelName.toLowerCase());
     nameContainer.getChildren().addAll(label, inputText);
 
     return nameContainer;
-  }
-
-  private VBox statusComboBoxWindowPart()
-  {
-
-    VBox statusContainer = new VBox();
-    statusContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label status = new Label(defaultStatusLabel);
-
-    inputTaskStatus = new ComboBox();
-    for (int i = 0; i < statusOptions.size(); i++)
-    {
-      inputTaskStatus.getItems().add(statusOptions.get(i));
-    }
-    statusContainer.getChildren().addAll(status, inputTaskStatus);
-
-    return statusContainer;
   }
 
   /**
@@ -429,13 +371,13 @@ public class Controller
     VBox employeeNameContainer = textFieldWindowPart(inputEmployeeName,
         "Employee name: ");
 
-    closeAndSaveButtons.get("addEmployee")
+    addEmployeeButton
         .setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren().addAll(employeeNameContainer, errorLabel,
-        closeAndSaveButtons.get("addEmployee"));
+        addEmployeeButton);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -455,7 +397,7 @@ public class Controller
     {
       Stage window = new Stage();
 
-      nameWindow(window, "Edit employee " + selectedEmployee.getName());
+      nameWindow(window, "Edit employee" + selectedEmployee.getName());
 
       // Employee name input.
       VBox employeeNameContainer = textFieldWindowPart(inputEmployeeName,
@@ -463,13 +405,11 @@ public class Controller
 
       inputEmployeeName.setText(selectedEmployee.getName());
 
-      closeAndSaveButtons.get("editEmployee")
-          .setOnAction(new PopupListener(window));
+      editEmployeeButton.setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(employeeNameContainer, errorLabel,
-          closeAndSaveButtons.get("editEmployee"));
+      layout.getChildren().addAll(employeeNameContainer, errorLabel, editEmployeeButton);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
@@ -593,13 +533,12 @@ public class Controller
         .addAll(employeesLabel, employeeSelectContainer);
 
     // Config save and close button
-    closeAndSaveButtons.get("addProject")
-        .setOnAction(new PopupListener(window));
+    addProjectButton.setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren().addAll(projectNameContainer, employeeListContainer,
-        closeAndSaveButtons.get("addProject"), errorLabel);
+        addProjectButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -638,8 +577,7 @@ public class Controller
 
       for (int i = 0; i < employeeCheckBoxes.length; i++)
       {
-        employeeCheckBoxes[i] = new CheckBox(
-            finalEmployeeList.get(i).getName());
+        employeeCheckBoxes[i] = new CheckBox(finalEmployeeList.get(i).getName());
         employeeSelectContainer.add(employeeCheckBoxes[i], i % 2, i / 2);
 
         for (int j = 0; j < selectedProject.getTeam().size(); j++)
@@ -656,13 +594,13 @@ public class Controller
       employeeListContainer.getChildren()
           .addAll(employeesLabel, employeeSelectContainer);
 
-      closeAndSaveButtons.get("editProject")
+      editProjectButton
           .setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
       layout.getChildren().addAll(projectNameContainer, employeeListContainer,
-          closeAndSaveButtons.get("editProject"), errorLabel);
+          editProjectButton, errorLabel);
 
       layout.setAlignment(Pos.CENTER);
 
@@ -761,7 +699,16 @@ public class Controller
         "User story: ");
 
     // Requirement status input.
-    VBox statusContainer = statusComboBoxWindowPart();
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    statusContainer.getChildren().addAll(status, inputStatus);
 
     // Requirement deadline input.
     VBox deadlineContainer = new VBox();
@@ -819,13 +766,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButtons.get("addRequirement")
-        .setOnAction(new PopupListener(window));
+    addRequirementButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(requirementNameContainer, requirementUserStoryContainer,
             statusContainer, employeeListContainer, deadlineContainer,
-            closeAndSaveButtons.get("addRequirement"), errorLabel);
+            addRequirementButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -854,8 +800,17 @@ public class Controller
     inputUserStory.setText(selectedRequirement.getUserstory());
 
     // Requirement status input.
-    VBox statusContainer = statusComboBoxWindowPart();
-    inputTaskStatus.setValue(selectedRequirement.getStatus());
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    inputStatus.setValue(selectedRequirement.getStatus());
+    statusContainer.getChildren().addAll(status, inputStatus);
 
     // Requirement deadline input.
     VBox deadlineContainer = new VBox();
@@ -922,13 +877,13 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButtons.get("editRequirement")
+    editRequirementButton
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(requirementNameContainer, requirementUserStoryContainer,
             statusContainer, employeeListContainer, deadlineContainer,
-            closeAndSaveButtons.get("editRequirement"), errorLabel);
+            editRequirementButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1013,14 +968,21 @@ public class Controller
     VBox taskNameContainer = textFieldWindowPart(inputTaskName, " Task name: ");
 
     // task estimated hours input.
-    VBox taskEstimatedHoursContainer = textFieldWindowPart(inputTaskEstimation,
-        "Estimated hours: ");
+    VBox taskEstimatedHoursContainer = textFieldWindowPart(
+        inputTaskEstimatedHours, "Estimated hours: ");
 
     //Task status input
-    VBox statusContainer = statusComboBoxWindowPart();
 
-    //Task ID input
-    VBox taskIDContainer = textFieldWindowPart(inputTaskID, "Task ID: ");
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    statusContainer.getChildren().addAll(status, inputStatus);
 
     // Task deadline input.
     VBox deadlineContainer = new VBox();
@@ -1062,14 +1024,15 @@ public class Controller
     employeeListContainer.setPadding(new Insets(0, 10, 0, 10));
     Label employeesLabel = new Label("Select employees: ");
     GridPane employeeSelectContainer = new GridPane();
-    employeeCheckBoxes = new CheckBox[selectedRequirement.getTeam().size()];
+    employeeToggleGroup = new ToggleGroup();
+    employeeRadioButtons = new RadioButton[selectedRequirement.getTeam().size()];
 
-    for (int i = 0; i < employeeCheckBoxes.length; i++)
+    for (int i = 0; i < employeeRadioButtons.length; i++)
     {
-      employeeCheckBoxes[i] = new CheckBox(
-          selectedRequirement.getTeam().get(i).getName());
-      employeeSelectContainer.add(employeeCheckBoxes[i], i % 2, i / 2);
-      employeeCheckBoxes[i].setPadding(new Insets(3, 50, 3, 3));
+      employeeRadioButtons[i] = new RadioButton(selectedRequirement.getTeam().get(i).getName());
+      employeeRadioButtons[i].setToggleGroup(employeeToggleGroup);
+      employeeSelectContainer.add(employeeRadioButtons[i], i % 2, i / 2);
+      employeeRadioButtons[i].setPadding(new Insets(3, 50, 3, 3));
     }
 
     // Add employee label Node and employee selection Node
@@ -1078,12 +1041,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButtons.get("addTask").setOnAction(new PopupListener(window));
+    addTaskButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
-        .addAll(taskNameContainer, statusContainer, taskIDContainer,
-            employeeListContainer, taskEstimatedHoursContainer,
-            deadlineContainer, closeAndSaveButtons.get("addTask"), errorLabel);
+        .addAll(taskNameContainer, statusContainer,
+            employeeListContainer, taskEstimatedHoursContainer, deadlineContainer,
+            addTaskButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1105,9 +1068,9 @@ public class Controller
     inputTaskName.setText(selectedTask.getName());
 
     // task estimated hours input.
-    VBox taskEstimatedHoursContainer = textFieldWindowPart(inputTaskEstimation,
-        "Estimated hours: ");
-    inputTaskEstimation
+    VBox taskEstimatedHoursContainer = textFieldWindowPart(
+        inputTaskEstimatedHours, "Estimated hours: ");
+    inputTaskEstimatedHours
         .setText(String.valueOf(selectedTask.getEstimatedHours()));
 
     //Task total hours input
@@ -1115,34 +1078,38 @@ public class Controller
     VBox totalHoursContainer = new VBox();
     totalHoursContainer.setPadding(new Insets(10, 10, 0, 10));
     Label totalHours = new Label("Total hours: ");
+    inputTotalHoursWorked = new ComboBox();
+    inputTotalHoursWorked.setValue(selectedTask.getTotalHoursWorked());
 
-    inputTaskWorkDone = new ComboBox();
-    inputTaskWorkDone.getItems().add(0);
-    inputTaskWorkDone.getSelectionModel().select(0);
-    inputTaskWorkDone.setOnMouseClicked(new EventHandler()
+    inputTotalHoursWorked.setOnMouseClicked(new EventHandler()
     {
       public void handle(Event t)
       {
-        inputTaskWorkDone.getItems()
-            .remove(1, inputTaskWorkDone.getItems().size());
-        for (int i = 1;
-             i <= Integer.parseInt(inputTaskEstimation.getText()); i++)
+        inputTotalHoursWorked.getItems()
+            .remove(0, inputTotalHoursWorked.getItems().size());
+        for (int i = 0;
+             i <= Integer.parseInt(inputTaskEstimatedHours.getText()); i++)
         {
-          inputTaskWorkDone.getItems().add(i);
+          inputTotalHoursWorked.getItems().add(i);
         }
-        inputTaskWorkDone.getSelectionModel().select(0);
+
       }
 
     });
-    totalHoursContainer.getChildren().addAll(totalHours, inputTaskWorkDone);
-
-    //Task ID input
-    VBox taskIDContainer = textFieldWindowPart(inputTaskID, "Task ID: ");
-    inputTaskID.setText(selectedTask.getTaskID());
+    totalHoursContainer.getChildren().addAll(totalHours, inputTotalHoursWorked);
 
     // Task status input.
-    VBox statusContainer = statusComboBoxWindowPart();
-    inputTaskStatus.setValue(selectedRequirement.getStatus());
+    VBox statusContainer = new VBox();
+    statusContainer.setPadding(new Insets(10, 10, 0, 10));
+    Label status = new Label("Status: ");
+
+    inputStatus = new ComboBox();
+    for (int i = 0; i < statusOptions.size(); i++)
+    {
+      inputStatus.getItems().add(statusOptions.get(i));
+    }
+    inputStatus.setValue(selectedRequirement.getStatus());
+    statusContainer.getChildren().addAll(status, inputStatus);
 
     // Task deadline input.
     VBox deadlineContainer = new VBox();
@@ -1204,13 +1171,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButtons.get("editTask").setOnAction(new PopupListener(window));
+    editTaskButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
-        .addAll(taskNameContainer, taskIDContainer, statusContainer,
-            employeeListContainer, taskEstimatedHoursContainer,
-            totalHoursContainer, deadlineContainer,
-            closeAndSaveButtons.get("editTask"), errorLabel);
+        .addAll(taskNameContainer, statusContainer,
+            employeeListContainer, taskEstimatedHoursContainer, totalHoursContainer,
+            deadlineContainer, editTaskButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1331,10 +1297,10 @@ public class Controller
 
     @Override public void handle(ActionEvent actionEvent)
     {
-      if (actionEvent.getSource() == closeAndSaveButtons.get("addEmployee"))
+      if (actionEvent.getSource() == addEmployeeButton)
       {
-        if (!(inputEmployeeName.getText().isEmpty() || inputEmployeeName
-            .getText().equals("")))
+        if (!(inputEmployeeName.getText().isEmpty() || inputEmployeeName.getText()
+            .equals("")))
         {
           window.close();
           Employee employee = new Employee(inputEmployeeName.getText());
@@ -1349,11 +1315,10 @@ public class Controller
           errorLabel.setTextFill(Color.RED);
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons
-          .get("editEmployee"))
+      else if (actionEvent.getSource() == editEmployeeButton)
       {
-        if (!(inputEmployeeName.getText().isEmpty() || inputEmployeeName
-            .getText().equals("")))
+        if (!(inputEmployeeName.getText().isEmpty() || inputEmployeeName.getText()
+            .equals("")))
         {
           window.close();
           Employee employee = new Employee(inputEmployeeName.getText());
@@ -1362,8 +1327,7 @@ public class Controller
           for (int i = 0; i < projects.size(); i++)
           {
             finalProjectList.getProject(projects.get(i).getName()).getTeam()
-                .replaceEmployee(selectedEmployee.getName(),
-                    employee.getName());
+                .replaceEmployee(selectedEmployee.getName(), employee.getName());
           }
           adapterProjects.saveProjects(finalProjectList);
           finalEmployeeList.getIndexFromName(selectedEmployee.getName());
@@ -1384,7 +1348,7 @@ public class Controller
           errorLabel.setTextFill(Color.RED);
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons.get("addProject"))
+      else if (actionEvent.getSource() == addProjectButton)
       {
         selectedEmployees = new EmployeeList();
         for (int i = 0; i < employeeCheckBoxes.length; i++)
@@ -1409,14 +1373,13 @@ public class Controller
           window.close();
 
           Project project = new Project(inputProjectName.getText(),
-              selectedEmployees);
+                  selectedEmployees);
           finalProjectList.add(project);
           adapterProjects.saveProjects(finalProjectList);
           updateProjectArea();
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons
-          .get("editProject"))
+      else if (actionEvent.getSource() == editProjectButton)
       {
 
         // Make team of the new selected employees
@@ -1452,8 +1415,7 @@ public class Controller
         }
       }
 
-      else if (actionEvent.getSource() == closeAndSaveButtons
-          .get("addRequirement"))
+      else if (actionEvent.getSource() == addRequirementButton)
       {
         selectedEmployees = new EmployeeList();
         for (int i = 0; i < employeeCheckBoxes.length; i++)
@@ -1478,33 +1440,28 @@ public class Controller
         {
           errorLabel.setText("ERROR: Fix employees");
         }
-        else if (inputRequirementDeadline.getValue() == null)
-        {
-          errorLabel.setText("ERROR: Fix deadline");
-        }
         else
         {
           window.close();
 
           Requirement requirement = new Requirement(
               inputRequirementName.getText(), inputUserStory.getText(),
-              inputTaskStatus.getValue(), inputRequirementDeadline.getValue(),
-              selectedEmployees);
+              inputStatus.getValue(), inputRequirementDeadline.getValue(),
+                  selectedEmployees);
           selectedProject.add(requirement);
           adapterProjects.saveProjects(finalProjectList);
           updateRequirementArea();
         }
 
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons
-          .get("editRequirement"))
+      else if (actionEvent.getSource() == editRequirementButton)
       {
         // Edit new name
         selectedRequirement.setName(inputRequirementName.getText());
         // Edit new userstory
         selectedRequirement.setUserstory(inputUserStory.getText());
         // Edit new status
-        selectedRequirement.setStatus(inputTaskStatus.getValue());
+        selectedRequirement.setStatus(inputStatus.getValue());
         // New EmployeeList object to replace the old one
         selectedEmployees = new EmployeeList();
         // Run loop to check which employees to add and which to not add
@@ -1523,20 +1480,19 @@ public class Controller
         window.close();
         // Update GUI table with requirements to show changes
         updateRequirementArea();
-        updateRequirementLabels();
         // Save all changes
         adapterProjects.saveProjects(finalProjectList);
         // END of editing requirement
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons.get("addTask"))
+      else if (actionEvent.getSource() == addTaskButton)
       {
 
         selectedEmployees = new EmployeeList();
-        for (int i = 0; i < employeeCheckBoxes.length; i++)
+        for (int i = 0; i < employeeRadioButtons.length; i++)
         {
-          if (employeeCheckBoxes[i].isSelected())
+          if (employeeRadioButtons[i].isSelected())
           {
-            selectedEmployees.addEmployee(finalEmployeeList.get(i));
+            selectedEmployee = selectedRequirement.getTeam().get(i);
           }
         }
         if (inputTaskName.getText().isEmpty() || inputTaskName.getText()
@@ -1544,73 +1500,89 @@ public class Controller
         {
           errorLabel.setText("ERROR: Fix name");
         }
-        else if (inputTaskID.getText().isEmpty() || inputTaskID.getText()
-            .equals(""))
-        {
-          errorLabel.setText("ERROR: Fix taxID");
-        }
-        else if (inputTaskEstimation.getText().isEmpty() || inputTaskEstimation
-            .getText().equals(""))
+        else if (inputTaskEstimatedHours.getText().isEmpty()
+            || inputTaskEstimatedHours.getText().equals(""))
         {
           errorLabel.setText("ERROR: Fix estimated hours");
         }
-        else if (inputTaskDeadline.getValue() == null)
+        else if (selectedEmployee == null)
         {
-          errorLabel.setText("ERROR: Fix deadline");
-        }
-        else if (selectedEmployees.size() == 0)
-        {
-          errorLabel.setText("ERROR: Fix employees");
+          errorLabel.setText("ERROR: Fix employee");
         }
         else
         {
           window.close();
 
-          Task task = new Task(inputTaskName.getText(), inputTaskID.getText(),
-              inputTaskStatus.getValue(),
-              Integer.parseInt(inputTaskEstimation.getText()),
-              inputTaskDeadline.getValue(), selectedEmployees);
+          Task task = new Task(inputTaskName.getText(),
+              inputStatus.getValue(),
+              Integer.parseInt(inputTaskEstimatedHours.getText()),
+              inputTaskDeadline.getValue(), selectedEmployee);
           selectedRequirement.getTasks().addTask(task);
           adapterProjects.saveProjects(finalProjectList);
           updateTaskArea();
         }
 
       }
-      else if (actionEvent.getSource() == closeAndSaveButtons.get("editTask"))
+      else if (actionEvent.getSource() == editTaskButton)
       {
-        // Edit new name
-        selectedTask.setName(inputTaskName.getText());
-        // Edit new ID
-        selectedTask.setTaskID(inputTaskID.getText());
-        // Edit new status
-        selectedTask.setStatus(inputTaskStatus.getValue());
-        // New EmployeeList object to replace the old one
-        selectedEmployees = new EmployeeList();
-        // Run loop to check which employees to add and which to not add
-        for (int i = 0; i < employeeCheckBoxes.length; i++)
-        {
-          if (employeeCheckBoxes[i].isSelected())
-          {
-            selectedEmployees.addEmployee(selectedProject.getTeam().get(i));
-          }
-        }
-        // Edit new team from selected checkboxes
-        selectedTask.setTaskEmployees(selectedEmployees);
-        // Edit estimated hours
-        selectedTask
-            .setEstimatedHours(Integer.parseInt(inputTaskEstimation.getText()));
-        // Edit total hours
-        selectedTask.setTotalHoursWorked(inputTaskWorkDone.getValue());
-        // Edit new deadline
-        selectedTask.setDeadline(inputTaskDeadline.getValue());
-        // Close window
-        window.close();
-        // Update GUI table with requirements to show changes
-        updateTaskArea();
-        updateTaskLabels();
-        // Save all changes
-        adapterProjects.saveProjects(finalProjectList);
-        // END of editing task
+
+        if(inputEmployeeName.getText().equals("")){
+          if(!(inputStatus.getValue() == null) || !(inputStatus.getValue() == "")){
+            selectedEmployees = new EmployeeList();
+            // Run loop to check which employees to add and which to not add
+            for (int i = 0; i < employeeRadioButtons.length; i++)
+            {
+              if (employeeRadioButtons[i].isSelected())
+              {
+                selectedEmployee = selectedRequirement.getTeam().get(i);
+              }
+            }
+            if(!(selectedEmployee == null)){
+              if(!(inputTaskEstimatedHours.getText().equals("")) || !(inputTaskEstimatedHours.getText().isEmpty()) || !(inputTaskEstimatedHours.getText().isBlank())){
+                try {
+                  if(inputTotalHoursWorked.getValue() > 0 && inputTotalHoursWorked.getValue() <= Integer.parseInt(inputTaskEstimatedHours.getText())){
+                    if(!inputTaskDeadline.getValue().toString().isEmpty() || !inputTaskDeadline.getValue().toString().isBlank()){
+                      // Edit new name
+                      selectedTask.setName(inputTaskName.getText());
+                      // Edit new status
+                      selectedTask.setStatus(inputStatus.getValue());
+                      // New EmployeeList object to replace the old one
+                      selectedEmployees = new EmployeeList();
+                      // Run loop to check which employees to add and which to not add
+                      for (int i = 0; i < employeeCheckBoxes.length; i++)
+                      {
+                        if (employeeCheckBoxes[i].isSelected())
+                        {
+                          selectedEmployees.addEmployee(selectedProject.getTeam().get(i));
+                          selectedTask.setResponsibleEmployee(selectedEmployee);
+                        }
+                      }
+                      // Edit new team from selected checkboxes
+                      selectedTask.setResponsibleEmployee(selectedEmployee);
+                      // Edit estimated hours
+                      selectedTask.setEstimatedHours(Integer.parseInt(inputTaskEstimatedHours.getText()));
+                      // Edit total hours
+                      selectedTask.setTotalHoursWorked(inputTotalHoursWorked.getValue());
+
+                      // Edit new deadline
+                      selectedTask.setDeadline(inputTaskDeadline.getValue());
+                      // Close window
+                      window.close();
+                      // Update GUI table with requirements to show changes
+                      updateTaskArea();
+                      updateTaskLabels();
+                      // Save all changes
+                      adapterProjects.saveProjects(finalProjectList);
+                      // END of editing task
+                    } else { errorLabel.setText("Fix date");}
+                  }
+                }catch(NullPointerException e) {
+                  errorLabel.setText("Fix total hours");
+                }
+              } else { errorLabel.setText("Fix estimated hours");}
+            } else { errorLabel.setText("Fix employee");}
+          } else { errorLabel.setText("Fix status");}
+        } else { errorLabel.setText("Fix name");}
       }
     }
   }
