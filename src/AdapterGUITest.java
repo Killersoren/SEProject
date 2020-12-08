@@ -8,6 +8,7 @@ public class AdapterGUITest
    */
   public static void main(String[] args)
   {
-    Application.launch(AdapterGUI.class);
+    System.out.println("Fuck Fogh");
+	Application.launch(AdapterGUI.class);
   }
 }
