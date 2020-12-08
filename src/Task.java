@@ -3,24 +3,21 @@ import java.time.LocalDate;
 
 public class Task implements Serializable
 {
-  private String name, status, taskID;
-  private int relatedRequirement, estimatedHours, totalHoursWorked;
+  private String name, status;
+  private int relatedRequirement, estimatedHours, totalHoursWorked, id;
   private LocalDate deadline;
   private Employee responsibleEmployee;
-  private EmployeeList taskMembers;
 
-  public Task(String name, String taskID,String status, int estimatedHours, LocalDate deadline,
-      EmployeeList taskMembers)
+  public Task(String name,String status, int estimatedHours, LocalDate deadline, Employee responsibleEmployee)
   {
     this.deadline = deadline;
     this.name = name;
     this.status = status;
     relatedRequirement = 0;
-    this.taskID = taskID;
     this.estimatedHours = estimatedHours;
     totalHoursWorked = 0;
     responsibleEmployee = null;
-    this.taskMembers = taskMembers;
+    this.responsibleEmployee = responsibleEmployee;
   }
 
   public void setName(String name)
@@ -33,14 +30,14 @@ public class Task implements Serializable
     this.status = status;
   }
 
-  public String getTaskID()
+  public int getId()
   {
-    return taskID;
+    return id;
   }
 
-  public void setTaskID(String taskID)
+  public void setId(int id)
   {
-    this.taskID = taskID;
+    this.id = id;
   }
 
   public void setDeadline(LocalDate deadline)
@@ -48,9 +45,9 @@ public class Task implements Serializable
     this.deadline = deadline;
   }
 
-  public EmployeeList getTaskMembers()
+  public Employee getResponsibleEmployee()
   {
-    return taskMembers;
+    return responsibleEmployee;
   }
 
   public void setEstimatedHours(int estimatedHours)
@@ -63,9 +60,9 @@ public class Task implements Serializable
     this.totalHoursWorked = totalHoursWorked;
   }
 
-  public void setTaskMembers(EmployeeList taskMembers)
+  public void setResponsibleEmployee(Employee responsibleEmployee)
   {
-    this.taskMembers = taskMembers;
+    this.responsibleEmployee = responsibleEmployee;
   }
 
   public String getName()

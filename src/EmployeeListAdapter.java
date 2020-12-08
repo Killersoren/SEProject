@@ -13,7 +13,7 @@ public class EmployeeListAdapter
 
   /**
    * 1-argument constructor setting the file name.
-   * @param fileName the name and path of the file where members will be saved and retrieved
+   * @param fileName the name and path of the file where employees will be saved and retrieved
    */
   public EmployeeListAdapter(String fileName)
   {
@@ -22,16 +22,16 @@ public class EmployeeListAdapter
   }
 
   /**
-   * Uses the MyFileIO class to retrieve a EmployeeList object with all members.
-   * @return a EmployeeList object with all stored members
+   * Uses the MyFileIO class to retrieve a EmployeeList object with all employees.
+   * @return a EmployeeList object with all stored employees
    */
-  public EmployeeList getAllMembers()
+  public EmployeeList getAllEmployees()
   {
-    EmployeeList members = new EmployeeList();
+    EmployeeList employees = new EmployeeList();
 
     try
     {
-      members = (EmployeeList) mfio.readObjectFromFile(fileName);
+      employees = (EmployeeList) mfio.readObjectFromFile(fileName);
     }
     catch (FileNotFoundException e)
     {
@@ -45,20 +45,20 @@ public class EmployeeListAdapter
     {
       System.out.println("Class Not Found: " + e.getClass().toString());
     }
-    return members;
+    return employees;
   }
 
 
 
   /**
-   * Use the MyFileIO class to save members.
-   * @param members the list of members that will be saved
+   * Use the MyFileIO class to save employees.
+   * @param employees the list of employees that will be saved
    */
-  public void saveMembers(EmployeeList members)
+  public void saveEmployees(EmployeeList employees)
   {
     try
     {
-      mfio.writeToFile(fileName, members);
+      mfio.writeToFile(fileName, employees);
     }
     catch (FileNotFoundException e)
     {

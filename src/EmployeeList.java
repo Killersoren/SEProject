@@ -11,9 +11,9 @@ public class EmployeeList implements Serializable
   }
 
   /**
-   * Gets how many Members objects are in the list.
+   * Gets how many Employees objects are in the list.
    *
-   * @return the number of Members objects in the list
+   * @return the number of Employees objects in the list
    */
   public int size()
   {
@@ -31,23 +31,23 @@ public class EmployeeList implements Serializable
     return employees.get(index);
   }
 
-  public void addMember(Employee employee)
+  public void addEmployee(Employee employee)
   {
     employees.add(employee);
   }
 
 
-  public void removeMember(Employee employee)
+  public void removeEmployee(Employee employee)
   {
     employees.remove(employee);
   }
 
-  public void deleteMember(String name)
+  public void deleteEmployee(String name)
   {
     employees.remove(getIndexFromName(name));
   }
 
-  public void replaceMember(String name,String newName)
+  public void replaceEmployee(String name,String newName)
   {
     employees.get(getIndexFromName(name)).setName(newName);
   }
@@ -66,7 +66,7 @@ public class EmployeeList implements Serializable
     return -1;
   }
 
-  public ArrayList<Employee> getMembers()
+  public ArrayList<Employee> getEmployees()
   {
     return employees;
   }
@@ -75,7 +75,7 @@ public class EmployeeList implements Serializable
   {
     if (obj instanceof EmployeeList)
     {
-      if (this.getMembers().equals(((EmployeeList) obj).getMembers()))
+      if (this.getEmployees().equals(((EmployeeList) obj).getEmployees()))
       {
         return true;
       }
