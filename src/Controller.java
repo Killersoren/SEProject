@@ -82,7 +82,14 @@ public class Controller
 
   // General JavaFX objects \\
   Label errorLabel = new Label("");
-  HashMap<String, Button> closeAndSaveButton = new HashMap<>();
+  Button addEmployeeButton = new Button("Add employee");
+  Button editEmployeeButton = new Button("Edit employee");
+  Button addProjectButton = new Button("Add project");
+  Button editProjectButton = new Button("Edit project");
+  Button addRequirementButton = new Button("Add requirement");
+  Button editRequirementButton = new Button("Edit requirement");
+  Button addTaskButton = new Button("Add task");
+  Button editTaskButton = new Button("Edit task");
 
   // Adapters
   private ProjectListAdapter adapterProjects;
@@ -135,19 +142,6 @@ public class Controller
     errorLabel.setTextFill(Color.RED);
     errorLabel.setWrapText(true);
     errorLabel.setPadding(new Insets(0, 0, 50, 0));
-
-    closeAndSaveButton.put("addEmployee", new Button("Add new member"));
-    closeAndSaveButton.put("editEmployee", new Button("Save and close"));
-
-    closeAndSaveButton.put("addProject", new Button("Add new project"));
-    closeAndSaveButton.put("editProject", new Button("Save and close"));
-
-    closeAndSaveButton.put("addRequirement", new Button("Add new requirement"));
-    closeAndSaveButton.put("editRequirement", new Button("Save and close"));
-
-    closeAndSaveButton.put("addTask", new Button("Add new task"));
-    closeAndSaveButton.put("editTask", new Button("Save and close"));
-
   }
 
   /**
@@ -376,13 +370,13 @@ public class Controller
     VBox employeeNameContainer = textFieldWindowPart(inputMemberName,
         "Employee name: ");
 
-    closeAndSaveButton.get("addEmployee")
+    addEmployeeButton
         .setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren().addAll(employeeNameContainer, errorLabel,
-        closeAndSaveButton.get("addEmployee"));
+        addEmployeeButton);
     layout.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(layout);
@@ -410,13 +404,11 @@ public class Controller
 
       inputMemberName.setText(selectedEmployee.getName());
 
-      closeAndSaveButton.get("editEmployee")
-          .setOnAction(new PopupListener(window));
+      editEmployeeButton.setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
-      layout.getChildren().addAll(employeeNameContainer, errorLabel,
-          closeAndSaveButton.get("editEmployee"));
+      layout.getChildren().addAll(employeeNameContainer, errorLabel, editEmployeeButton);
       layout.setAlignment(Pos.CENTER);
 
       Scene scene = new Scene(layout);
@@ -540,12 +532,12 @@ public class Controller
         .addAll(membersLabel, memberSelectContainer);
 
     // Config save and close button
-    closeAndSaveButton.get("addProject").setOnAction(new PopupListener(window));
+    addProjectButton.setOnAction(new PopupListener(window));
 
     VBox layout = new VBox(10);
 
     layout.getChildren().addAll(projectNameContainer, memberListContainer,
-        closeAndSaveButton.get("addProject"), errorLabel);
+        addProjectButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -601,13 +593,13 @@ public class Controller
       memberListContainer.getChildren()
           .addAll(membersLabel, memberSelectContainer);
 
-      closeAndSaveButton.get("editProject")
+      editProjectButton
           .setOnAction(new PopupListener(window));
 
       VBox layout = new VBox(10);
 
       layout.getChildren().addAll(projectNameContainer, memberListContainer,
-          closeAndSaveButton.get("editProject"), errorLabel);
+          editProjectButton, errorLabel);
 
       layout.setAlignment(Pos.CENTER);
 
@@ -773,13 +765,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("addRequirement")
-        .setOnAction(new PopupListener(window));
+    addRequirementButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(requirementNameContainer, requirementUserStoryContainer,
             statusContainer, memberListContainer, deadlineContainer,
-            closeAndSaveButton.get("addRequirement"), errorLabel);
+            addRequirementButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -885,13 +876,13 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("editRequirement")
+    editRequirementButton
         .setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(requirementNameContainer, requirementUserStoryContainer,
             statusContainer, memberListContainer, deadlineContainer,
-            closeAndSaveButton.get("editRequirement"), errorLabel);
+            editRequirementButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1051,12 +1042,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("addTask").setOnAction(new PopupListener(window));
+    addTaskButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(taskNameContainer, statusContainer, taskIDContainer,
             memberListContainer, taskEstimatedHoursContainer, deadlineContainer,
-            closeAndSaveButton.get("addTask"), errorLabel);
+            addTaskButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1185,12 +1176,12 @@ public class Controller
 
     VBox layout = new VBox(10);
 
-    closeAndSaveButton.get("editTask").setOnAction(new PopupListener(window));
+    editTaskButton.setOnAction(new PopupListener(window));
 
     layout.getChildren()
         .addAll(taskNameContainer, taskIDContainer, statusContainer,
             memberListContainer, taskEstimatedHoursContainer, totalHoursContainer,
-            deadlineContainer, closeAndSaveButton.get("editTask"), errorLabel);
+            deadlineContainer, editTaskButton, errorLabel);
 
     layout.setAlignment(Pos.CENTER);
 
@@ -1311,7 +1302,7 @@ public class Controller
 
     @Override public void handle(ActionEvent actionEvent)
     {
-      if (actionEvent.getSource() == closeAndSaveButton.get("addEmployee"))
+      if (actionEvent.getSource() == addEmployeeButton)
       {
         if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
@@ -1329,8 +1320,7 @@ public class Controller
           errorLabel.setTextFill(Color.RED);
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButton
-          .get("editEmployee"))
+      else if (actionEvent.getSource() == editEmployeeButton)
       {
         if (!(inputMemberName.getText().isEmpty() || inputMemberName.getText()
             .equals("")))
@@ -1363,7 +1353,7 @@ public class Controller
           errorLabel.setTextFill(Color.RED);
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButton.get("addProject"))
+      else if (actionEvent.getSource() == addProjectButton)
       {
         selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
@@ -1394,7 +1384,7 @@ public class Controller
           updateProjectArea();
         }
       }
-      else if (actionEvent.getSource() == closeAndSaveButton.get("editProject"))
+      else if (actionEvent.getSource() == editProjectButton)
       {
 
         // Make team of the new selected members
@@ -1430,8 +1420,7 @@ public class Controller
         }
       }
 
-      else if (actionEvent.getSource() == closeAndSaveButton
-          .get("addRequirement"))
+      else if (actionEvent.getSource() == addRequirementButton)
       {
         selectedMembers = new EmployeeList();
         for (int i = 0; i < memberCheckBoxes.length; i++)
@@ -1470,8 +1459,7 @@ public class Controller
         }
 
       }
-      else if (actionEvent.getSource() == closeAndSaveButton
-          .get("editRequirement"))
+      else if (actionEvent.getSource() == editRequirementButton)
       {
         // Edit new name
         selectedRequirement.setName(inputRequirementName.getText());
@@ -1501,7 +1489,7 @@ public class Controller
         adapterProjects.saveProjects(finalProjectList);
         // END of editing requirement
       }
-      else if (actionEvent.getSource() == closeAndSaveButton.get("addTask"))
+      else if (actionEvent.getSource() == addTaskButton)
       {
 
         selectedMembers = new EmployeeList();
@@ -1545,7 +1533,7 @@ public class Controller
         }
 
       }
-      else if (actionEvent.getSource() == closeAndSaveButton.get("editTask"))
+      else if (actionEvent.getSource() == editTaskButton)
       {
         // Edit new name
         selectedTask.setName(inputTaskName.getText());
