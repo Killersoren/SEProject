@@ -20,7 +20,7 @@ public class ProjectList implements Serializable
 
   public void removeMember(int index, Employee employee)
   {
-    projects.get(index).getTeam().removeMember(employee);
+    projects.get(index).getTeam().removeEmployee(employee);
   }
 
 
