@@ -350,6 +350,7 @@ public class Controller
     VBox nameContainer = new VBox(2);
     nameContainer.setPadding(new Insets(10, 10, 0, 10));
     Label label = new Label(labelName);
+    inputText.clear();
     inputText.setPromptText("Enter " + labelName.toLowerCase());
     nameContainer.getChildren().addAll(label, inputText);
 
