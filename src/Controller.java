@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,13 +101,26 @@ public class Controller
   private final ArrayList<String> statusOptions = new ArrayList<>();
 
   //Private Final fields
-  private final String projectsFile ="Projects.bin";
-  private final String employeesFile="Employees.bin";
-  private final String name ="Name";
-  private final String deadline ="Deadline";
-  private final String status ="Status";
-  private final String team ="Team";
-  private final String defaultProjectDetailsTabTitle =" project details";
+  private final int popUpWindowWidth = 300;
+  private final int insetsV1 = 10;
+  private final int insetsV2 = 10;
+  private final int insetsV3 = 0;
+  private final int insetsV4 = 10;
+  private final String projectsFile = "Projects.bin";
+  private final String employeesFile = "Employees.bin";
+  private final String name = "Name";
+  private final String deadline = "Deadline";
+  private final String status = "Status";
+  private final String team = "Team";
+  private final String defaultProjectDetailsTabTitle = " project details";
+  private final String defaultRequirementDetailsTabTitle = " requirement details";
+  private final String noTaskErrorMessage = "No tasks in this requirement";
+  private final String defaultNameLabel = " Name: ";
+  private final String defaultIDLabel = " Id: ";
+  private final String defaultStatusLabel = " Status: ";
+  private final String defaultDeadlineLabel = " Deadline: ";
+  private final String defaultEstimatedHoursLabel = " Estimated hours: ";
+  private final String defaultTotalWorkLabel = " Total work: ";
 
   /**
    * Runs one time before the GUI is shown
@@ -220,8 +231,8 @@ public class Controller
             {
               int index = projectField.getSelectionModel().getSelectedIndex();
               selectedProject = projectField.getItems().get(index);
-              projectDetailsTab
-                  .setText(selectedProject.getName() + defaultProjectDetailsTabTitle);
+              projectDetailsTab.setText(
+                  selectedProject.getName() + defaultProjectDetailsTabTitle);
               projectDetailsTab.setDisable(false);
               updateRequirementArea();
             }
@@ -266,8 +277,8 @@ public class Controller
                   .getSelectedIndex();
 
               selectedRequirement = requirementField.getItems().get(index);
-              requirementDetailsTab.setText(
-                  selectedRequirement.getName() + " requirement details");
+              requirementDetailsTab.setText(selectedRequirement.getName()
+                  + defaultRequirementDetailsTabTitle);
               requirementDetailsTab.setDisable(false);
               updateRequirementLabels();
               updateTaskArea();
@@ -300,18 +311,18 @@ public class Controller
       requirementTeamLabel.setText(selectedRequirement.getTeam().toString());
       if (!selectedRequirement.getTasks().isEmpty())
       {
-        requirementEstimatedLabel.setText(
-            selectedRequirement.getTasks().getTotalEstimatedHours() + "");
+        requirementEstimatedLabel.setText(String
+            .valueOf(selectedRequirement.getTasks().getTotalEstimatedHours()));
         requirementEstimatedLabel.setTextFill(Color.BLACK);
-        requirementHoursWorkedLabel
-            .setText(selectedRequirement.getTasks().getTotalWorkedHours() + "");
+        requirementHoursWorkedLabel.setText(String
+            .valueOf(selectedRequirement.getTasks().getTotalWorkedHours()));
         requirementHoursWorkedLabel.setTextFill(Color.BLACK);
       }
       else
       {
-        requirementEstimatedLabel.setText("No tasks in this requirement");
+        requirementEstimatedLabel.setText(noTaskErrorMessage);
         requirementEstimatedLabel.setTextFill(Color.RED);
-        requirementHoursWorkedLabel.setText("No tasks in this requirement");
+        requirementHoursWorkedLabel.setText(noTaskErrorMessage);
         requirementHoursWorkedLabel.setTextFill(Color.RED);
       }
       requirementUserStoryLabel.setText(selectedRequirement.getUserstory());
@@ -356,28 +367,28 @@ public class Controller
 
   private void updateTaskLabels()
   {
-    taskNameLabel.setText(" Name: " + selectedTask.getName());
-    taskIDLabel.setText(" Id: " + selectedTask.getTaskID());
-    taskStatusLabel.setText(" Status: " + selectedTask.getStatus());
-    taskDeadlineLabel.setText(" Deadline: " + selectedTask.getDeadline());
+    taskNameLabel.setText(defaultNameLabel + selectedTask.getName());
+    taskIDLabel.setText(defaultIDLabel + selectedTask.getTaskID());
+    taskStatusLabel.setText(defaultStatusLabel + selectedTask.getStatus());
+    taskDeadlineLabel.setText(defaultDeadlineLabel + selectedTask.getDeadline());
     taskEstimatedHoursLabel
-        .setText(" Estimated hours: " + selectedTask.getEstimatedHours());
+        .setText(defaultEstimatedHoursLabel + selectedTask.getEstimatedHours());
     taskTotalWorkLabel
-        .setText(" Total work: " + selectedTask.getTotalHoursWorked());
+        .setText(defaultTotalWorkLabel + selectedTask.getTotalHoursWorked());
   }
 
   private void nameWindow(Stage window, String str)
   {
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle(str);
-    window.setMinWidth(300);
+    window.setMinWidth(popUpWindowWidth);
     window.setResizable(false);
   }
 
   private VBox textFieldWindowPart(TextField inputText, String labelName)
   {
     VBox nameContainer = new VBox(2);
-    nameContainer.setPadding(new Insets(10, 10, 0, 10));
+    nameContainer.setPadding(new Insets(insetsV1, insetsV2, insetsV3, insetsV4));
     Label label = new Label(labelName);
     inputText.setText("");
     inputText.setPromptText("Enter " + labelName.toLowerCase());
@@ -391,7 +402,7 @@ public class Controller
 
     VBox statusContainer = new VBox();
     statusContainer.setPadding(new Insets(10, 10, 0, 10));
-    Label status = new Label("Status: ");
+    Label status = new Label(defaultStatusLabel);
 
     inputTaskStatus = new ComboBox();
     for (int i = 0; i < statusOptions.size(); i++)
